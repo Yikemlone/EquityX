@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EquityX.Pages.HomePage"
+             xmlns:vm="clr-namespace:EquityX.ViewModels"
+             x:DataType="vm:HomeViewModel"
+             >
+    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Fill" Margin="10">
+    
+        
+        <!-- User Welcome back -->
+        <Label 
+            Text="Welcome back"
+            FontSize="50"/>
+
+        <Label 
+            Text="{Binding Name}"
+            FontSize="50"
+            TextColor="{StaticResource Primary}"/>
+
+
+        <!-- Displaying user funds and functionality -->
+        <Border
+            HeightRequest="200"
+            Style="{StaticResource Material}">
+                
+            <Border.StrokeShape>
+                <RoundRectangle         
+                    CornerRadius="20" />
+            </Border.StrokeShape>
+                
+            <Grid
+                Margin="10"
+                ColumnDefinitions="*"
+                RowDefinitions="*">
+
+                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="End">
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="10">
+                        <Button Style="{StaticResource PrimaryHomeButton}" WidthRequest="30"/>
+
+                        <Label
+                            Text="Add" 
+                            TextColor="{StaticResource Primary}"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="10">
+                        <Button
+                            Style="{StaticResource PrimaryHomeButton}" WidthRequest="30"/>
+
+                        <Label
+                            Text="Invest" 
+                            TextColor="{StaticResource Primary}"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="End" Margin="10">
+                        <Button
+                            Style="{StaticResource PrimaryHomeButton}" WidthRequest="30" />
+
+                        <Label
+                            Text="Withdraw" 
+                            TextColor="{StaticResource Primary}"/>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+                
+            </Grid>
+        </Border>
+
+        <!-- Todays Top movers text -->
+        <HorizontalStackLayout HeightRequest="50" HorizontalOptions="Center" Spacing="150" VerticalOptions="Center">
+            <Label
+                VerticalTextAlignment="Center"
+                Text="Today's Top Movers"/>
+            <Button 
+                   Text="See All"
+                   BackgroundColor="Transparent"
+                   BorderColor="Transparent"
+                   TextColor="{StaticResource Primary}"/>
+        </HorizontalStackLayout>
+
+        
+        <!-- Displaying top movers -->
+        <Border
+            HeightRequest="200"
+            Style="{StaticResource Material}">
+            
+            <Border.StrokeShape>
+                <RoundRectangle         
+                    CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <Grid
+                ColumnDefinitions="*"
+                RowDefinitions="*">
+
+                <VerticalStackLayout>
+                    <Label
+                    Text="Microsoft"/>
+
+                    <Label
+                    Text="Microsoft"/>
+                </VerticalStackLayout>
+
+            </Grid>
+            
+        </Border>
+
+    </VerticalStackLayout>
+</ContentPage>
