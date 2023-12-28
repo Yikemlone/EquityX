@@ -4,20 +4,9 @@ namespace EquityX.Pages;
 
 public partial class HomePage : ContentPage
 {
-	public HomePage()
+	public HomePage(HomeViewModel homeViewModel)
 	{
 		InitializeComponent();
-
-		var userDataViewModel = new HomeViewModel()
-		{
-			ID = 0,
-			Name = "Mikey",
-			PortfolioValue = 0,
-			AvailableFunds = 0,
-			UserStocks = new(),
-			UserWatchlist = new()
-        };
-
-		BindingContext = userDataViewModel;
-	}
+		BindingContext = homeViewModel;
+    }
 }

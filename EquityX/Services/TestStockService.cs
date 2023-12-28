@@ -25,7 +25,7 @@ namespace EquityX.Services
             return Task.FromResult(true);
         }
 
-        public Task<decimal> SellStock(int stockID)
+        public Task<decimal> SellStock(int stockID) // May need the user ID  as well, for validation
         {
             return Task.FromResult(100M);
         }

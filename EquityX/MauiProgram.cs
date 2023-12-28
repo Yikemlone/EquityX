@@ -1,4 +1,5 @@
-﻿using EquityX.Services;
+﻿using EquityX.Pages;
+using EquityX.Services;
 using EquityX.ViewModels;
 using Microsoft.Extensions.Logging;
 
@@ -22,6 +23,7 @@ namespace EquityX
             builder.Services.AddTransient<IStockService, TestStockService>();
 
             builder.Services.AddSingleton<HomeViewModel>();
+            builder.Services.AddSingleton<HomePage>();
 
 #if DEBUG
             builder.Logging.AddDebug();

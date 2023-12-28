@@ -28,15 +28,30 @@
                 <RoundRectangle         
                     CornerRadius="20" />
             </Border.StrokeShape>
-                
+
             <Grid
                 Margin="10"
                 ColumnDefinitions="*"
                 RowDefinitions="*">
 
+
+                <Label
+                    Text="Available Funds:" 
+                    HorizontalOptions="Start"
+                    FontSize="20"/>
+                
+                <Label
+                    Text="{Binding AvailableFunds}" 
+                    HorizontalOptions="Center"
+                    FontSize="20"/>
+
                 <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="End">
                     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="10">
-                        <Button Style="{StaticResource PrimaryHomeButton}" WidthRequest="30"/>
+                        <Button 
+                            Style="{StaticResource PrimaryHomeButton}"   
+                            WidthRequest="30"
+                            Command="{Binding AddMoneyCommand}"
+                            CommandParameter="10"/>
 
                         <Label
                             Text="Add" 
@@ -45,7 +60,9 @@
 
                     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="10">
                         <Button
-                            Style="{StaticResource PrimaryHomeButton}" WidthRequest="30"/>
+                            Style="{StaticResource PrimaryHomeButton}" 
+                            WidthRequest="30"
+                            />
 
                         <Label
                             Text="Invest" 
@@ -54,7 +71,8 @@
 
                     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="End" Margin="10">
                         <Button
-                            Style="{StaticResource PrimaryHomeButton}" WidthRequest="30" />
+                            Style="{StaticResource PrimaryHomeButton}" 
+                            WidthRequest="30" />
 
                         <Label
                             Text="Withdraw" 
@@ -89,6 +107,7 @@
             </Border.StrokeShape>
 
             <Grid
+                Margin="10"
                 ColumnDefinitions="*"
                 RowDefinitions="*">
 
@@ -99,7 +118,6 @@
                     <Label
                     Text="Microsoft"/>
                 </VerticalStackLayout>
-
             </Grid>
             
         </Border>

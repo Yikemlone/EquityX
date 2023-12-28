@@ -9,6 +9,8 @@
         public int UserID { get; set; }
         public int StockDataID { get; set; }
         public decimal BuyInPrice { get; set;}
+        public decimal SellPrice { get; set; }
         public DateTime DateBought { get; set; } = DateTime.Now;
+
     }
 }

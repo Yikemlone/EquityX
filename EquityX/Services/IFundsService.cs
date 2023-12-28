@@ -19,5 +19,8 @@
         /// <param name="amount"></param>
         /// <returns>Returns true if succesful, otherwisw returns false</returns>
         public Task<bool> WithDrawFunds(decimal amount);
+
+        /// <summary>
+        /// ??? Display funds??? 
     }
 }
