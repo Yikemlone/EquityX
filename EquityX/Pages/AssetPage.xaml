@@ -9,4 +9,7 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
     </VerticalStackLayout>
-</ContentPage>
+    
+    <!--  What is this for?  -->
+    
+</ContentPage>  

@@ -46,11 +46,13 @@
                     FontSize="20"/>
 
                 <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="End">
+                    
+                    <!--  Add funds button -->
                     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="10">
                         <Button 
                             Style="{StaticResource PrimaryHomeButton}"   
                             WidthRequest="30"
-                            Command="{Binding AskForNumberCommand}"
+                            Command="{Binding AddFundsCommand}"
                             />
 
                         <Label
@@ -58,10 +60,12 @@
                             TextColor="{StaticResource Primary}"/>
                     </VerticalStackLayout>
 
+                    <!-- Invest button -->
                     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="10">
                         <Button
                             Style="{StaticResource PrimaryHomeButton}" 
                             WidthRequest="30"
+                            Command="{Binding InvestCommand}"
                             />
 
                         <Label
@@ -69,10 +73,12 @@
                             TextColor="{StaticResource Primary}"/>
                     </VerticalStackLayout>
 
+                    <!-- Withdraw funds button -->
                     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="End" Margin="10">
                         <Button
                             Style="{StaticResource PrimaryHomeButton}" 
-                            WidthRequest="30" />
+                            WidthRequest="30" 
+                            Command="{Binding WithdrawCommand }"/>
 
                         <Label
                             Text="Withdraw" 

@@ -9,4 +9,7 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
     </VerticalStackLayout>
+
+    <!--  Diplay all the users assets -->
+
 </ContentPage>

@@ -1,10 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using EquityX.Models;
+using EquityX.Pages;
 using System.Windows.Input;
 
 namespace EquityX.ViewModels
 {
-    internal partial class HomeViewModel : ObservableObject
+    public partial class HomeViewModel : ObservableObject
     {
         [ObservableProperty]
         private int _id;
@@ -17,6 +18,7 @@ namespace EquityX.ViewModels
 
         [ObservableProperty]
         private decimal _availableFunds;
+
         [ObservableProperty]
         private List<UserStockData> _userStocks;
 
@@ -24,8 +26,9 @@ namespace EquityX.ViewModels
         private List<UserWatchlist> _userWatchlist;
 
 
-        public ICommand AddMoneyCommand { get; private set; }
-        public ICommand AskForNumberCommand { get; private set; }
+        public ICommand AddFundsCommand { get; private set; }
+        public ICommand InvestCommand { get; private set; }
+        public ICommand WithdrawCommand { get; private set; }
 
 
         public HomeViewModel()
@@ -38,40 +41,32 @@ namespace EquityX.ViewModels
             UserStocks = new();
             UserWatchlist = new();
 
-            AddMoneyCommand = new Command<string>(AddMoney);
-            AskForNumberCommand = new Command(async () => await AskForNumber());
+            // Commands setup
+            AddFundsCommand = new Command(async () => await AddFunds());
+            WithdrawCommand = new Command(async () => await Withdraw());
+            InvestCommand = new Command(async () => await Invest());
         }
 
-        // TODO: Handle this via an Entry field instead of a button
-        private void AddMoney(object amount)
-        {
-            if (amount is decimal decimalAmount)
-            {
-                AvailableFunds -= decimalAmount;
-            }
-        }
-
-        // TODO: Withdraw funds from the AvailableFunds property
-        private void Withdraw(object amount)
-        {
-            if (amount is decimal decimalAmount)
-            {
-                AvailableFunds -= decimalAmount;
-            }
-        }
-
-        // TODO: Bring the user to the Invest page
-        private void Invest()
-        {
-            throw new NotImplementedException();
-        }
-
-        private async Task AskForNumber()
+        private async Task Withdraw()
         {
             string result = await Application.Current.MainPage.DisplayPromptAsync("Enter Number", "Please enter a number:");
-            if (int.TryParse(result, out int number))
+            if (decimal.TryParse(result, out decimal number))
             {
-                // Use the number here
+                AvailableFunds -= number;
+            }
+        }
+
+        private async Task Invest()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new SearchPage());
+        }
+
+        private async Task AddFunds()
+        {
+            string result = await Application.Current.MainPage.DisplayPromptAsync("Enter Number", "Please enter a number:");
+            if (decimal.TryParse(result, out decimal number))
+            {
+                AvailableFunds += number;
             }
         }
 

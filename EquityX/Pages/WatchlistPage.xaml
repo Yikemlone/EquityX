@@ -9,4 +9,7 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
     </VerticalStackLayout>
+
+    <!--  Show the users watchlisted items  -->
+
 </ContentPage>
