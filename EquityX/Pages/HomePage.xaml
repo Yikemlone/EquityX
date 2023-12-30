@@ -50,8 +50,8 @@
                         <Button 
                             Style="{StaticResource PrimaryHomeButton}"   
                             WidthRequest="30"
-                            Command="{Binding AddMoneyCommand}"
-                            CommandParameter="10"/>
+                            Command="{Binding AskForNumberCommand}"
+                            />
 
                         <Label
                             Text="Add" 

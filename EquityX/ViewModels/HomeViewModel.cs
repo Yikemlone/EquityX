@@ -1,108 +1,63 @@
-﻿using EquityX.Models;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using EquityX.Models;
 using System.Windows.Input;
 
 namespace EquityX.ViewModels
 {
-    public class HomeViewModel : INotifyPropertyChanged
+    internal partial class HomeViewModel : ObservableObject
     {
+        [ObservableProperty]
         private int _id;
+
+        [ObservableProperty]
         private string _name;
+
+        [ObservableProperty]
         private decimal _portfolioValue;
+
+        [ObservableProperty]
         private decimal _availableFunds;
+        [ObservableProperty]
         private List<UserStockData> _userStocks;
+
+        [ObservableProperty]
         private List<UserWatchlist> _userWatchlist;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public int ID
-        {
-            get { return _id; }
-            set 
-            {
-                _id = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string Name
-        {
-            get { return _name; }
-            set 
-            {
-                _name = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public decimal PortfolioValue
-        {
-            get { return _portfolioValue; }
-            set 
-            { 
-                _portfolioValue = value; 
-                NotifyPropertyChanged();
-            }
-        }
-
-        public decimal AvailableFunds
-        {
-            get { return _availableFunds; }
-            set 
-            {
-                _availableFunds = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public List<UserStockData> UserStocks
-        {
-            get { return _userStocks; }
-            set 
-            {
-                _userStocks = value; 
-                NotifyPropertyChanged();
-            }
-        }
-
-        public List<UserWatchlist> UserWatchlist
-        {
-            get { return _userWatchlist; }
-            set 
-            { 
-                _userWatchlist = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         public ICommand AddMoneyCommand { get; private set; }
+        public ICommand AskForNumberCommand { get; private set; }
 
 
         public HomeViewModel()
         {
             // TODO: Get this data from a JSON file
-            ID = 0;
+            Id = 0;
             Name = "Mikey";
             PortfolioValue = 0;
             AvailableFunds = 0;
             UserStocks = new();
             UserWatchlist = new();
 
-
             AddMoneyCommand = new Command<string>(AddMoney);
+            AskForNumberCommand = new Command(async () => await AskForNumber());
         }
 
         // TODO: Handle this via an Entry field instead of a button
-        private void AddMoney(string amount)
+        private void AddMoney(object amount)
         {
-            AvailableFunds += Decimal.Parse(amount.ToString());
+            if (amount is decimal decimalAmount)
+            {
+                AvailableFunds -= decimalAmount;
+            }
         }
 
         // TODO: Withdraw funds from the AvailableFunds property
-        private void Withdraw()
+        private void Withdraw(object amount)
         {
-            throw new NotImplementedException();
+            if (amount is decimal decimalAmount)
+            {
+                AvailableFunds -= decimalAmount;
+            }
         }
 
         // TODO: Bring the user to the Invest page
@@ -111,10 +66,14 @@ namespace EquityX.ViewModels
             throw new NotImplementedException();
         }
 
-        // Got this from https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged?view=net-5.0
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        private async Task AskForNumber()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            string result = await Application.Current.MainPage.DisplayPromptAsync("Enter Number", "Please enter a number:");
+            if (int.TryParse(result, out int number))
+            {
+                // Use the number here
+            }
         }
+
     }
 }
