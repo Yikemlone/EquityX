@@ -6,21 +6,19 @@
     public interface IFundsService
     {
         /// <summary>
-        /// This will add funds to the users account
+        /// This will simulate adding funds to the user account by validating with the user's bank
         /// </summary>
         /// <param name="amount"></param>
-        /// <returns>Reutns true if succesful otherwise it returns a false</returns>
-        public Task<bool> AddFunds(decimal amount);
+        /// <returns>Returns true if succesful otherwise it returns a false</returns>
+        public Task<bool> ValidateFundsFromBank(decimal amount);
 
 
         /// <summary>
-        /// Will remove funds from the user account 
+        /// Will validate the amount to withdraw and then withdraw the funds from the user's account to their bank
         /// </summary>
-        /// <param name="amount"></param>
+        /// <param name="amountToWithDraw"></param>
+        /// <param name="availableFunds"></param>  
         /// <returns>Returns true if succesful, otherwisw returns false</returns>
-        public Task<bool> WithDrawFunds(decimal amount);
-
-        /// <summary>
-        /// ??? Display funds??? 
+        public Task<bool> WithDrawFunds(decimal amountToWithDraw, decimal availableFunds);
     }
 }

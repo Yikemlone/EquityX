@@ -70,13 +70,11 @@
                         <Button 
                             Style="{StaticResource PrimaryHomeButton}"   
                             WidthRequest="30"
-                            Command="{Binding AddFundsCommand}"
-                            />
+                            Command="{Binding AddFundsCommand}"/>
 
                         <Label
                             Text="Add" 
-                            TextColor="{StaticResource Primary}"
-                            />
+                            TextColor="{StaticResource Primary}"/>
                         
                     </VerticalStackLayout>
 
@@ -85,13 +83,11 @@
                         <Button
                             Style="{StaticResource PrimaryHomeButton}" 
                             WidthRequest="30"
-                            Command="{Binding InvestCommand}"
-                            />
+                            Command="{Binding InvestCommand}"/>
 
                         <Label
                             Text="Invest" 
-                            TextColor="{StaticResource Primary}"
-                            />
+                            TextColor="{StaticResource Primary}"/>
                     </VerticalStackLayout>
 
                     <!-- Withdraw funds button -->
@@ -99,13 +95,11 @@
                         <Button
                             Style="{StaticResource PrimaryHomeButton}" 
                             WidthRequest="30" 
-                            Command="{Binding WithdrawCommand }"
-                            />
+                            Command="{Binding WithdrawCommand }"/>
 
                         <Label
                             Text="Withdraw" 
-                            TextColor="{StaticResource Primary}"
-                            />
+                            TextColor="{StaticResource Primary}"/>
                     </VerticalStackLayout>
                 </HorizontalStackLayout>
                 
@@ -118,15 +112,16 @@
                 VerticalTextAlignment="Center"
                 Text="Today's Top Movers"/>
             <Button 
-                   Text="See All"
-                   BackgroundColor="Transparent"
-                   BorderColor="Transparent"
-                   TextColor="{StaticResource Primary}"/>
+                Text="See All"
+                BackgroundColor="Transparent"
+                BorderColor="Transparent"
+                TextColor="{StaticResource Primary}"/>      
         </HorizontalStackLayout>
 
         
         <!-- Displaying top movers -->
         <Border
+            Margin="10"
             HeightRequest="200"
             Style="{StaticResource Material}">
             
@@ -142,10 +137,10 @@
 
                 <VerticalStackLayout>
                     <Label
-                    Text="Microsoft"/>
+                        Text="Microsoft"/>
 
                     <Label
-                    Text="Microsoft"/>
+                        Text="Microsoft"/>
                 </VerticalStackLayout>
             </Grid>
             

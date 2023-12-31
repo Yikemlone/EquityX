@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using EquityX.Models;
 using EquityX.Pages;
+using EquityX.Services;
 using System.Windows.Input;
 
 namespace EquityX.ViewModels
@@ -26,12 +27,16 @@ namespace EquityX.ViewModels
         private List<UserWatchlist> _userWatchlist;
 
 
+        // Commands 
         public ICommand AddFundsCommand { get; private set; }
         public ICommand InvestCommand { get; private set; }
         public ICommand WithdrawCommand { get; private set; }
 
 
-        public HomeViewModel()
+        // Services
+        IFundsService _fundsService;
+
+        public HomeViewModel(IFundsService fundsService)
         {
             // TODO: Get this data from a JSON File or Database
             Id = 0;
@@ -46,29 +51,42 @@ namespace EquityX.ViewModels
             AddFundsCommand = new Command(async () => await AddFunds());
             WithdrawCommand = new Command(async () => await Withdraw());
             InvestCommand = new Command(async () => await Invest());
+
+            // Services setup
+            _fundsService = fundsService;
+        }
+
+        private async Task AddFunds()
+        {
+            string result = await Application.Current.MainPage.DisplayPromptAsync("Enter Number", "Please enter a number:");
+
+            if (Decimal.TryParse(result, out decimal amount) && await _fundsService.ValidateFundsFromBank(amount))
+            {
+                AvailableFunds += amount;
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Unable to add funds", "OK");
+            }
         }
 
         private async Task Withdraw()
         {
             string result = await Application.Current.MainPage.DisplayPromptAsync("Enter Number", "Please enter a number:");
-            if (decimal.TryParse(result, out decimal number))
+
+            if (Decimal.TryParse(result, out decimal amountToWithdraw) && await _fundsService.WithDrawFunds(amountToWithdraw, AvailableFunds))
             {
-                AvailableFunds -= number;
+                AvailableFunds -= amountToWithdraw;
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Unable to withdraw funds", "OK");
             }
         }
 
         private async Task Invest()
         {
             await Application.Current.MainPage.Navigation.PushAsync(new SearchPage());
-        }
-
-        private async Task AddFunds()
-        {
-            string result = await Application.Current.MainPage.DisplayPromptAsync("Enter Number", "Please enter a number:");
-            if (decimal.TryParse(result, out decimal number))
-            {
-                AvailableFunds += number;
-            }
         }
 
 
