@@ -49,6 +49,24 @@
                     
                     <!--  Add funds button -->
                     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="10">
+                        
+                        <!--This is testing the clicked event to send data to the code hehind-->
+                        <!--<Entry
+                            x:Name="Money"
+                            Placeholder="Enter Amount"
+                            Text="Enter money bitch"
+                            Keyboard="Numeric"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            WidthRequest="100"
+                            MaxLength="10"
+                            />
+                        <Button 
+                            Style="{StaticResource PrimaryHomeButton}"   
+                            WidthRequest="30"
+                            Clicked="OnClicked_TestMethod"
+                            />-->     
+                        
                         <Button 
                             Style="{StaticResource PrimaryHomeButton}"   
                             WidthRequest="30"
@@ -57,7 +75,9 @@
 
                         <Label
                             Text="Add" 
-                            TextColor="{StaticResource Primary}"/>
+                            TextColor="{StaticResource Primary}"
+                            />
+                        
                     </VerticalStackLayout>
 
                     <!-- Invest button -->
@@ -70,7 +90,8 @@
 
                         <Label
                             Text="Invest" 
-                            TextColor="{StaticResource Primary}"/>
+                            TextColor="{StaticResource Primary}"
+                            />
                     </VerticalStackLayout>
 
                     <!-- Withdraw funds button -->
@@ -78,11 +99,13 @@
                         <Button
                             Style="{StaticResource PrimaryHomeButton}" 
                             WidthRequest="30" 
-                            Command="{Binding WithdrawCommand }"/>
+                            Command="{Binding WithdrawCommand }"
+                            />
 
                         <Label
                             Text="Withdraw" 
-                            TextColor="{StaticResource Primary}"/>
+                            TextColor="{StaticResource Primary}"
+                            />
                     </VerticalStackLayout>
                 </HorizontalStackLayout>
                 

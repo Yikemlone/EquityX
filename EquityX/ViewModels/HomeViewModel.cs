@@ -33,7 +33,7 @@ namespace EquityX.ViewModels
 
         public HomeViewModel()
         {
-            // TODO: Get this data from a JSON file
+            // TODO: Get this data from a JSON File or Database
             Id = 0;
             Name = "Mikey";
             PortfolioValue = 0;
@@ -42,6 +42,7 @@ namespace EquityX.ViewModels
             UserWatchlist = new();
 
             // Commands setup
+            //AddFundsCommand = new Command<decimal>((amount) => AddFunds(amount)); // Test method for code behind onlcick
             AddFundsCommand = new Command(async () => await AddFunds());
             WithdrawCommand = new Command(async () => await Withdraw());
             InvestCommand = new Command(async () => await Invest());
@@ -69,6 +70,16 @@ namespace EquityX.ViewModels
                 AvailableFunds += number;
             }
         }
+
+
+        // TODO: Make a method that takes you to the StockPage
+
+        // TODO: Make a method that takes you to the WatchlistPage
+
+        // TODO: Make a method that takes you to the ProfilePage
+
+        // TODO: Make a method that takes you to the AddFundsPage
+
 
     }
 }
