@@ -5,12 +5,13 @@
     /// </summary>
     public class StockData
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Symbol { get; set; }
-        public decimal BuyPrice { get; set; }
-        public decimal SellPrice { get; set; }
-        public string Currency { get; set; }
-        public string QuoteType { get; set; }
+        public int ID { get; set; } // Stock's ID
+        public string Name { get; set; } // Stock's name
+        public string Symbol { get; set; } // Stock's symbol
+        public decimal BuyPrice { get; set; } // Stock's buy price
+        public decimal SellPrice { get; set; } // Stock's sell price
+        public string Currency { get; set; } // Stock's currency
+        public string QuoteType { get; set; } // Stock's quote type
+        public DateTime DateTime { get; set; } // Stock's date and time
     }
 }

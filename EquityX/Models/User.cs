@@ -5,12 +5,12 @@
     /// </summary>
     public class User
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public decimal PortfolioValue { get; set; }
+        public int ID { get; set; } // User's ID
+        public string Name { get; set; } // User's name
+        public decimal PortfolioValue { get; set; } // Total value of all stocks owned and available funds
         public decimal AvailableFunds { get; set; } // Funds that can be used to buy stocks
-        public List<UserStockData> UserStocks { get; set; }
-        public List<UserWatchlist> UserWatchlist { get; set; }
+        public List<UserStockData> UserStocks { get; set; } // List of stocks the user owns
+        public List<UserWatchlist> UserWatchlist { get; set; } // List of stocks the user is watching
     }
 }
 

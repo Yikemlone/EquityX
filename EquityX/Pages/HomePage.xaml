@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EquityX.Pages.HomePage"
              xmlns:vm="clr-namespace:EquityX.ViewModels"
+             xmlns:model="clr-namespace:EquityX.Models"
              x:DataType="vm:HomeViewModel"
              >
     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Fill" Margin="10">
@@ -134,14 +135,15 @@
                 Margin="10"
                 ColumnDefinitions="*"
                 RowDefinitions="*">
-
-                <VerticalStackLayout>
-                    <Label
-                        Text="Microsoft"/>
-
-                    <Label
-                        Text="Microsoft"/>
-                </VerticalStackLayout>
+                
+                <StackLayout BindableLayout.ItemsSource="{Binding TopMoversData}" Orientation="Horizontal">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:StockData">
+                            <Label Text="{Binding Symbol}" TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Body" FontAttributes="None" Margin="2,2,2,2"></Label>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+                
             </Grid>
             
         </Border>

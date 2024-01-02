@@ -1,16 +1,16 @@
 ﻿namespace EquityX.Models
 {
     /// <summary>
-    /// This keeps track of the stocks the user has bought at what price. 
+    /// This keeps track of the stocks the user has bought 
     /// </summary>
     public class UserStockData
     {
-        public int ID { get; set; }
-        public int UserID { get; set; }
-        public int StockDataID { get; set; }
-        public decimal BuyInPrice { get; set;}
-        public decimal SellPrice { get; set; }
-        public DateTime DateBought { get; set; } = DateTime.Now;
-
+        public int ID { get; set; } // ID
+        public int UserID { get; set; } // User's ID
+        public int StockDataID { get; set; } // Stock's ID 
+        public decimal BuyInPrice { get; set;} // Price the stock was bought at
+        public decimal? SellPrice { get; set; } // Price the stock was sold at
+        public DateTime DateBought { get; set; } = DateTime.Now; // Date the stock was bought
+        public DateTime? DateSold { get; set; } // Date the stock was sold
     }
 }
