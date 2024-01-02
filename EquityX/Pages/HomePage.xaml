@@ -135,15 +135,21 @@
                 Margin="10"
                 ColumnDefinitions="*"
                 RowDefinitions="*">
-                
-                <StackLayout BindableLayout.ItemsSource="{Binding TopMoversData}" Orientation="Horizontal">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="model:StockData">
-                            <Label Text="{Binding Symbol}" TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Body" FontAttributes="None" Margin="2,2,2,2"></Label>
+
+                <!--<ListView ItemsSource="{Binding TopMoversData}">
+                <Label Text="{Binding BuyPrice}" TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Body" FontAttributes="None" Margin="2,2,2,2"></Label>
+                </ListView>-->
+
+                <CollectionView ItemsSource="{Binding TopMoversData}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Label Text="{Binding Name}" FontAttributes="Bold" />
+                            </Grid>
                         </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </StackLayout>
-                
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
             </Grid>
             
         </Border>
