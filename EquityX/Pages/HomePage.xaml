@@ -36,20 +36,30 @@
                 RowDefinitions="*">
 
 
-                <Label
-                    Text="Available Funds:" 
-                    HorizontalOptions="Start"
-                    FontSize="20"/>
-                
-                <Label
-                    Text="{Binding AvailableFunds}" 
-                    HorizontalOptions="Center"
-                    FontSize="20"/>
+                <Grid 
+                    Margin="10"
+                    ColumnDefinitions="*, *"
+                    RowDefinitions="*">
 
-                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="End">
+                    <Label
+                        Text="Available Funds:" 
+                        HorizontalOptions="Start"
+                        FontSize="20"
+                        Grid.Row="0"
+                        Grid.Column="0"/>
+
+                    <Label
+                        Text="{Binding AvailableFunds}" 
+                        HorizontalOptions="Start"
+                        FontSize="20"
+                        Grid.Row="0"
+                        Grid.Column="1"/>
+                </Grid>
+            
+                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="End" Spacing="20">
                     
                     <!--  Add funds button -->
-                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="10">
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="10" Spacing="10">
                         
                         <!--This is testing the clicked event to send data to the code hehind-->
                         <!--<Entry
@@ -70,36 +80,39 @@
                         
                         <Button 
                             Style="{StaticResource PrimaryHomeButton}"   
-                            WidthRequest="30"
+                            WidthRequest="45"
                             Command="{Binding AddFundsCommand}"/>
 
                         <Label
                             Text="Add" 
+                            HorizontalOptions="Center"
                             TextColor="{StaticResource Primary}"/>
                         
                     </VerticalStackLayout>
 
                     <!-- Invest button -->
-                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="10">
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="10" Spacing="10">
                         <Button
                             Style="{StaticResource PrimaryHomeButton}" 
-                            WidthRequest="30"
+                            WidthRequest="45"
                             Command="{Binding InvestCommand}"/>
 
                         <Label
                             Text="Invest" 
+                            HorizontalOptions="Center"
                             TextColor="{StaticResource Primary}"/>
                     </VerticalStackLayout>
 
                     <!-- Withdraw funds button -->
-                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="End" Margin="10">
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="End" Margin="10" Spacing="10">
                         <Button
                             Style="{StaticResource PrimaryHomeButton}" 
-                            WidthRequest="30" 
+                            WidthRequest="45" 
                             Command="{Binding WithdrawCommand }"/>
 
                         <Label
                             Text="Withdraw" 
+                            HorizontalOptions="Center"
                             TextColor="{StaticResource Primary}"/>
                     </VerticalStackLayout>
                 </HorizontalStackLayout>
@@ -111,6 +124,7 @@
         <HorizontalStackLayout HeightRequest="50" HorizontalOptions="Center" Spacing="150" VerticalOptions="Center">
             <Label
                 VerticalTextAlignment="Center"
+                FontAttributes="Bold"
                 Text="Today's Top Movers"/>
             <Button 
                 Text="See All"
@@ -132,19 +146,42 @@
             </Border.StrokeShape>
 
             <Grid
-                Margin="10"
+                Margin="20"
                 ColumnDefinitions="*"
                 RowDefinitions="*">
-
-                <!--<ListView ItemsSource="{Binding TopMoversData}">
-                <Label Text="{Binding BuyPrice}" TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Body" FontAttributes="None" Margin="2,2,2,2"></Label>
-                </ListView>-->
-
+                
                 <CollectionView ItemsSource="{Binding TopMoversData}">
+                    <CollectionView.Header>
+                        <Grid 
+                            HorizontalOptions="Fill"
+                            ColumnDefinitions="*, *, *"
+                            RowDefinitions="20">
+                            <Label Text="Name" 
+                                   HorizontalOptions="Start" VerticalOptions="Center" 
+                                   FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
+                            <Label Text="Buy Price" 
+                                   HorizontalOptions="Start" VerticalOptions="Center" 
+                                   FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
+                            <Label Text="Sell Price" 
+                                   HorizontalOptions="Start" VerticalOptions="Center" 
+                                   FontAttributes="Bold" Grid.Row="0" Grid.Column="2"/>
+                        </Grid>
+                    </CollectionView.Header>
                     <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Label Text="{Binding Name}" FontAttributes="Bold" />
+                        <DataTemplate x:DataType="model:StockData">
+                            <Grid 
+                                HorizontalOptions="Fill"
+                                ColumnDefinitions="*, *, *"
+                                RowDefinitions="20">
+                                <Label Text="{Binding Name}" 
+                                       HorizontalOptions="StartAndExpand" VerticalOptions="Center" 
+                                       Grid.Row="0" Grid.Column="0"/>
+                                <Label Text="{Binding BuyPrice}" 
+                                       HorizontalOptions="StartAndExpand" VerticalOptions="Center" 
+                                       Grid.Row="0" Grid.Column="1"/>
+                                <Label Text="{Binding SellPrice}" 
+                                       HorizontalOptions="StartAndExpand" VerticalOptions="Center" 
+                                       Grid.Row="0" Grid.Column="2"/>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
