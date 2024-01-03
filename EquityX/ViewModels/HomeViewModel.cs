@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using EquityX.Context;
 using EquityX.Models;
 using EquityX.Pages;
 using EquityX.Services;
+using Microsoft.EntityFrameworkCore;
 using System.Windows.Input;
 
 namespace EquityX.ViewModels
@@ -39,55 +41,66 @@ namespace EquityX.ViewModels
         // Services
         private IFundsService _fundsService;
         private IStockService _stockService;
+        private readonly EquityXDbContext _context;
 
-        public HomeViewModel(IFundsService fundsService, IStockService stockService)
+        public HomeViewModel(IFundsService fundsService, 
+            IStockService stockService,
+            EquityXDbContext context)
         {
-            // TODO: Get this data from a JSON File or Database
-            Id = 0;
-            Name = "Mikey";
-            PortfolioValue = 0;
-            AvailableFunds = 0;
-            UserStocks = new();
-            UserWatchlist = new();
-
             // Commands setup
-            //AddFundsCommand = new Command<decimal>((amount) => AddFunds(amount)); // A test method for the code behind onlcick handler
-            AddFundsCommand = new Command(async () => await AddFunds());
-            WithdrawCommand = new Command(async () => await Withdraw());
-            InvestCommand = new Command(async () => await Invest());
+            AddFundsCommand = new Command(() => AddFunds());
+            WithdrawCommand = new Command(() => Withdraw());
+            InvestCommand = new Command(() => Invest());
 
             // Services setup
             _fundsService = fundsService;
             _stockService = stockService;
+            _context = context;
 
             // Get the data from the API
             GetTopMoversData();
-
+            GetUserData();
         }
 
-        private async Task AddFunds()
+        /// <summary>
+        /// Adds funds to the user's account and updates the available funds
+        /// </summary>
+        private async void AddFunds()
         {
-            string result = await Application.Current.MainPage.DisplayPromptAsync("Enter Number", "Please enter a number:");
+            string result = await Application.Current.MainPage.DisplayPromptAsync("Enter Number", "Please enter funds amount",
+                placeholder:"$");
 
             if (Decimal.TryParse(result, out decimal amount) 
                 && await _fundsService.ValidateFundsFromBank(amount))
             {
                 AvailableFunds += amount;
             }
+            else if(String.IsNullOrEmpty(result))
+            {
+                return;
+            } 
             else
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "Unable to add funds", "OK");
             }
         }
 
-        private async Task Withdraw()
+        /// <summary>
+        /// Withdraws funds from the user's account and updates the available funds
+        /// </summary>
+        private async void Withdraw()
         {
-            string result = await Application.Current.MainPage.DisplayPromptAsync("Enter Number", "Please enter a number:");
+            string result = await Application.Current.MainPage.DisplayPromptAsync("Enter Number", "Please enter amount to withdraw:",
+                placeholder:"$");
 
             if (Decimal.TryParse(result, out decimal amountToWithdraw) 
                 && await _fundsService.WithDrawFunds(amountToWithdraw, AvailableFunds))
             {
                 AvailableFunds -= amountToWithdraw;
+            }
+            else if (String.IsNullOrEmpty(result))
+            {
+                return;
             }
             else
             {
@@ -95,6 +108,9 @@ namespace EquityX.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets the top movers data from the API
+        /// </summary>
         private async void GetTopMoversData()
         {
             try
@@ -107,13 +123,47 @@ namespace EquityX.ViewModels
             }
         }
 
-        private async Task Invest()
+        /// <summary>
+        /// Moves the user to the SearchPage so they can invest
+        /// </summary>
+        private async void Invest()
         {
             await Application.Current.MainPage.Navigation.PushAsync(new SearchPage());
         }
 
+        /// <summary>
+        /// Gets the user's data from the database
+        /// </summary>
+        private async void GetUserData()
+        {
+            // TODO: Change this to get the user's ID from the login page
+            // Probably need to pass it in as a parameter
+            // Consider checking password here as well to ensure the user is valid
+            int id = 1;
+
+            User user = await _context.Users
+                .Where(u => u.ID == id)
+                .Select(e => e)
+                .FirstOrDefaultAsync();
+
+            Id = user.ID;
+            Name = user.Name;
+            PortfolioValue = user.PortfolioValue;
+            AvailableFunds = user.AvailableFunds;
+            UserStocks = user.UserStocks;
+            UserWatchlist = user.UserWatchlist;
+        }
+
         // TODO: Make a method that takes you to the WatchlistPage
+        public async void GoToWatchlistPage()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new WatchlistPage());
+        }
 
         // TODO: Make a method that takes you to the PortfolioPage
+        public async void GoToPortfolioPage()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new PortfolioPage());
+        }   
     }
 }

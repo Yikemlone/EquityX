@@ -1,4 +1,5 @@
-﻿using EquityX.Models;
+﻿using EquityX.APIResponse;
+using EquityX.Models;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
@@ -6,8 +7,8 @@ namespace EquityX.Services
 {
     public class StockService : IStockService
     {
-        HttpClient _client;
-        private string API_KEY = "ecEqpK0r3B2y6CWbr29Fq1DVnZz83IAq8LVzDUDa";
+        private HttpClient _client;
+        private string API_KEY = "ecEqpK0r3B2y6CWbr29Fq1DVnZz83IAq8LVzDUDa"; // TODO: Move to config file or out of code
         private string URL = "https://yfapi.net";
 
         public StockService(HttpClient httpClient)
@@ -26,6 +27,8 @@ namespace EquityX.Services
             return Task.FromResult(true);
         }
 
+        // TODO: This should return a list of the popular stocks on the market, however there is an issue 
+        // with setting up classes to deserialize the JSON response due to the way the response is structured
         public Task<List<StockData>> GetStockData()
         {
             List<StockData> stockDataList = new List<StockData>();
@@ -135,7 +138,15 @@ namespace EquityX.Services
         // TODO: Returns the value the stock sold for after calculating loss and gain
         public Task<decimal> SellStock(UserStockData userStock)
         {
+            // Grab userStock object from the database
+            //var userStockFromDB = GetUserStockData(userStock.StockDataID);
+
+            // Need to get the current price of the stock
+            //var currentStock = GetStockData(userStock.Symbol);
+
+            // We need to assign the sell price to the ueerStock object and datatime of sale
             
+            //decimal gainOrLoss = ((sellingPrice - buyingPrice) / buyingPrice) * 100;
 
             throw new NotImplementedException();
         }

@@ -1,4 +1,4 @@
-﻿namespace EquityX.Models
+﻿namespace EquityX.APIResponse
 {
     public class QuoteResponse
     {
@@ -79,7 +79,7 @@
         public decimal regularMarketDayHigh { get; set; }
         public decimal regularMarketDayLow { get; set; }
         public int regularMarketVolume { get; set; }
-        public string? symbol { get; set; }
+        public string symbol { get; set; }
     }
 
     public class Root

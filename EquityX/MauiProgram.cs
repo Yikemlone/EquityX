@@ -1,4 +1,5 @@
-﻿using EquityX.Pages;
+﻿using EquityX.Context;
+using EquityX.Pages;
 using EquityX.Services;
 using EquityX.ViewModels;
 using Microsoft.Extensions.Logging;
@@ -18,18 +19,23 @@ namespace EquityX
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            // Adding custom services and dependicies 
-
-            //builder.Services.AddTransient<IFundsService, TestFundsService>();
-            //builder.Services.AddTransient<IStockService, TestStockService>();
+            // Adding database context
+            builder.Services.AddDbContext<EquityXDbContext>();
+            
+            // Adding Servives
             builder.Services.AddTransient<IFundsService, FundsService>();
             builder.Services.AddTransient<IStockService, StockService>();
-
             builder.Services.AddSingleton<HttpClient>();
             builder.Services.AddSingleton<HomeViewModel>();
             builder.Services.AddSingleton<HomePage>();
 
+            var dbContext = new EquityXDbContext();
+            dbContext.Database.EnsureCreated();
+            dbContext.Dispose();
+
 #if DEBUG
+            //builder.Services.AddTransient<IFundsService, TestFundsService>();
+            //builder.Services.AddTransient<IStockService, TestStockService>();
             builder.Logging.AddDebug();
 #endif
 
