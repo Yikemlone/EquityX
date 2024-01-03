@@ -137,7 +137,7 @@
                 <CollectionView 
                     ItemsSource="{Binding TopMoversData}"
                     HorizontalOptions="Center"
-                    Margin="25,20,0,10">
+                    Margin="0,20,0,0">
                     
                     <CollectionView.Header>
                         <Grid 
@@ -145,13 +145,13 @@
                             ColumnDefinitions="*, *, *"
                             RowDefinitions="20">
                             <Label Text="Name" 
-                                   HorizontalOptions="Start" VerticalOptions="Center" 
+                                   HorizontalOptions="Center" VerticalOptions="Center" 
                                    FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
                             <Label Text="Buy Price" 
-                                   HorizontalOptions="Start" VerticalOptions="Center" 
+                                   HorizontalOptions="Center" VerticalOptions="Center" 
                                    FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
                             <Label Text="Sell Price" 
-                                   HorizontalOptions="Start" VerticalOptions="Center" 
+                                   HorizontalOptions="Center" VerticalOptions="Center" 
                                    FontAttributes="Bold" Grid.Row="0" Grid.Column="2"/>
                         </Grid>
                     </CollectionView.Header>
@@ -161,14 +161,14 @@
                                 HorizontalOptions="Fill"
                                 ColumnDefinitions="*, *, *"
                                 RowDefinitions="20">
-                                <Label Text="{Binding Name}" 
-                                       HorizontalOptions="Start" VerticalOptions="Center" 
+                                <Label Text="{Binding Symbol}" 
+                                       HorizontalOptions="Center" VerticalOptions="Center" 
                                        Grid.Row="0" Grid.Column="0"/>
                                 <Label Text="{Binding BuyPrice}" 
-                                       HorizontalOptions="Start" VerticalOptions="Center" 
+                                       HorizontalOptions="Center" VerticalOptions="Center" 
                                        Grid.Row="0" Grid.Column="1"/>
                                 <Label Text="{Binding SellPrice}" 
-                                       HorizontalOptions="Start" VerticalOptions="Center" 
+                                       HorizontalOptions="Center" VerticalOptions="Center" 
                                        Grid.Row="0" Grid.Column="2"/>
                             </Grid>
                         </DataTemplate>

@@ -1,5 +1,4 @@
-﻿using EquityX.APIResponse;
-using EquityX.Models;
+﻿using EquityX.Models;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
@@ -58,8 +57,7 @@ namespace EquityX.Services
                 }
 
                 // Deserialize the JSON response
-                Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(responsebody);
-
+                APIResponse.QuoteResponse.Root myDeserializedClass = JsonConvert.DeserializeObject<APIResponse.QuoteResponse.Root>(responsebody);
                 foreach (var res in myDeserializedClass.quoteResponse.result)
                 {
                     stockDataList.Add(new StockData()
@@ -110,7 +108,7 @@ namespace EquityX.Services
                 }
 
                 // Deserialize the JSON response
-                Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(responsebody);
+                APIResponse.QuoteResponse.Root myDeserializedClass = JsonConvert.DeserializeObject<APIResponse.QuoteResponse.Root>(responsebody);
 
                 stockData.Name = myDeserializedClass.quoteResponse.result[0].longName;
                 stockData.BuyPrice = myDeserializedClass.quoteResponse.result[0].bid;

@@ -4,10 +4,12 @@ using EquityX.Models;
 using EquityX.Pages;
 using EquityX.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace EquityX.ViewModels
 {
+
     public partial class HomeViewModel : ObservableObject
     {
         [ObservableProperty]
@@ -31,6 +33,8 @@ namespace EquityX.ViewModels
         [ObservableProperty]
         private List<StockData> _topMoversData;
 
+        // Testing this 
+        private ObservableCollection<StockData> _stockDatas;
 
         // Commands 
         public ICommand AddFundsCommand { get; private set; }
@@ -124,14 +128,6 @@ namespace EquityX.ViewModels
         }
 
         /// <summary>
-        /// Moves the user to the SearchPage so they can invest
-        /// </summary>
-        private async void Invest()
-        {
-            await Application.Current.MainPage.Navigation.PushAsync(new SearchPage());
-        }
-
-        /// <summary>
         /// Gets the user's data from the database
         /// </summary>
         private async void GetUserData()
@@ -154,13 +150,28 @@ namespace EquityX.ViewModels
             UserWatchlist = user.UserWatchlist;
         }
 
-        // TODO: Make a method that takes you to the WatchlistPage
-        public async void GoToWatchlistPage()
+
+        /// <summary>
+        /// Moves the user to the SearchPage so they can invest in stocks
+        /// </summary>
+        private async void Invest()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new WatchlistPage());
+            await Shell.Current.GoToAsync($"//{nameof(SearchPage)}");
+            //await Application.Current.MainPage.Navigation.PushAsync(new SearchPage());
         }
 
-        // TODO: Make a method that takes you to the PortfolioPage
+        /// <summary>
+        /// Moves the user to the WatchlistPage so they can view their watchlist
+        /// </summary>
+        public async void GoToWatchlistPage()
+        {
+            await Shell.Current.GoToAsync($"//{nameof(WatchlistPage)}");
+            //await Application.Current.MainPage.Navigation.PushAsync(new WatchlistPage());
+        }
+
+        /// <summary>
+        /// Moves the user to the PortfolioPage so they can view their portfolio
+        /// </summary>
         public async void GoToPortfolioPage()
         {
             await Application.Current.MainPage.Navigation.PushAsync(new PortfolioPage());
