@@ -19,11 +19,13 @@ namespace EquityX
                 });
 
             // Adding custom services and dependicies 
-            builder.Services.AddTransient<IFundsService, TestFundsService>();
+
+            //builder.Services.AddTransient<IFundsService, TestFundsService>();
             //builder.Services.AddTransient<IStockService, TestStockService>();
             builder.Services.AddTransient<IFundsService, FundsService>();
             builder.Services.AddTransient<IStockService, StockService>();
 
+            builder.Services.AddSingleton<HttpClient>();
             builder.Services.AddSingleton<HomeViewModel>();
             builder.Services.AddSingleton<HomePage>();
 

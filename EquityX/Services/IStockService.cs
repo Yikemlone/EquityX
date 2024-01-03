@@ -41,7 +41,7 @@ namespace EquityX.Services
         /// </summary>
         /// <param name="stockID"></param>
         /// <returns>Value of the stock after calculating loss and gain</returns>
-        public Task<decimal> SellStock(int stockID); // May need the user ID  as well, for validation
+        public Task<decimal> SellStock(UserStockData userStock); // May need the user ID  as well, for validation
 
 
     }
