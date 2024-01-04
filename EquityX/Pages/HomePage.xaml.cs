@@ -1,5 +1,4 @@
 using EquityX.ViewModels;
-
 namespace EquityX.Pages;
 
 public partial class HomePage : ContentPage

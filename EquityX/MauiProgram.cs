@@ -23,11 +23,13 @@ namespace EquityX
             builder.Services.AddDbContext<EquityXDbContext>();
             
             // Adding Servives
-            builder.Services.AddTransient<IFundsService, FundsService>();
-            builder.Services.AddTransient<IStockService, StockService>();
+            builder.Services.AddSingleton<IFundsService, FundsService>();
+            builder.Services.AddSingleton<IStockService, StockService>();
+            builder.Services.AddSingleton<IAuthService, AuthService>(); 
             builder.Services.AddSingleton<HttpClient>();
             builder.Services.AddSingleton<HomeViewModel>();
             builder.Services.AddSingleton<HomePage>();
+            builder.Services.AddSingleton<LoadingPage>();
 
             var dbContext = new EquityXDbContext();
             dbContext.Database.EnsureCreated();

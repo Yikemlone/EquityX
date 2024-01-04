@@ -13,12 +13,8 @@
         </ResourceDictionary>
     </Application.Resources>
 
-    <!-- This layout code was got from the WeatherTwentyOne repo -->
-    <!-- This is the link: https://github.com/davidortinau/WeatherTwentyOne -->
-    
     <Application.MainPage>
-        <Shell FlyoutBehavior="{OnIdiom Phone=Disabled, Default=Locked}">
-            
+        <Shell FlyoutBehavior="{OnIdiom Phone=Disabled }">
             <!-- Setting up the template for a flyout on desktop -->
             <Shell.FlyoutFooterTemplate>
                 <DataTemplate>
@@ -26,34 +22,41 @@
                     </Grid>
                 </DataTemplate>
             </Shell.FlyoutFooterTemplate>
-
+            
             <!-- Defining the flyout content for desktop -->
+            <FlyoutItem>
+                <ShellContent FlyoutItemIsVisible="False" Route="DLoadingPage" ContentTemplate="{DataTemplate page:LoadingPage}"/>
+            </FlyoutItem>
+            <FlyoutItem>
+                <ShellContent FlyoutItemIsVisible="False" Route="DLoginPage" ContentTemplate="{DataTemplate page:LoginPage}"/>
+            </FlyoutItem>
             <FlyoutItem Title="Home">
-                <ShellContent ContentTemplate="{DataTemplate page:HomePage}"/>
+                <ShellContent Route="DHomePage" ContentTemplate="{DataTemplate page:HomePage}"/>
             </FlyoutItem>
             <FlyoutItem Title="Watchlist">
-                <ShellContent ContentTemplate="{DataTemplate page:WatchlistPage}"/>
+                <ShellContent Route="DWatchlistPage" ContentTemplate="{DataTemplate page:WatchlistPage}"/>
             </FlyoutItem>
             <FlyoutItem Title="Portfolio">
-                <ShellContent ContentTemplate="{DataTemplate page:PortfolioPage}"/>
+                <ShellContent  Route="DPortfolioPage"  ContentTemplate="{DataTemplate page:PortfolioPage}"/>
             </FlyoutItem>
             <FlyoutItem Title="Search">
-                <ShellContent ContentTemplate="{DataTemplate page:SearchPage}"/>
+                <ShellContent Route="DSearchPage" ContentTemplate="{DataTemplate page:SearchPage}"/>
             </FlyoutItem>
-            
+
             <!-- Setting up tab display for phones -->
+
             <TabBar x:Name="PhoneTabs">
                 <Tab Title="Home">
-                    <ShellContent ContentTemplate="{DataTemplate page:HomePage}"/>
+                    <ShellContent Route="HomePage" ContentTemplate="{DataTemplate page:HomePage}"/>
                 </Tab>
                 <Tab Title="Watchlist">
-                    <ShellContent ContentTemplate="{DataTemplate page:WatchlistPage}"/>
+                    <ShellContent Route="WatchlistPage" ContentTemplate="{DataTemplate page:WatchlistPage}"/>
                 </Tab>
                 <Tab Title="Portfolio">
-                    <ShellContent ContentTemplate="{DataTemplate page:PortfolioPage}"/>
+                    <ShellContent Route="PortfolioPage" ContentTemplate="{DataTemplate page:PortfolioPage}"/>
                 </Tab>
                 <Tab Title="Search">
-                    <ShellContent ContentTemplate="{DataTemplate page:SearchPage}"/>
+                    <ShellContent Route="SearchPage" ContentTemplate="{DataTemplate page:SearchPage}"/>
                 </Tab>
             </TabBar>
 

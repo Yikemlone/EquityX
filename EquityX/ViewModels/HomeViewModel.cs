@@ -9,7 +9,6 @@ using System.Windows.Input;
 
 namespace EquityX.ViewModels
 {
-
     public partial class HomeViewModel : ObservableObject
     {
         [ObservableProperty]
@@ -132,15 +131,31 @@ namespace EquityX.ViewModels
         /// </summary>
         private async void GetUserData()
         {
-            // TODO: Change this to get the user's ID from the login page
-            // Probably need to pass it in as a parameter
-            // Consider checking password here as well to ensure the user is valid
-            int id = 1;
+            int id = Preferences.Default.Get("USER_ID", 0);
+
+            if (id == 0)
+            { 
+                await Application.Current.MainPage.DisplayAlert("Error", "Not logged in", "OK");
+                return;
+            }
 
             User user = await _context.Users
                 .Where(u => u.ID == id)
                 .Select(e => e)
                 .FirstOrDefaultAsync();
+
+            // Only for testing
+            if (user == null)
+            {
+                Id = 0;
+                Name = "User not found";
+                PortfolioValue = 0;
+                AvailableFunds = 0;
+                UserStocks = null;
+                UserWatchlist = null;
+
+                return;
+            }
 
             Id = user.ID;
             Name = user.Name;
@@ -156,8 +171,13 @@ namespace EquityX.ViewModels
         /// </summary>
         private async void Invest()
         {
-            await Shell.Current.GoToAsync($"//{nameof(SearchPage)}");
-            //await Application.Current.MainPage.Navigation.PushAsync(new SearchPage());
+            if(DeviceInfo.Idiom == DeviceIdiom.Phone)
+            {
+                await Shell.Current.GoToAsync($"//{nameof(SearchPage)}");
+            } else
+            {
+                await Shell.Current.GoToAsync($"//D{nameof(SearchPage)}");
+            }
         }
 
         /// <summary>
@@ -165,8 +185,14 @@ namespace EquityX.ViewModels
         /// </summary>
         public async void GoToWatchlistPage()
         {
-            await Shell.Current.GoToAsync($"//{nameof(WatchlistPage)}");
-            //await Application.Current.MainPage.Navigation.PushAsync(new WatchlistPage());
+            if (DeviceInfo.Idiom == DeviceIdiom.Phone)
+            {
+                await Shell.Current.GoToAsync($"//{nameof(WatchlistPage)}");
+            }
+            else
+            {
+                await Shell.Current.GoToAsync($"//D{nameof(WatchlistPage)}");
+            }   
         }
 
         /// <summary>
@@ -174,7 +200,14 @@ namespace EquityX.ViewModels
         /// </summary>
         public async void GoToPortfolioPage()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new PortfolioPage());
+            if(DeviceInfo.Idiom == DeviceIdiom.Phone)
+            {
+                await Shell.Current.GoToAsync($"//{nameof(PortfolioPage)}");
+            }
+            else
+            {
+                await Shell.Current.GoToAsync($"//D{nameof(PortfolioPage)}");
+            }   
         }   
     }
 }
