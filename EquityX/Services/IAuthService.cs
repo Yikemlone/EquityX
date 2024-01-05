@@ -1,5 +1,8 @@
 ﻿namespace EquityX.Services
 {
+    /// <summary>
+    /// This service will handle the authentication of the user for login and registration
+    /// </summary>
     public interface IAuthService
     {
         /// <summary>
@@ -29,5 +32,12 @@
         /// <param name="email"></param>
         /// <returns>bool</returns>
         public Task<bool> Register(string username, string password, string email);
+
+        /// <summary>
+        /// Hashes the password for storage in the database
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns>string</returns>
+        public string HashPassword(string password);
     }
 }

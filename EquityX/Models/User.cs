@@ -11,9 +11,8 @@ namespace EquityX.Models
         public int ID { get; set; } // User's ID
 
         public string Name { get; set; } // User's name
-        public string Username { get; set; }
+        public string Username { get; set; } // User's username
         public string Password { get; set; } // User's password
-        public string Hash { get; set; } // User's hash
         public decimal PortfolioValue { get; set; } // Total value of all stocks owned and available funds
         public decimal AvailableFunds { get; set; } // Funds that can be used to buy stocks
         public List<UserStockData> UserStocks { get; set; } = new(); // List of stocks the user owns

@@ -7,9 +7,6 @@ namespace EquityX.Models
     /// </summary>
     public class StockData
     {
-        [Key]
-        public int ID { get; set; } // Stock's ID
-
         public string Name { get; set; } // Stock's name
         public string Symbol { get; set; } // Stock's symbol
         public decimal BuyPrice { get; set; } // Stock's buy price

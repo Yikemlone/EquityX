@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace EquityX.Services
 {
     /// <summary>
-    /// This is a test stock service, only returning test values.
+    /// This is a test stock service, only returning test values when in debug mode.
     /// </summary>
     public class TestStockService : IStockService
     {
@@ -38,7 +38,7 @@ namespace EquityX.Services
             await _context.UserStockData.AddAsync(new UserStockData()
             {
                 UserID = userID,
-                StockDataID = stock.ID,
+                StockSymbol = stock.Symbol,
                 BuyInPrice = stock.BuyPrice,
                 SellPrice = stock.SellPrice,
                 DateBought = DateTime.Now,

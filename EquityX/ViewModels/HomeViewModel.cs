@@ -74,7 +74,7 @@ namespace EquityX.ViewModels
                 placeholder:"$");
 
             if (Decimal.TryParse(result, out decimal amount) 
-                && await _fundsService.ValidateFundsFromBank(amount))
+                && await _fundsService.AddFunds(amount, Id))
             {
                 AvailableFunds += amount;
             }
@@ -97,7 +97,7 @@ namespace EquityX.ViewModels
                 placeholder:"$");
 
             if (Decimal.TryParse(result, out decimal amountToWithdraw) 
-                && await _fundsService.WithdrawFunds(amountToWithdraw, AvailableFunds))
+                && await _fundsService.WithdrawFunds(amountToWithdraw, Id))
             {
                 AvailableFunds -= amountToWithdraw;
             }
@@ -133,11 +133,11 @@ namespace EquityX.ViewModels
         {
             int id = Preferences.Default.Get("USER_ID", 0);
 
-            if (id == 0)
-            { 
-                await Application.Current.MainPage.DisplayAlert("Error", "Not logged in", "OK");
-                return;
-            }
+            //if (id == 0)
+            //{ 
+            //    await Application.Current.MainPage.DisplayAlert("Error", "Not logged in", "OK");
+            //    return;
+            //}
 
             User user = await _context.Users
                 .Where(u => u.ID == id)

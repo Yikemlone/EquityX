@@ -9,8 +9,6 @@ namespace EquityX.Context
         public DbSet<User> Users { get; set; }
         public DbSet<UserStockData> UserStockData { get; set; }
         public DbSet<UserWatchlist> UserWatchlist { get; set; }
-        public DbSet<StockData> StockData { get; set; }
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

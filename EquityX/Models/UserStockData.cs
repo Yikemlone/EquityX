@@ -11,7 +11,7 @@ namespace EquityX.Models
         public int ID { get; set; } // ID
 
         public int UserID { get; set; } // User's ID Foreign Key
-        public int StockDataID { get; set; } // Stock's ID Foreign Key
+        public string StockSymbol { get; set; } // Stock's Symbol
         public decimal BuyInPrice { get; set;} // Price the stock was bought at
         public decimal? SellPrice { get; set; } // Price the stock was sold at
         public DateTime DateBought { get; set; } = DateTime.Now; // Date the stock was bought

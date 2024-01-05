@@ -37,6 +37,10 @@ namespace EquityX
             // Adding HttpClient
             builder.Services.AddSingleton<HttpClient>();
 
+            EquityXDbContext context = new();
+            context.Database.EnsureCreated();
+            context.Dispose();
+
 #if DEBUG
             builder.Services.AddTransient<IStockService, TestStockService>();
             builder.Logging.AddDebug();

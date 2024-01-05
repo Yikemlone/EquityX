@@ -11,7 +11,7 @@ namespace EquityX.Models
         public int ID { get; set; } 
 
         public int UserID { get; set; } // User's ID Foreign Key
-        public int StockDataID { get; set; } // Stock's ID Foreign Key
+        public string StockSymbol { get; set; } // Stock's symbol
         public DateTime DateAdded { get; set; } = DateTime.Now; // Date the stock was added to the watchlist
     }
 }

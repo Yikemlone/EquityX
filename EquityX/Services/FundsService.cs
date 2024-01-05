@@ -1,24 +1,58 @@
-﻿namespace EquityX.Services
+﻿using EquityX.Context;
+using EquityX.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace EquityX.Services
 {
     public class FundsService : IFundsService
     {
-        public async Task<bool> ValidateFundsFromBank(decimal amount)
+        EquityXDbContext _context;  
+
+        public FundsService(EquityXDbContext context)
         {
-            // This will simulate validating funds from the user's bank
-            await Task.Delay(2000);
-            return true;
+            _context = context;
         }
 
-        public async Task<bool> WithdrawFunds(decimal amountToWithDraw, decimal availableFunds)
+        public async Task<bool> AddFunds(decimal amount, int userID)
         {
+            User user =  await _context.Users
+                .Where(u => u.ID == userID)
+                .Select(e => e)
+                .FirstOrDefaultAsync();
 
-            if(amountToWithDraw > availableFunds || amountToWithDraw <= 0)
+            user.AvailableFunds += amount;
+
+            int rowsAffected = await _context.SaveChangesAsync();
+
+            if (rowsAffected == 0)
             {
                 return false;
             }
 
-            // Simulate withdrawing funds from the user's account to send to their bank of choice
-            await Task.Delay(2000);
+            return true;
+        }
+
+        public async Task<bool> WithdrawFunds(decimal amountToWithDraw, int userID)
+        {
+            User user = await _context.Users
+                .Where(u => u.ID == userID)
+                .Select(e => e)
+                .FirstOrDefaultAsync();
+
+            if (amountToWithDraw > user.AvailableFunds || amountToWithDraw <= 0)
+            {
+                return false;
+            }
+
+            user.AvailableFunds -= amountToWithDraw;
+
+            int rowsAffected = await _context.SaveChangesAsync();
+
+            if (rowsAffected == 0)
+            {
+                return false;
+            }
+
             return true;
         }
     }

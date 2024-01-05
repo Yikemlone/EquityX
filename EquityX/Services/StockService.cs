@@ -3,6 +3,7 @@ using EquityX.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Text;
 
 namespace EquityX.Services
 {
@@ -40,7 +41,7 @@ namespace EquityX.Services
             await _context.UserStockData.AddAsync(new UserStockData()
             {
                 UserID = userID,
-                StockDataID = stock.ID,
+                StockSymbol = stock.Symbol,
                 BuyInPrice = stock.BuyPrice,
                 SellPrice = stock.SellPrice,
                 DateBought = DateTime.Now,
@@ -159,8 +160,30 @@ namespace EquityX.Services
 
         // TODO: This would be connected to the database and would return the stock
         // data for the stocks the user owns/is tracking via the watchlist
-        public Task<List<StockData>> GetUserStockData(int userID)
+        public async Task<List<StockData>> GetUserStockData(int userID)
         {
+            // Grab the user's stock data
+            List<UserStockData> userStockData = await _context.UserStockData
+                .Where(u => u.UserID == userID)
+                .Select(e => e)
+                .ToListAsync();
+
+            // Making a string of the symbols to pass to the API
+            StringBuilder stringBuilder = new StringBuilder();
+
+            foreach (var stock in userStockData)
+            {
+                stringBuilder.Append(stock.StockSymbol + ",");
+            }
+
+            // Remove the last comma
+            stringBuilder.Remove(stringBuilder.Length - 1, 1);
+
+            // Get the stock data from the API
+
+
+
+
             throw new NotImplementedException();
         }
 
