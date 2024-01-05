@@ -97,7 +97,7 @@ namespace EquityX.ViewModels
                 placeholder:"$");
 
             if (Decimal.TryParse(result, out decimal amountToWithdraw) 
-                && await _fundsService.WithDrawFunds(amountToWithdraw, AvailableFunds))
+                && await _fundsService.WithdrawFunds(amountToWithdraw, AvailableFunds))
             {
                 AvailableFunds -= amountToWithdraw;
             }

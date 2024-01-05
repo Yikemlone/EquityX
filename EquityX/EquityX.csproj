@@ -96,6 +96,15 @@
 	  </MauiXaml>
 	</ItemGroup>
 
+	<!--<ItemGroup>
+	  <None Update="Resources\Raw\Quote.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\Raw\Trending.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>-->
+
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionEquityXHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

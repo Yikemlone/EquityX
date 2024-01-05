@@ -1,4 +1,6 @@
-﻿using EquityX.Models;
+﻿using EquityX.Context;
+using EquityX.Models;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
@@ -9,21 +11,50 @@ namespace EquityX.Services
         private HttpClient _client;
         private string API_KEY = "ecEqpK0r3B2y6CWbr29Fq1DVnZz83IAq8LVzDUDa"; // TODO: Move to config file or out of code
         private string URL = "https://yfapi.net";
+        private readonly EquityXDbContext _context;
 
-        public StockService(HttpClient httpClient)
+        public StockService(HttpClient httpClient, EquityXDbContext context)
         {
             _client = httpClient;
+            _context = context;
         }
 
-        public Task<bool> BuyStock(StockData stock, decimal availableFunds)
+        public async Task<bool> BuyStock(StockData stock, int userID)
         {
+            // Get the user's data
+            var user = await _context.Users
+                .Where(u => u.ID == userID)
+                .Select(e => e)
+                .FirstOrDefaultAsync();
+
             // Check if the user has enough funds to buy the stock
-            if (availableFunds < stock.BuyPrice)
-            { 
-                Task.FromResult(false);
+            if (user.AvailableFunds < stock.BuyPrice)
+            {
+                return false;
             }
 
-            return Task.FromResult(true);
+            // Update the user's available funds
+            user.AvailableFunds -= stock.BuyPrice;
+
+            // Add the stock to the user's portfolio
+            await _context.UserStockData.AddAsync(new UserStockData()
+            {
+                UserID = userID,
+                StockDataID = stock.ID,
+                BuyInPrice = stock.BuyPrice,
+                SellPrice = stock.SellPrice,
+                DateBought = DateTime.Now,
+            });
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        // TODO: Returns the value the stock sold for after calculating loss and gain
+        public Task<decimal> SellStock(UserStockData userStock, int userID)
+        {
+            throw new NotImplementedException();
         }
 
         // TODO: This should return a list of the popular stocks on the market, however there is an issue 
@@ -79,10 +110,10 @@ namespace EquityX.Services
             return Task.FromResult(stockDataList);
         }
 
-        public Task<StockData> GetStockData(string stockSymbol)
+        public Task<StockData> GetStockData(string symbol)
         {
             StockData stockData = new StockData();
-            Uri uri = new Uri(string.Format(URL + $"/v6/finance/quote?region=US&lang=en&symbols={stockSymbol}", string.Empty));
+            Uri uri = new Uri(string.Format(URL + $"/v6/finance/quote?region=US&lang=en&symbols={symbol}", string.Empty));
             
             try
             {
@@ -128,26 +159,17 @@ namespace EquityX.Services
 
         // TODO: This would be connected to the database and would return the stock
         // data for the stocks the user owns/is tracking via the watchlist
-        public Task<List<StockData>> GetUserStockData(List<string> stockNames)
+        public Task<List<StockData>> GetUserStockData(int userID)
         {
             throw new NotImplementedException();
         }
 
-        // TODO: Returns the value the stock sold for after calculating loss and gain
-        public Task<decimal> SellStock(UserStockData userStock)
+        public Task<List<StockData>> GetUserWatchlistData(int userID)
         {
-            // Grab userStock object from the database
-            //var userStockFromDB = GetUserStockData(userStock.StockDataID);
-
-            // Need to get the current price of the stock
-            //var currentStock = GetStockData(userStock.Symbol);
-
-            // We need to assign the sell price to the ueerStock object and datatime of sale
-            
-            //decimal gainOrLoss = ((sellingPrice - buyingPrice) / buyingPrice) * 100;
-
             throw new NotImplementedException();
         }
+
+
 
     }
 }

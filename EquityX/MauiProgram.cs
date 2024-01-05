@@ -38,8 +38,7 @@ namespace EquityX
             builder.Services.AddSingleton<HttpClient>();
 
 #if DEBUG
-            //builder.Services.AddTransient<IFundsService, TestFundsService>();
-            //builder.Services.AddTransient<IStockService, TestStockService>();
+            builder.Services.AddTransient<IStockService, TestStockService>();
             builder.Logging.AddDebug();
 #endif
 
