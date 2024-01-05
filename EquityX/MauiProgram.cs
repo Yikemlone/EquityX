@@ -29,19 +29,20 @@ namespace EquityX
 
             // Adding ViewModels
             builder.Services.AddSingleton<HomeViewModel>();
-
+            builder.Services.AddSingleton<LoginViewModel>();  
+            builder.Services.AddSingleton<RegisterViewModel>();
+            
             // Adding Pages
             builder.Services.AddSingleton<HomePage>(); 
+            builder.Services.AddSingleton<LoginPage>();
             builder.Services.AddSingleton<LoadingPage>();
+            builder.Services.AddSingleton<RegisterPage>();
 
             // Adding HttpClient
             builder.Services.AddSingleton<HttpClient>();
 
-            EquityXDbContext context = new();
-            context.Database.EnsureCreated();
-            context.Dispose();
-
 #if DEBUG
+            // Adding Test Services for debug mode
             builder.Services.AddTransient<IStockService, TestStockService>();
             builder.Logging.AddDebug();
 #endif

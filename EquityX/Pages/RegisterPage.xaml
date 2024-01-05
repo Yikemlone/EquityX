@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="EquityX.Pages.LoginPage"
+             x:Class="EquityX.Pages.RegisterPage"
              xmlns:vm="clr-namespace:EquityX.ViewModels"
-             x:DataType="vm:LoginViewModel"
+             x:DataType="vm:RegisterViewModel"
              Shell.TabBarIsVisible="False">
     
     <VerticalStackLayout>
 
         <StackLayout>
             <Label 
-                Text="Login"
+                Text="Register"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
+            <Entry 
+                Text="{Binding Name}"
+                Placeholder="Name"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
 
@@ -26,28 +32,34 @@
                 Placeholder="Password"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
-            
+
+            <Entry 
+                Text="{Binding ConfirmPassword}"
+                IsPassword="True"
+                Placeholder="Confirm Password"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
             <Button 
                 Text="Login"
-                Command="{Binding LoginCommand}">
+                Command="{Binding RegisterCommand}">
             </Button>
-            
+
             <Label 
                 Text="{Binding ErrorMessage}"
                 TextColor="Red"/>
 
             <Label
-                Text="Don't have an account?"
+                Text="Have an account?"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
 
             <Button
-                Text="Sign Up"
-                Command="{Binding GoToRegisterCommand}">
+                Text="Log in"
+                Command="{Binding MoveToLoginPageCommand}">
             </Button>
 
         </StackLayout>
 
     </VerticalStackLayout>
-    
 </ContentPage>

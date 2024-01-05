@@ -27,6 +27,11 @@
         ContentTemplate="{DataTemplate pages:LoginPage}"/>
 
     <ShellContent 
+        FlyoutItemIsVisible="False"
+        Route="RegisterPage" 
+        ContentTemplate="{DataTemplate pages:RegisterPage}"/>
+
+    <ShellContent 
         Title="Home"
         Route="DHomePage" 
         ContentTemplate="{DataTemplate pages:HomePage}"/>
@@ -46,16 +51,9 @@
         Route="DSearchPage"  
         ContentTemplate="{DataTemplate pages:SearchPage}"/>
 
+    <!--#191919"-->
 
-    <TabBar x:Name="PhoneTabs" Shell.TabBarBackgroundColor="#191919">
-        
-        <!--<ShellContent
-            Title="Home"
-            Icon="home.svg"
-            Route="Home"
-            ContentTemplate="{DataTemplate pages:Home}"/>
-        -->
-        
+    <TabBar x:Name="PhoneTabs" Shell.TabBarBackgroundColor="{StaticResource BlackShade}">
         <ShellContent 
             Icon="Home.svg"
             Route="HomePage" 
@@ -75,7 +73,6 @@
             Icon="search.svg"
             Route="SearchPage" 
             ContentTemplate="{DataTemplate pages:SearchPage}"/>
-        
     </TabBar>
     
 </Shell>

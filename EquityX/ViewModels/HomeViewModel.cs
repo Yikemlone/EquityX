@@ -42,7 +42,6 @@ namespace EquityX.ViewModels
         public ICommand MoveToWatchlistPageCommand { get; private set; }
         public ICommand MoveToPortfolioPageCommand { get; private set; } // May not need
 
-
         // Services
         private IFundsService _fundsService;
         private IStockService _stockService;
@@ -65,7 +64,7 @@ namespace EquityX.ViewModels
             _context = context;
 
             // Get the data from the API
-            GetTopMoversData();
+            GetTopMoversData(); 
             GetUserData();
         }
 
@@ -187,7 +186,7 @@ namespace EquityX.ViewModels
         /// <summary>
         /// Moves the user to the WatchlistPage so they can view their watchlist
         /// </summary>
-        public async void GoToWatchlistPage()
+        private async void GoToWatchlistPage()
         {
             if (DeviceInfo.Idiom == DeviceIdiom.Phone)
             {
@@ -202,7 +201,7 @@ namespace EquityX.ViewModels
         /// <summary>
         /// Moves the user to the PortfolioPage so they can view their portfolio
         /// </summary>
-        public async void GoToPortfolioPage()
+        private async void GoToPortfolioPage()
         {
             if(DeviceInfo.Idiom == DeviceIdiom.Phone)
             {
