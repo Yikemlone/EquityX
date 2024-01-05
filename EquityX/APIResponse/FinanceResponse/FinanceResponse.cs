@@ -1,6 +1,6 @@
 ﻿namespace EquityX.APIResponse.FinanceResponse
 {
-    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+    // These clasess were generated using https://json2csharp.com/json-to-csharp
     public class Finance
     {
         public object error { get; set; }

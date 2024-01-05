@@ -49,6 +49,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\arrow_down.svg" />
+	  <None Remove="Resources\Images\arrow_up.svg" />
+	  <None Remove="Resources\Images\Bell.svg" />
+	  <None Remove="Resources\Images\Chart.svg" />
+	  <None Remove="Resources\Images\Home.svg" />
+	  <None Remove="Resources\Images\Plus.svg" />
+	  <None Remove="Resources\Images\Portfolio.svg" />
+	  <None Remove="Resources\Images\Search.svg" />
+	  <None Remove="Resources\Images\Sun.svg" />
+	  <None Remove="Resources\Images\Watchlist.svg" />
+	  <None Remove="Resources\Images\withdraw_arrow.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />

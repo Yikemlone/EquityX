@@ -403,7 +403,7 @@
     </Style>
     
     <!-- Creating custom styles -->
-    <Style TargetType="Button" x:Key="PrimaryHomeButton">
+    <Style TargetType="Button" x:Key="PrimaryButton">
         <Setter Property="BackgroundColor" Value="{StaticResource PrimaryTransparent}"/>
         <Setter Property="TextColor" Value="{StaticResource Primary}"/>
         <Setter Property="CornerRadius" Value="50"/>
@@ -411,7 +411,34 @@
 
     <Style TargetType="Border" x:Key="Material">
         <Setter Property="Stroke" Value="Transparent"/>
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WhiteShade}, Dark={StaticResource BlackShade}}"/>
+        <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light={StaticResource WhiteShade}, Dark={StaticResource BlackShade}}"/>
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow 
+                    Brush="Black"
+                    Offset="0,0"
+                    Opacity="0.8"
+                    Radius="30"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="StrokeShape">
+            <RoundRectangle CornerRadius="20"/>
+        </Setter>
+    </Style>
+ 
+    <Style TargetType="Label" x:Key="PrimaryButtonLabel">
+        <Setter Property="TextColor" Value="{StaticResource Primary}"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="FontSize" Value="15"/>
     </Style>
 
+    <Style TargetType="Button" x:Key="LinkButton">
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="TextColor" Value="{StaticResource Primary}"/>
+        <Setter Property="BorderColor" Value="Transparent"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="FontSize" Value="15"/>
+    </Style>
+    
 </ResourceDictionary>

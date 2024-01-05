@@ -5,177 +5,201 @@
              xmlns:vm="clr-namespace:EquityX.ViewModels"
              xmlns:model="clr-namespace:EquityX.Models"
              x:DataType="vm:HomeViewModel">
-    
-    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Fill" Margin="20">
-    
-        <!-- User Welcome back -->
-        <Label 
-            Text="Welcome back"
-            FontSize="50"
-            FontAttributes="Bold"/>
 
-        <Label 
-            Text="{Binding Name}"
-            FontSize="50"
-            TextColor="{StaticResource Primary}"
-            FontAttributes="Bold"/>
+    <ScrollView>
+        <VerticalStackLayout 
+            Padding="10"
+            HorizontalOptions="Center" 
+            VerticalOptions="Fill">
 
-        <!-- Displaying user funds and functionality -->
-        <Border
-            HeightRequest="220"
-            Margin="0,20,0,0"
-            Style="{StaticResource Material}">
-                
-            <Border.StrokeShape>
-                <RoundRectangle         
-                    CornerRadius="20" />
-            </Border.StrokeShape>
+            <!-- User Welcome back -->
+            <StackLayout>
+                <Label 
+                    Text="Welcome back"
+                    FontSize="50"
+                    FontAttributes="Bold"/>
 
-            <Grid
-                Margin="0,10,0,10"
-                ColumnDefinitions="*"
-                RowDefinitions="*">
-                
-                <!--Available funds lables-->
-                <Grid 
-                    Margin="20,10,0,0"
-                    ColumnDefinitions="160,15,*"
-                    RowDefinitions="*">
+                <Label 
+                    Text="{Binding Name}"
+                    FontSize="50"
+                    TextColor="{StaticResource Primary}"
+                    FontAttributes="Bold"/>
+            </StackLayout>
 
-                    <Label
-                        Text="Available Funds:" 
-                        FontSize="20"
-                        Grid.Column="0"/>
-
-                    <Label
-                        Text="$" 
-                        FontSize="20"
-                        HorizontalOptions="End"
-                        Grid.Column="1"/>
-
-                    <Label
-                        Text="{Binding AvailableFunds}" 
-                        HorizontalOptions="Start"
-                        FontSize="20"
-                        Grid.Column="2"/>
-                </Grid>
-                
-                <!--Add funds, invest and withdraw buttons-->
-                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="End" Spacing="20">
-                    
-                    <!--  Add funds button -->
-                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="10" Spacing="10">
-                        <Button 
-                            Style="{StaticResource PrimaryHomeButton}"   
-                            WidthRequest="45"
-                            Command="{Binding AddFundsCommand}"/>
-
+            <!-- Displaying user funds and functionality -->
+            <Border
+                HeightRequest="220"
+                Margin="0,20,0,0"
+                Style="{StaticResource Material}">
+   
+                <StackLayout>
+                    <!--Available funds lables-->
+                    <StackLayout Margin="20">
                         <Label
-                            Text="Add" 
-                            HorizontalOptions="Center"
-                            TextColor="{StaticResource Primary}"/>
+                            Text="Porfolio value" 
+                            Margin="0"
+                            FontSize="23"
+                            FontAttributes="Bold"/>
+
+                        <HorizontalStackLayout>
+                            <Label
+                                Text="$" 
+                                Margin="0"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource Primary}"
+                                FontSize="30"/>
+
+                            <Label
+                                Text="{Binding AvailableFunds}" 
+                                Margin="0"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource Primary}"
+                                FontSize="30"/>
+                        </HorizontalStackLayout>
+                    </StackLayout>
+
+                    <!--Add funds, invest and withdraw buttons-->
+                    <HorizontalStackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Spacing="50">
+
+                        <!--  Add funds button -->
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                            <Button 
+                                Style="{StaticResource PrimaryButton}"   
+                                WidthRequest="45"
+                                ImageSource="plus.svg"
+                                Command="{Binding AddFundsCommand}"/>
+
+                            <Label
+                                Text="Add" 
+                                HorizontalOptions="Center"
+                                Style="{StaticResource PrimaryButtonLabel}"/>
+                        </StackLayout>
+
+                        <!-- Invest button -->
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center"  Spacing="10">
+                            <Button
+                                Style="{StaticResource PrimaryButton}" 
+                                ImageSource="chart.svg"
+                                WidthRequest="45"
+                                Command="{Binding InvestCommand}"/>
+
+                            <Label
+                                Text="Invest" 
+                                HorizontalOptions="Center"
+                                Style="{StaticResource PrimaryButtonLabel}"/>
+                        </StackLayout>
+
+                        <!-- Withdraw funds button -->
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                            <Button
+                                Style="{StaticResource PrimaryButton}" 
+                                WidthRequest="45" 
+                                ImageSource="withdraw_arrow.svg"
+                                Command="{Binding WithdrawCommand }"/>
+
+                            <Label
+                                Text="Withdraw" 
+                                HorizontalOptions="Center"
+                                Style="{StaticResource PrimaryButtonLabel}"/>
+                        </StackLayout>
                         
-                    </VerticalStackLayout>
-
-                    <!-- Invest button -->
-                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="10" Spacing="10">
-                        <Button
-                            Style="{StaticResource PrimaryHomeButton}" 
-                            WidthRequest="45"
-                            Command="{Binding InvestCommand}"/>
-
-                        <Label
-                            Text="Invest" 
-                            HorizontalOptions="Center"
-                            TextColor="{StaticResource Primary}"/>
-                    </VerticalStackLayout>
-
-                    <!-- Withdraw funds button -->
-                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="End" Margin="10" Spacing="10">
-                        <Button
-                            Style="{StaticResource PrimaryHomeButton}" 
-                            WidthRequest="45" 
-                            Command="{Binding WithdrawCommand }"/>
-
-                        <Label
-                            Text="Withdraw" 
-                            HorizontalOptions="Center"
-                            TextColor="{StaticResource Primary}"/>
-                    </VerticalStackLayout>
-                </HorizontalStackLayout>
+                    </HorizontalStackLayout>
+                </StackLayout>
                 
-            </Grid>
-        </Border>
+            </Border>
 
-        <!-- Todays Top movers text -->
-        <HorizontalStackLayout HeightRequest="50" Spacing="130" HorizontalOptions="EndAndExpand">
-            <Label
-                VerticalTextAlignment="Center"
-                FontAttributes="Bold"
-                FontSize="15"
-                Text="Today's Top Movers"/>
-            <Button 
-                Text="See All"
-                BackgroundColor="Transparent"
-                BorderColor="Transparent"
-                FontAttributes="Bold"
-                FontSize="15"
-                TextColor="{StaticResource Primary}"/>      
-        </HorizontalStackLayout>
+            <!-- Todays Top movers text -->
+            <HorizontalStackLayout HeightRequest="50">
+                <Grid 
+                    ColumnDefinitions="*,*">
+                    <Label
+                        Text="Today's Top Movers"
+                        VerticalTextAlignment="Center"
+                        FontAttributes="Bold"
+                        FontSize="15"/>
 
-        <!-- Displaying top movers -->
-        <Border
-            HeightRequest="200"
-            Style="{StaticResource Material}">
-            
-            <Border.StrokeShape>
-                <RoundRectangle         
-                    CornerRadius="20" />
-            </Border.StrokeShape>
+                    <Button 
+                        Text="See All"
+                        Command="{Binding InvestCommand}"
+                        Style="{StaticResource LinkButton}"
+                        Grid.Column="1"/>
+                </Grid>
+            </HorizontalStackLayout>
 
-            <Grid>
-                <CollectionView 
-                    ItemsSource="{Binding TopMoversData}"
-                    HorizontalOptions="Center"
-                    Margin="0,20,0,0">
-                    
-                    <CollectionView.Header>
-                        <Grid 
-                            HorizontalOptions="Fill"
-                            ColumnDefinitions="*, *, *"
-                            RowDefinitions="20">
-                            <Label Text="Name" 
-                                   HorizontalOptions="Center" VerticalOptions="Center" 
-                                   FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
-                            <Label Text="Buy Price" 
-                                   HorizontalOptions="Center" VerticalOptions="Center" 
-                                   FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
-                            <Label Text="Sell Price" 
-                                   HorizontalOptions="Center" VerticalOptions="Center" 
-                                   FontAttributes="Bold" Grid.Row="0" Grid.Column="2"/>
-                        </Grid>
-                    </CollectionView.Header>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="model:StockData">
+            <!-- Displaying top movers -->
+            <Border
+                HeightRequest="200"
+                Style="{StaticResource Material}">
+
+                <Grid>
+                    <CollectionView 
+                        ItemsSource="{Binding TopMoversData}"
+                        HorizontalOptions="Center"
+                        Margin="0,20,0,0">
+                        <CollectionView.Header>
                             <Grid 
                                 HorizontalOptions="Fill"
                                 ColumnDefinitions="*, *, *"
                                 RowDefinitions="20">
-                                <Label Text="{Binding Symbol}" 
+                                <Label Text="Name" 
+                                   HorizontalOptions="Center" VerticalOptions="Center" 
+                                   FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
+                                <Label Text="Buy Price" 
+                                   HorizontalOptions="Center" VerticalOptions="Center" 
+                                   FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
+                                <Label Text="Sell Price" 
+                                   HorizontalOptions="Center" VerticalOptions="Center" 
+                                   FontAttributes="Bold" Grid.Row="0" Grid.Column="2"/>
+                            </Grid>
+                        </CollectionView.Header>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:StockData">
+                                <Grid 
+                                    HorizontalOptions="Fill"
+                                    ColumnDefinitions="*, *, *"
+                                    RowDefinitions="20">
+                                    <Label Text="{Binding Symbol}" 
                                        HorizontalOptions="Center" VerticalOptions="Center" 
                                        Grid.Row="0" Grid.Column="0"/>
-                                <Label Text="{Binding BuyPrice}" 
+                                    <Label Text="{Binding BuyPrice}" 
                                        HorizontalOptions="Center" VerticalOptions="Center" 
                                        Grid.Row="0" Grid.Column="1"/>
-                                <Label Text="{Binding SellPrice}" 
+                                    <Label Text="{Binding SellPrice}" 
                                        HorizontalOptions="Center" VerticalOptions="Center" 
                                        Grid.Row="0" Grid.Column="2"/>
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </Grid>
-        </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Border>
 
-    </VerticalStackLayout>
+            <!-- Watchlist text -->
+            <HorizontalStackLayout HeightRequest="50">
+                <Grid 
+                    ColumnDefinitions="*,*"
+                    RowDefinitions="*"
+                    HorizontalOptions="FillAndExpand">
+                    <Label
+                        Text="Watchlist"
+                        VerticalTextAlignment="Center"
+                        FontAttributes="Bold"
+                        FontSize="15"/>
+
+                    <Button 
+                        Text="See All"
+                        Command="{Binding MoveToWatchlistPageCommand}"
+                        Style="{StaticResource LinkButton}"
+                        Grid.Column="1"/>
+                </Grid>
+            </HorizontalStackLayout>
+       
+            <!-- Displaying user watchlist -->
+            <Border
+                Style="{StaticResource Material}"
+                HeightRequest="200">
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

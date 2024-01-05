@@ -20,7 +20,7 @@ namespace EquityX.Services
 
         public async Task<bool> IsAuthenticated()
         {
-            //await Task.Delay(3000); // Simulating the validation of the auth key
+            await Task.Delay(3000); // Simulating the validation of the auth key
             var authKey = Preferences.Default.Get(AUTH_STATE, false);
             return true;
             return authKey;

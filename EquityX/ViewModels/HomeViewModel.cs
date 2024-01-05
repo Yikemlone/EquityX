@@ -39,6 +39,8 @@ namespace EquityX.ViewModels
         public ICommand AddFundsCommand { get; private set; }
         public ICommand InvestCommand { get; private set; }
         public ICommand WithdrawCommand { get; private set; }
+        public ICommand MoveToWatchlistPageCommand { get; private set; }
+        public ICommand MoveToPortfolioPageCommand { get; private set; } // May not need
 
 
         // Services
@@ -54,6 +56,8 @@ namespace EquityX.ViewModels
             AddFundsCommand = new Command(() => AddFunds());
             WithdrawCommand = new Command(() => Withdraw());
             InvestCommand = new Command(() => Invest());
+            MoveToWatchlistPageCommand = new Command(() => GoToWatchlistPage());
+            MoveToPortfolioPageCommand = new Command(() => GoToPortfolioPage());
 
             // Services setup
             _fundsService = fundsService;

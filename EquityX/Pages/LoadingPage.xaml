@@ -10,5 +10,9 @@
             IsRunning="True"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <Label
+            Text="Loading..."
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
     </VerticalStackLayout>
 </ContentPage>

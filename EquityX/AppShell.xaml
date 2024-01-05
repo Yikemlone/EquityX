@@ -16,31 +16,38 @@
                 </DataTemplate>
             </Shell.FlyoutFooterTemplate> -->
     
-    <ShellContent FlyoutItemIsVisible="False" Route="LoadingPage" ContentTemplate="{DataTemplate pages:LoadingPage}"/>
-    <ShellContent FlyoutItemIsVisible="False" Route="LoginPage" ContentTemplate="{DataTemplate pages:LoginPage}"/>
+    <ShellContent 
+        FlyoutItemIsVisible="False" 
+        Route="LoadingPage" 
+        ContentTemplate="{DataTemplate pages:LoadingPage}"/>
+    
+    <ShellContent 
+        FlyoutItemIsVisible="False"
+        Route="LoginPage" 
+        ContentTemplate="{DataTemplate pages:LoginPage}"/>
 
     <ShellContent 
-            Title="Home"
-            Route="DHomePage" 
-            ContentTemplate="{DataTemplate pages:HomePage}"/>
+        Title="Home"
+        Route="DHomePage" 
+        ContentTemplate="{DataTemplate pages:HomePage}"/>
 
     <ShellContent
-            Title="Watchlist"
-            Route="DWatchlistPage" 
-            ContentTemplate="{DataTemplate pages:WatchlistPage}"/>
+        Title="Watchlist"
+        Route="DWatchlistPage" 
+        ContentTemplate="{DataTemplate pages:WatchlistPage}"/>
 
     <ShellContent 
-            Title="Portfolio"
-            Route="DPortfolioPage" 
-            ContentTemplate="{DataTemplate pages:PortfolioPage}"/>
+        Title="Portfolio"
+        Route="DPortfolioPage" 
+        ContentTemplate="{DataTemplate pages:PortfolioPage}"/>
 
     <ShellContent 
-            Title="Search"
-            Route="DSearchPage" 
-            ContentTemplate="{DataTemplate pages:SearchPage}"/>
+        Title="Search"
+        Route="DSearchPage"  
+        ContentTemplate="{DataTemplate pages:SearchPage}"/>
 
 
-    <TabBar x:Name="PhoneTabs">
+    <TabBar x:Name="PhoneTabs" Shell.TabBarBackgroundColor="#191919">
         
         <!--<ShellContent
             Title="Home"
@@ -50,24 +57,25 @@
         -->
         
         <ShellContent 
-            Title="Home"
+            Icon="Home.svg"
             Route="HomePage" 
             ContentTemplate="{DataTemplate pages:HomePage}"/>
         
         <ShellContent
-            Title="Watchlist"
+            Icon="watchlist.svg"
             Route="WatchlistPage" 
             ContentTemplate="{DataTemplate pages:WatchlistPage}"/>
         
         <ShellContent 
-            Title="Portfolio"
+            Icon="portfolio.svg"
             Route="PortfolioPage" 
             ContentTemplate="{DataTemplate pages:PortfolioPage}"/>
         
         <ShellContent 
-            Title="Search"
+            Icon="search.svg"
             Route="SearchPage" 
             ContentTemplate="{DataTemplate pages:SearchPage}"/>
+        
     </TabBar>
     
 </Shell>
