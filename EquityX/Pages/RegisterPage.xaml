@@ -21,8 +21,8 @@
                 HorizontalOptions="Center" />
 
             <Entry 
-                Text="{Binding Email}"
-                Placeholder="Email"
+                Text="{Binding Username}"
+                Placeholder="Username"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
 
@@ -41,7 +41,7 @@
                 HorizontalOptions="Center" />
 
             <Button 
-                Text="Login"
+                Text="Register"
                 Command="{Binding RegisterCommand}">
             </Button>
 
@@ -55,7 +55,7 @@
                 HorizontalOptions="Center" />
 
             <Button
-                Text="Log in"
+                Text="Login"
                 Command="{Binding MoveToLoginPageCommand}">
             </Button>
 

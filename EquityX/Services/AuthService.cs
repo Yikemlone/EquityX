@@ -20,7 +20,7 @@ namespace EquityX.Services
 
         public async Task<bool> IsAuthenticated()
         {
-            await Task.Delay(3000); // Simulating the validation of the auth key
+            await Task.Delay(1000);
             var authKey = Preferences.Default.Get(AUTH_STATE, false);
             return authKey;
         }
@@ -39,8 +39,8 @@ namespace EquityX.Services
                 return false;
             }
 
-            Preferences.Default.Set(AUTH_STATE, true);
-            Preferences.Default.Set(USER_ID, user.ID);
+            // Set the auth key and user id for the session
+            UpdateUserSession(true, user.ID);
 
             return true;
         }
@@ -55,22 +55,25 @@ namespace EquityX.Services
         {
             string encryptedPassword = HashPassword(password);
             
-            _context.Users
-                .Add(new User
-                {
-                    Name = name,
-                    Username = username,
-                    Password = encryptedPassword,
-                    PortfolioValue = 0,
-                    AvailableFunds = 0
-                });
-
+            var user = new User
+            {
+                Name = name,
+                Username = username,
+                Password = encryptedPassword,
+                PortfolioValue = 0,
+                AvailableFunds = 0
+            };
+            
+            await _context.AddAsync(user);
             var rowsEffected = await _context.SaveChangesAsync();
 
-            if(rowsEffected <= 0)
+            if (rowsEffected <= 0)
             {
                 return false;
-            }   
+            }
+
+            // Set the auth key and user id for the session
+            UpdateUserSession(true, user.ID);
 
             return true;
         }
@@ -87,6 +90,15 @@ namespace EquityX.Services
             }
 
             return encryptedPassword;
+        }
+
+        public void UpdateUserSession(bool isAuthed, int userID)
+        {
+            Preferences.Default.Remove(AUTH_STATE);
+            Preferences.Default.Remove(USER_ID);
+
+            Preferences.Default.Set(AUTH_STATE, isAuthed);
+            Preferences.Default.Set(USER_ID, userID);
         }
     }
 }

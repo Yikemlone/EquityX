@@ -26,8 +26,10 @@ namespace EquityX
 
             // Routes for desktop
             // D is for Desktop, if I used the word Desktop, it would try to open a file on your computer
-            Routing.RegisterRoute("D" + nameof(LoadingPage), typeof(LoadingPage));
-            Routing.RegisterRoute("D" + nameof(LoginPage), typeof(LoginPage));
+            //Routing.RegisterRoute("D" + nameof(LoadingPage), typeof(LoadingPage));
+            //Routing.RegisterRoute("D" + nameof(LoginPage), typeof(LoginPage));
+            //Routing.RegisterRoute("D" + nameof(RegisterPage), typeof(RegisterPage));
+
             Routing.RegisterRoute("D" + nameof(AssetPage), typeof(AssetPage));
             Routing.RegisterRoute("D" + nameof(HomePage), typeof(HomePage));
             Routing.RegisterRoute("D" + nameof(PortfolioPage), typeof(PortfolioPage));

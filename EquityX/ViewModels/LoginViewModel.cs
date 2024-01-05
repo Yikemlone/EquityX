@@ -8,7 +8,7 @@ namespace EquityX.ViewModels
     public partial class LoginViewModel : ObservableObject
     {
         [ObservableProperty]
-        private string _email;
+        private string _username;
 
         [ObservableProperty]
         private string _password;
@@ -16,15 +16,18 @@ namespace EquityX.ViewModels
         [ObservableProperty]
         private string _errorMessage;
 
+        // Commands
         public ICommand LoginCommand { get; private set; }
         public ICommand GoToRegisterCommand { get; private set; }
 
+        // Services
         private IAuthService _authService;
 
         public LoginViewModel(IAuthService authService)
         {
             _authService = authService;
 
+            // Commands setup
             LoginCommand = new Command(() => Login());
             GoToRegisterCommand = new Command(() => GoToRegister());
         }
@@ -32,7 +35,14 @@ namespace EquityX.ViewModels
         private async void GoToRegister()
         {
             // TODO: Set up Idom check for desktop or phone
-            await Shell.Current.GoToAsync($"//{nameof(RegisterPage)}");
+            if(DeviceInfo.Idiom == DeviceIdiom.Phone)
+            {
+                await Shell.Current.GoToAsync($"//{nameof(RegisterPage)}");
+            }
+            else
+            {
+                await Shell.Current.GoToAsync($"//D{nameof(RegisterPage)}");
+            }
         }
 
         private async void Login()
@@ -43,16 +53,26 @@ namespace EquityX.ViewModels
                 return;
             }
 
-            if (!await _authService.Login(Email, Password)) 
+            if (!await _authService.Login(Username, Password))
             {
                 ErrorMessage = "No user by those credintials";
+                return;
             };
+
+            if (DeviceInfo.Idiom == DeviceIdiom.Phone)
+            {
+                await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+            }
+            else
+            {
+                await Shell.Current.GoToAsync($"//D{nameof(HomePage)}");
+            }
         }
 
         private bool ValidInputs() 
         { 
             if(String.IsNullOrEmpty(Password)) return false;
-            if(String.IsNullOrEmpty(Email)) return false;
+            if(String.IsNullOrEmpty(Username)) return false;
             return true;
         }
     }

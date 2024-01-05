@@ -15,8 +15,8 @@
                 HorizontalOptions="Center" />
 
             <Entry 
-                Text="{Binding Email}"
-                Placeholder="Email"
+                Text="{Binding Username}"
+                Placeholder="Username"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
 

@@ -27,11 +27,11 @@
         /// <summary>
         /// Will register the user and return true if successful
         /// </summary>
-        /// <param name="username"></param>
+        /// <param name="name"></param>
         /// <param name="password"></param>
-        /// <param name="email"></param>
+        /// <param name="username"></param>
         /// <returns>bool</returns>
-        public Task<bool> Register(string username, string password, string email);
+        public Task<bool> Register(string name, string password, string username);
 
         /// <summary>
         /// Hashes the password for storage in the database
@@ -39,5 +39,13 @@
         /// <param name="password"></param>
         /// <returns>string</returns>
         public string HashPassword(string password);
+    
+        /// <summary>
+        /// Will remove the current auth key and user id from the session if there is one
+        /// then add the new auth key and user id to the session
+        /// </summary>
+        /// <param name="authKey"></param>
+        /// <param name="userID"></param>
+        public void UpdateUserSession(bool authKey, int userID);
     }
 }

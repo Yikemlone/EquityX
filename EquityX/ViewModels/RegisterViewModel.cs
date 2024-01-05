@@ -8,7 +8,7 @@ namespace EquityX.ViewModels
     public partial class RegisterViewModel : ObservableObject
     {
         [ObservableProperty]
-        private string _email;
+        private string _username;
 
         [ObservableProperty]
         private string _password;
@@ -40,7 +40,14 @@ namespace EquityX.ViewModels
 
         private async void GoToLoginPage()
         {
-            await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
+            if(DeviceInfo.Idiom == DeviceIdiom.Phone)
+            {
+                await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
+            }
+            else
+            {
+                await Shell.Current.GoToAsync($"//D{nameof(LoginPage)}");
+            }   
         }
 
         private async void Register()
@@ -57,11 +64,20 @@ namespace EquityX.ViewModels
                 return;
             }
 
-            if (!await _authService.Register(Name, Password, Email)) 
+            if (!await _authService.Register(Name, Password, Username)) 
             {
                 ErrorMessage = "Something when wrong with registering...";
                 return;
             };
+
+            if(DeviceInfo.Idiom == DeviceIdiom.Phone)
+            {
+                await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+            }
+            else
+            {
+                await Shell.Current.GoToAsync($"//D{nameof(HomePage)}");
+            }   
         }
 
         private bool ValidInputs()
@@ -69,7 +85,7 @@ namespace EquityX.ViewModels
             // Consider checking for valid email
             // Consider checking for valid password
             if (String.IsNullOrEmpty(Name)) return false;
-            if (String.IsNullOrEmpty(Email)) return false;
+            if (String.IsNullOrEmpty(Username)) return false;
             if (String.IsNullOrEmpty(Password)) return false;
             if (String.IsNullOrEmpty(ConfirmPassword)) return false;
             return true;

@@ -47,7 +47,12 @@ namespace EquityX.Services
                 DateBought = DateTime.Now,
             });
 
-            await _context.SaveChangesAsync();
+            var rowsEffected = await _context.SaveChangesAsync();
+
+            if (rowsEffected == 0)
+            {
+                return false;
+            }
 
             return true;
         }
@@ -191,8 +196,5 @@ namespace EquityX.Services
         {
             throw new NotImplementedException();
         }
-
-
-
     }
 }
