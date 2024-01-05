@@ -25,15 +25,17 @@ namespace EquityX
             // Adding Servives
             builder.Services.AddSingleton<IFundsService, FundsService>();
             builder.Services.AddSingleton<IStockService, StockService>();
-            builder.Services.AddSingleton<IAuthService, AuthService>(); 
-            builder.Services.AddSingleton<HttpClient>();
+            builder.Services.AddSingleton<IAuthService, AuthService>();
+
+            // Adding ViewModels
             builder.Services.AddSingleton<HomeViewModel>();
-            builder.Services.AddSingleton<HomePage>();
+
+            // Adding Pages
+            builder.Services.AddSingleton<HomePage>(); 
             builder.Services.AddSingleton<LoadingPage>();
 
-            var dbContext = new EquityXDbContext();
-            dbContext.Database.EnsureCreated();
-            dbContext.Dispose();
+            // Adding HttpClient
+            builder.Services.AddSingleton<HttpClient>();
 
 #if DEBUG
             //builder.Services.AddTransient<IFundsService, TestFundsService>();

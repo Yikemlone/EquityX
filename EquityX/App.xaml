@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:EquityX"
              xmlns:page="clr-namespace:EquityX.Pages"
+             xmlns:vm="clr-namespace:EquityX.ViewModels"
+             x:DataType="vm:AppViewModel"
              x:Class="EquityX.App">
+
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -12,54 +15,4 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
-
-    <Application.MainPage>
-        <Shell FlyoutBehavior="{OnIdiom Phone=Disabled }">
-            <!-- Setting up the template for a flyout on desktop -->
-            <Shell.FlyoutFooterTemplate>
-                <DataTemplate>
-                    <Grid RowDefinitions="68">
-                    </Grid>
-                </DataTemplate>
-            </Shell.FlyoutFooterTemplate>
-            
-            <!-- Defining the flyout content for desktop -->
-            <FlyoutItem>
-                <ShellContent FlyoutItemIsVisible="False" Route="DLoadingPage" ContentTemplate="{DataTemplate page:LoadingPage}"/>
-            </FlyoutItem>
-            <FlyoutItem>
-                <ShellContent FlyoutItemIsVisible="False" Route="DLoginPage" ContentTemplate="{DataTemplate page:LoginPage}"/>
-            </FlyoutItem>
-            <FlyoutItem Title="Home">
-                <ShellContent Route="DHomePage" ContentTemplate="{DataTemplate page:HomePage}"/>
-            </FlyoutItem>
-            <FlyoutItem Title="Watchlist">
-                <ShellContent Route="DWatchlistPage" ContentTemplate="{DataTemplate page:WatchlistPage}"/>
-            </FlyoutItem>
-            <FlyoutItem Title="Portfolio">
-                <ShellContent  Route="DPortfolioPage"  ContentTemplate="{DataTemplate page:PortfolioPage}"/>
-            </FlyoutItem>
-            <FlyoutItem Title="Search">
-                <ShellContent Route="DSearchPage" ContentTemplate="{DataTemplate page:SearchPage}"/>
-            </FlyoutItem>
-
-            <!-- Setting up tab display for phones -->
-
-            <TabBar x:Name="PhoneTabs">
-                <Tab Title="Home">
-                    <ShellContent Route="HomePage" ContentTemplate="{DataTemplate page:HomePage}"/>
-                </Tab>
-                <Tab Title="Watchlist">
-                    <ShellContent Route="WatchlistPage" ContentTemplate="{DataTemplate page:WatchlistPage}"/>
-                </Tab>
-                <Tab Title="Portfolio">
-                    <ShellContent Route="PortfolioPage" ContentTemplate="{DataTemplate page:PortfolioPage}"/>
-                </Tab>
-                <Tab Title="Search">
-                    <ShellContent Route="SearchPage" ContentTemplate="{DataTemplate page:SearchPage}"/>
-                </Tab>
-            </TabBar>
-
-        </Shell>
-    </Application.MainPage>
 </Application>

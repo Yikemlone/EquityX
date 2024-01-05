@@ -67,9 +67,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <!--<MauiXaml Update="AppShell.xaml">
+	  <MauiXaml Update="AppShell.xaml">
 	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>-->
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\AssetPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

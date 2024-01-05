@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="EquityX.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:EquityX.Pages"
+    xmlns:local="clr-namespace:EquityX"
+    Shell.FlyoutBehavior="{OnIdiom Phone=Disabled, Default=Flyout}"
+    Shell.NavBarIsVisible="False"
+    Shell.TabBarIsVisible="{OnIdiom Phone=True, Default=False}">
+    
+    
+    <!--<Shell.FlyoutFooterTemplate>
+                <DataTemplate>
+                    <Grid RowDefinitions="68">
+                    </Grid>
+                </DataTemplate>
+            </Shell.FlyoutFooterTemplate> -->
+    
+    <ShellContent FlyoutItemIsVisible="False" Route="LoadingPage" ContentTemplate="{DataTemplate pages:LoadingPage}"/>
+    <ShellContent FlyoutItemIsVisible="False" Route="LoginPage" ContentTemplate="{DataTemplate pages:LoginPage}"/>
+
+    <ShellContent 
+            Title="Home"
+            Route="DHomePage" 
+            ContentTemplate="{DataTemplate pages:HomePage}"/>
+
+    <ShellContent
+            Title="Watchlist"
+            Route="DWatchlistPage" 
+            ContentTemplate="{DataTemplate pages:WatchlistPage}"/>
+
+    <ShellContent 
+            Title="Portfolio"
+            Route="DPortfolioPage" 
+            ContentTemplate="{DataTemplate pages:PortfolioPage}"/>
+
+    <ShellContent 
+            Title="Search"
+            Route="DSearchPage" 
+            ContentTemplate="{DataTemplate pages:SearchPage}"/>
+
+
+    <TabBar x:Name="PhoneTabs">
+        
+        <!--<ShellContent
+            Title="Home"
+            Icon="home.svg"
+            Route="Home"
+            ContentTemplate="{DataTemplate pages:Home}"/>
+        -->
+        
+        <ShellContent 
+            Title="Home"
+            Route="HomePage" 
+            ContentTemplate="{DataTemplate pages:HomePage}"/>
+        
+        <ShellContent
+            Title="Watchlist"
+            Route="WatchlistPage" 
+            ContentTemplate="{DataTemplate pages:WatchlistPage}"/>
+        
+        <ShellContent 
+            Title="Portfolio"
+            Route="PortfolioPage" 
+            ContentTemplate="{DataTemplate pages:PortfolioPage}"/>
+        
+        <ShellContent 
+            Title="Search"
+            Route="SearchPage" 
+            ContentTemplate="{DataTemplate pages:SearchPage}"/>
+    </TabBar>
+    
+</Shell>
