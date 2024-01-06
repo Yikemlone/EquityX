@@ -4,7 +4,8 @@
              x:Class="EquityX.Pages.LoginPage"
              xmlns:vm="clr-namespace:EquityX.ViewModels"
              x:DataType="vm:LoginViewModel"
-             Shell.TabBarIsVisible="False">
+             Shell.TabBarIsVisible="False"
+             Shell.NavBarIsVisible="False">
     
     <VerticalStackLayout>
 

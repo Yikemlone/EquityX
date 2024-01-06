@@ -5,6 +5,27 @@
              xmlns:vm="clr-namespace:EquityX.ViewModels"
              xmlns:model="clr-namespace:EquityX.Models"
              x:DataType="vm:HomeViewModel">
+    
+    <!--Nav bar buttons--> 
+    <Shell.TitleView>
+        <StackLayout  Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="FillAndExpand">
+            <Button 
+                BackgroundColor="Transparent"
+                WidthRequest="45"
+                ImageSource="search.svg"
+                HorizontalOptions="Start"/>
+
+            <Button 
+                BackgroundColor="Transparent"
+                WidthRequest="45"
+                ImageSource="{AppThemeBinding Dark=sun.svg, Light=moon.svg}"/>
+
+            <Button 
+                BackgroundColor="Transparent"
+                WidthRequest="45"
+                ImageSource="bell.svg"/>
+        </StackLayout>
+    </Shell.TitleView>
 
     <ScrollView>
         <VerticalStackLayout 

@@ -12,7 +12,7 @@ namespace EquityX
             //{
             //    Shell.Current.CurrentItem = PhoneTabs;
             //}
-
+            
             // Routes for mobile
             Routing.RegisterRoute(nameof(LoadingPage), typeof(LoadingPage));
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
@@ -29,7 +29,6 @@ namespace EquityX
             //Routing.RegisterRoute("D" + nameof(LoadingPage), typeof(LoadingPage));
             //Routing.RegisterRoute("D" + nameof(LoginPage), typeof(LoginPage));
             //Routing.RegisterRoute("D" + nameof(RegisterPage), typeof(RegisterPage));
-
             Routing.RegisterRoute("D" + nameof(AssetPage), typeof(AssetPage));
             Routing.RegisterRoute("D" + nameof(HomePage), typeof(HomePage));
             Routing.RegisterRoute("D" + nameof(PortfolioPage), typeof(PortfolioPage));
