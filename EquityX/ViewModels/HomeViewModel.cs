@@ -37,8 +37,8 @@ namespace EquityX.ViewModels
 
         // Commands 
         public ICommand AddFundsCommand { get; private set; }
-        public ICommand InvestCommand { get; private set; }
         public ICommand WithdrawCommand { get; private set; }
+        public ICommand MoveToInvestPageCommand { get; private set; }
         public ICommand MoveToWatchlistPageCommand { get; private set; }
         public ICommand MoveToPortfolioPageCommand { get; private set; } // May not need
 
@@ -54,7 +54,7 @@ namespace EquityX.ViewModels
             // Commands setup
             AddFundsCommand = new Command(() => AddFunds());
             WithdrawCommand = new Command(() => Withdraw());
-            InvestCommand = new Command(() => Invest());
+            MoveToInvestPageCommand = new Command(() => GoToInvestingPage());
             MoveToWatchlistPageCommand = new Command(() => GoToWatchlistPage());
             MoveToPortfolioPageCommand = new Command(() => GoToPortfolioPage());
 
@@ -66,6 +66,7 @@ namespace EquityX.ViewModels
             // Get the data from the API
             GetTopMoversData(); 
             GetUserData();
+            StockDataRefreshTimer();
         }
 
         /// <summary>
@@ -136,29 +137,16 @@ namespace EquityX.ViewModels
         {
             int id = Preferences.Default.Get("USER_ID", 0);
 
-            //if (id == 0)
-            //{ 
-            //    await Application.Current.MainPage.DisplayAlert("Error", "Not logged in", "OK");
-            //    return;
-            //}
+            if (id == 0)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Not logged in", "OK");
+                return;
+            }
 
             User user = await _context.Users
                 .Where(u => u.ID == id)
                 .Select(e => e)
                 .FirstOrDefaultAsync();
-
-            // Only for testing
-            if (user == null)
-            {
-                Id = 0;
-                Name = "User not found";
-                PortfolioValue = 0;
-                AvailableFunds = 0;
-                UserStocks = null;
-                UserWatchlist = null;
-
-                return;
-            }
 
             Id = user.ID;
             Name = user.Name;
@@ -168,11 +156,10 @@ namespace EquityX.ViewModels
             UserWatchlist = user.UserWatchlist;
         }
 
-
         /// <summary>
         /// Moves the user to the SearchPage so they can invest in stocks
         /// </summary>
-        private async void Invest()
+        private async void GoToInvestingPage()
         {
             if(DeviceInfo.Idiom == DeviceIdiom.Phone)
             {
@@ -212,5 +199,21 @@ namespace EquityX.ViewModels
                 await Shell.Current.GoToAsync($"//D{nameof(PortfolioPage)}");
             }   
         }   
+
+        // May move this to StockService
+        private void StockDataRefreshTimer()
+        {
+            // This run no matter where you are in the app
+            // this could be a problem for performance or too many API calls
+            var timer = Application.Current.Dispatcher.CreateTimer();
+            timer.Interval = TimeSpan.FromSeconds(5); // Update this later to 5 minutes/ maybe 30 seconds for demo
+            timer.Tick += (s, e) => UpdateStockData();
+            timer.Start();
+        }
+
+        private async void UpdateStockData()
+        {
+            //await Application.Current.MainPage.DisplayAlert("Timer", "Timer", "OK");
+        }
     }
 }

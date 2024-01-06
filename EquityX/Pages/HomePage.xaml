@@ -102,7 +102,7 @@
                                 Style="{StaticResource PrimaryButton}" 
                                 ImageSource="chart.svg"
                                 WidthRequest="45"
-                                Command="{Binding InvestCommand}"/>
+                                Command="{Binding MoveToInvestPageCommand}"/>
 
                             <Label
                                 Text="Invest" 
@@ -141,7 +141,7 @@
 
                     <Button 
                         Text="See All"
-                        Command="{Binding InvestCommand}"
+                        Command="{Binding MoveToInvestPageCommand}"
                         Style="{StaticResource LinkButton}"
                         Grid.Column="1"/>
                 </Grid>

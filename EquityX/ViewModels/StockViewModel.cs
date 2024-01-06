@@ -21,12 +21,14 @@ namespace EquityX.ViewModels
 
         private IStockService _stockService; // Stock service to get stock data
 
-        StockViewModel(IStockService stockService)
+        public StockViewModel(IStockService stockService)
         {
             _stockService = stockService;
         }
 
         // TODO: Add methods to buy and sell stocks
+
+
 
         // TODO: Add method to get stock data
 

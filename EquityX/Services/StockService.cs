@@ -58,9 +58,24 @@ namespace EquityX.Services
         }
 
         // TODO: Returns the value the stock sold for after calculating loss and gain
-        public Task<decimal> SellStock(UserStockData userStock, int userID)
+        public async Task<decimal> SellStock(UserStockData userStock, int userID)
         {
-            throw new NotImplementedException();
+            User user = await _context.Users
+                .Where(u => u.ID == userID)
+                .Select(e => e)
+                .FirstOrDefaultAsync();
+
+            // Get the stock data
+            StockData currecntStockData = await GetStockData(userStock.StockSymbol);
+
+            // Selling quantity could be a problem later
+            userStock.SellPrice = currecntStockData.SellPrice;
+            userStock.DateSold = DateTime.Now; 
+            user.AvailableFunds += currecntStockData.SellPrice;
+
+            int rowsEffected = await _context.SaveChangesAsync();
+
+            return currecntStockData.SellPrice;
         }
 
         // TODO: This should return a list of the popular stocks on the market, however there is an issue 
@@ -68,12 +83,60 @@ namespace EquityX.Services
         public Task<List<StockData>> GetStockData()
         {
             List<StockData> stockDataList = new List<StockData>();
-            Uri uri = new Uri(string.Format(URL + "/v6/finance/quote?region=US&lang=en&symbols=AAPL,TSLA,MARA,VYGR,PLTR", string.Empty)); //&symbols = AAPL,TSLA
+            Uri trendingStocksUri = new Uri(string.Format(URL + "/v1/finance/trending/US", string.Empty));
 
             try
             {
+                // TODO: Grab populare stocks from the API
+
                 // Create the request with the API key header
-                var request = new HttpRequestMessage(HttpMethod.Get, uri);
+                var trendingRequest = new HttpRequestMessage(HttpMethod.Get, trendingStocksUri);
+                trendingRequest.Headers.Add("X-API-KEY", API_KEY);
+
+                // Send the request to the server
+                var trendingTask = _client.SendAsync(trendingRequest);
+                var trendingResponse = trendingTask.Result;
+
+                // Check that the response is successful or throw an exception
+                string trendingResponsebody = "";
+                var trendingMessage = trendingResponse.EnsureSuccessStatusCode();
+
+                if (trendingMessage.IsSuccessStatusCode)
+                {
+                    trendingResponsebody = trendingResponse.Content.ReadAsStringAsync().Result;
+                }
+                else
+                {
+                    throw new Exception("Error getting stock data.");
+                }
+
+                APIResponse.FinanceResponse.Root trendingStocks = 
+                    JsonConvert.DeserializeObject<APIResponse.FinanceResponse.Root>(trendingResponsebody);
+
+                // TODO: Symbols from the first request to then make the second request
+                // grabbing all the data for the trending stocks
+
+
+                // Making a string of the symbols to pass to the API
+                StringBuilder stringBuilder = new StringBuilder();
+
+                var quotes = trendingStocks.finance.result[0].quotes;
+
+                for (int i = 0; i < 10; i++) 
+                {
+                    stringBuilder.Append(quotes[i].symbol + ",");
+                }
+
+                // Remove the last comma
+                stringBuilder.Remove(stringBuilder.Length - 1, 1);
+                
+                string symbols = stringBuilder.ToString();
+                
+                Uri stockDetailsUri = 
+                    new Uri(string.Format(URL + $"/v6/finance/quote?region=US&lang=en&symbols={symbols}", string.Empty));
+
+                // Create the request with the API key header
+                var request = new HttpRequestMessage(HttpMethod.Get, stockDetailsUri);
                 request.Headers.Add("X-API-KEY", API_KEY);
 
                 // Send the request to the server
@@ -95,6 +158,7 @@ namespace EquityX.Services
 
                 // Deserialize the JSON response
                 APIResponse.QuoteResponse.Root myDeserializedClass = JsonConvert.DeserializeObject<APIResponse.QuoteResponse.Root>(responsebody);
+                
                 foreach (var res in myDeserializedClass.quoteResponse.result)
                 {
                     stockDataList.Add(new StockData()
