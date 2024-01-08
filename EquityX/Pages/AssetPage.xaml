@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EquityX.Pages.AssetPage"
@@ -7,26 +6,62 @@
              x:DataType="vm:AssetViewModel"
              Shell.NavBarIsVisible="True">
 
+    <!--Nav bar buttons-->
+    <Shell.TitleView>
+        <StackLayout  Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="FillAndExpand">
+            <Button 
+                BackgroundColor="Transparent"
+                WidthRequest="45"
+                ImageSource="search.svg"
+                HorizontalOptions="Start"/>
+
+            <Button 
+                BackgroundColor="Transparent"
+                WidthRequest="45"
+                ImageSource="{AppThemeBinding Dark=sun.svg, Light=moon.svg}"/>
+
+            <Button 
+                BackgroundColor="Transparent"
+                WidthRequest="45"
+                ImageSource="bell.svg"/>
+        </StackLayout>
+    </Shell.TitleView>
+
     <ScrollView>
-        <HorizontalStackLayout>
+        <AbsoluteLayout>
 
-            <!--Name of stock-->
-            <Label 
-            Text="{Binding StockData.Symbol}"
-            />
+            <HorizontalStackLayout>
 
-            <!--USD Price-->
-            <Label 
-            Text="{Binding StockData.BuyPrice}"
-            />
+                <!--Name of stock-->
+                <Label 
+                Text="{Binding StockData.Symbol}"
+                />
 
-            <!--Graph of stock price over time-->
+                <!--USD Price-->
+                <Label 
+                Text="{Binding StockData.BuyPrice}"
+                />
 
-            <!--Buy/Sell button-->
+                <!--Graph of stock price over time-->
 
-            <!--User's current holdings of this stock-->
+                <!--Buy/Sell button-->
 
-        </HorizontalStackLayout>
+                <!--User's current holdings of this stock-->
+                <Label Text="Stock Holdings"/>
+
+                <Button Text="Buy"
+                        AbsoluteLayout.LayoutBounds="0.5, 0.5, 100, 50"
+                        AbsoluteLayout.LayoutFlags="YProportional"
+                        Command="{Binding BuyStockCommand}"/>
+
+                <Button Text="Sell"
+                        AbsoluteLayout.LayoutBounds="0.5, 0.5, 100, 20"
+                        AbsoluteLayout.LayoutFlags="HeightProportional"
+                        Command="{Binding SellStockCommand}"/>    
+
+            </HorizontalStackLayout>
+
+        </AbsoluteLayout>
     </ScrollView>
     
-</ContentPage>  
+</ContentPage>

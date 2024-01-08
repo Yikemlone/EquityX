@@ -4,6 +4,7 @@ using EquityX.Models;
 using EquityX.Pages;
 using EquityX.Services;
 using Microsoft.EntityFrameworkCore;
+using RestSharp;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -213,7 +214,7 @@ namespace EquityX.ViewModels
         public void StockDataRefreshTimer()
         {
             _timer = Application.Current.Dispatcher.CreateTimer();
-            _timer.Interval = TimeSpan.FromSeconds(10); // Update this later to 5 minutes/ maybe 30 seconds for demo
+            _timer.Interval = TimeSpan.FromSeconds(1); // Update this later to 5 minutes/ maybe 30 seconds for demo
             _timer.Tick += (s, e) => UpdateStockData();
             _timer.Start();
         }
@@ -238,6 +239,9 @@ namespace EquityX.ViewModels
             {
                 TopMoversData.Add(stock);
             }
+
+            GetUserData();
+            CalulatePortfolioValue();
         }
 
         /// <summary>

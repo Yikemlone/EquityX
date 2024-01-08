@@ -12,15 +12,15 @@ namespace EquityX.ViewModels
     /// </summary>
     public partial class StockViewModel : ObservableObject
     {
+        // Properties
+        private IDispatcherTimer _timer; // Timer to update stock data
         public ObservableCollection<StockData> StockData { get; set; }
-         
-        public ICommand BuyStockCommand { get; set; }
-        public ICommand SellStockCommand { get; set; } 
+
+        // Commands
         public Command<StockData> SelectionChangedCommand { get; set; }
 
-        private IStockService _stockService; // Stock service to get stock data
-
-        private IDispatcherTimer _timer; // Timer to update stock data
+        // Services
+        private IStockService _stockService; 
 
         public StockViewModel(IStockService stockService)
         {
@@ -30,28 +30,19 @@ namespace EquityX.ViewModels
             // Commands setup
             SelectionChangedCommand = new Command<StockData>(SelectionChanged);
 
-            // Get stock data
             UpdateStockData();
         }
 
+        /// <summary>
+        /// When a stock is selected, it will navigate to the AssetPage with the selected stock's data
+        /// </summary>
+        /// <param name="stockData"></param>
         private async void SelectionChanged(StockData stockData)
         {
             await Shell.Current.GoToAsync($"{nameof(AssetPage)}", new Dictionary<string, object>
             {
                 ["StockData"] = stockData
             });
-        }
-
-        // TODO: Add methods to buy and sell stocks
-        // HMMMM Maybe not needed
-        private async void BuyStock()
-        {
-            throw new NotImplementedException();
-        }
-
-        private async void SellStock()
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>

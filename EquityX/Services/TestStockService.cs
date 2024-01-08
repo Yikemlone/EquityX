@@ -229,7 +229,10 @@ namespace EquityX.Services
 
             // Update the user's available funds and portfolio value
             user.AvailableFunds += currecntStockData.SellPrice;
-            user.PortfolioValue -= currecntStockData.SellPrice;
+            user.PortfolioValue -= userStock.BuyInPrice;
+            user.PortfolioValue += currecntStockData.SellPrice;
+
+
 
             int rowsEffected = await _context.SaveChangesAsync();
 
