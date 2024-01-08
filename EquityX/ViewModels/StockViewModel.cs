@@ -13,8 +13,8 @@ namespace EquityX.ViewModels
     {
         public ObservableCollection<StockData> StockData { get; set; }
 
-        private ICommand _buyStockCommand; // Command to buy a stock
-        private ICommand _sellStockCommand; // Command to sell a stock
+        public ICommand BuyStockCommand; // Command to buy a stock
+        public ICommand SellStockCommand; // Command to sell a stock
 
         private IStockService _stockService; // Stock service to get stock data
 
@@ -32,33 +32,47 @@ namespace EquityX.ViewModels
         }
 
         // TODO: Add methods to buy and sell stocks
+        private async void BuyStock()
+        {
+            throw new NotImplementedException();
+        }
 
+        private async void SellStock()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Creates a timer to update the stock data on a set interval
+        /// </summary>
         public void StockDataRefreshTimer()
         {
-            // This run no matter where you are in the app
-            // this could be a problem for performance or too many API calls
             _timer = Application.Current.Dispatcher.CreateTimer();
-            _timer.Interval = TimeSpan.FromSeconds(5); // Update this later to 5 minutes/ maybe 30 seconds for demo
+            _timer.Interval = TimeSpan.FromSeconds(5); // TODO: Update this later to 5 minutes/ maybe 30 seconds for demo
             _timer.Tick += (s, e) => UpdateStockData();
             _timer.Start();
         }
 
+        /// <summary>
+        /// Stops the timer
+        /// </summary>
         public void StopTimer() 
         {
             _timer?.Stop();
         }
 
+        /// <summary>
+        /// Get new stock data via the API call and updates the StockData
+        /// </summary>
         private async void UpdateStockData()
         {
-            await Application.Current.MainPage.DisplayAlert("Timer", "Timer", "OK");
+            var updatedStockData = await _stockService.GetStockData();
+            StockData.Clear();
 
-            //var updatedStockData = await _stockService.GetStockData();
-            //StockData.Clear();
-
-            //foreach (var stock in updatedStockData)
-            //{
-            //    StockData.Add(stock);      
-            //}
+            foreach (var stock in updatedStockData)
+            {
+                StockData.Add(stock);
+            }
         }
     }
 }

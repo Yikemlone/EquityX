@@ -32,9 +32,11 @@ namespace EquityX.ViewModels
             GoToRegisterCommand = new Command(() => GoToRegister());
         }
         
+        /// <summary>
+        /// Takes the user to the register page
+        /// </summary>
         private async void GoToRegister()
         {
-            // TODO: Set up Idom check for desktop or phone
             if(DeviceInfo.Idiom == DeviceIdiom.Phone)
             {
                 await Shell.Current.GoToAsync($"//{nameof(RegisterPage)}");
@@ -45,6 +47,9 @@ namespace EquityX.ViewModels
             }
         }
 
+        /// <summary>
+        /// Logs the user in and takes them to the home page if attempted login is successful
+        /// </summary>
         private async void Login()
         {
             if(!ValidInputs())
@@ -69,6 +74,10 @@ namespace EquityX.ViewModels
             }
         }
 
+        /// <summary>
+        /// Ensures that the user has entered a valid email and password
+        /// </summary>
+        /// <returns>bool</returns>
         private bool ValidInputs() 
         { 
             if(String.IsNullOrEmpty(Password)) return false;

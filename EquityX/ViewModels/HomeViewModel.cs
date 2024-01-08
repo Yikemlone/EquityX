@@ -45,7 +45,8 @@ namespace EquityX.ViewModels
         private IStockService _stockService;
         private readonly EquityXDbContext _context;
 
-        public HomeViewModel(IFundsService fundsService, 
+        public HomeViewModel(
+            IFundsService fundsService, 
             IStockService stockService,
             EquityXDbContext context)
         {

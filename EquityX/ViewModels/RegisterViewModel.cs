@@ -38,6 +38,9 @@ namespace EquityX.ViewModels
             MoveToLoginPageCommand = new Command(() => GoToLoginPage());
         }
 
+        /// <summary>
+        /// Goes to the login page
+        /// </summary>
         private async void GoToLoginPage()
         {
             if(DeviceInfo.Idiom == DeviceIdiom.Phone)
@@ -50,6 +53,10 @@ namespace EquityX.ViewModels
             }   
         }
 
+        /// <summary>
+        /// Attempts to register the user with the given details, then redirects to the 
+        /// home page if the attempt was successful
+        /// </summary>
         private async void Register()
         {
             if (!ValidInputs())
@@ -80,10 +87,14 @@ namespace EquityX.ViewModels
             }   
         }
 
+        /// <summary>
+        /// Ensures that the user has entered valid details for registration
+        /// </summary>
+        /// <returns>bool</returns>
         private bool ValidInputs()
         {
-            // Consider checking for valid email
-            // Consider checking for valid password
+            // Consider checking for valid email using regex or EmailAddressAttribute
+            // Consider checking for valid password using regex or PasswordAttribute
             if (String.IsNullOrEmpty(Name)) return false;
             if (String.IsNullOrEmpty(Username)) return false;
             if (String.IsNullOrEmpty(Password)) return false;

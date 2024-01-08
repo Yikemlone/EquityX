@@ -11,14 +11,14 @@ namespace EquityX.Services
         /// <summary>
         /// Will call an API to retrieve detailed stock data for the most popular stocks
         /// </summary>
-        /// <returns>List<StockData></returns>
+        /// <returns>List of StockData</returns>
         public Task<List<StockData>> GetStockData();
 
         /// <summary>
         /// Will call an API to retrieve stock data by symbols
         /// </summary>
         /// <param name="symbols"></param>
-        /// <returns>StockData</returns>
+        /// <returns>List of StockData</returns>
         public Task<List<StockData>> GetStockData(string symbols);
 
         /// <summary>
@@ -30,20 +30,20 @@ namespace EquityX.Services
         /// <summary>
         /// Returns the stock data for the stock the user searched for by symbol
         /// </summary>
-        /// <param name="search"></param>
-        /// <returns></returns>
+        /// <param name="symbol"></param>
+        /// <returns>StockData</returns>
         public Task<StockData> GetStockDataBySymbol(string symbol);
 
         /// <summary>   
         /// Get the stock data for the stocks the user owns
         /// </summary>
-        /// <returns>List<StockData></returns>
+        /// <returns>List of StockData</returns>
         public Task<List<StockData>> GetUserStockData(int userID);
 
         /// <summary>   
         /// Get the stock data for the stocks the user is tracking via the watchlist
         /// </summary>
-        /// <returns>List<StockData></returns>
+        /// <returns>List of StockData</returns>
         public Task<List<StockData>> GetUserWatchlistData(int userID);
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace EquityX.Services
         /// and the users available funds
         /// </summary>
         /// <param name="userID"></param>
-        /// <returns></returns>
+        /// <returns>decimal</returns>
         public Task<decimal> CalulatePortfolioValue(int userID);
     }
 }
