@@ -6,24 +6,9 @@
     xmlns:local="clr-namespace:EquityX"
     Shell.FlyoutBehavior="{OnIdiom Phone=Disabled, Default=Flyout}"
     Shell.NavBarIsVisible="True"
-    Shell.BackgroundColor="{StaticResource Black}"
+    Shell.BackgroundColor="{AppThemeBinding Dark=Black, Light=White}"
     Shell.TabBarIsVisible="{OnIdiom Phone=True, Default=False}">
     
-    
-    <!--<Shell.ToolbarItems>
-        <ToolbarItem>
-            <ToolbarItem.IconImageSource>
-                <FontImageSource
-                    FontFamily="MaterialIconsOutlined-Regular"
-                    />
-            </ToolbarItem.IconImageSource>
-        </ToolbarItem>
-    </Shell.ToolbarItems>-->
-
-
-
-
-
     <ShellContent 
         FlyoutItemIsVisible="False" 
         Route="LoadingPage" 
@@ -39,7 +24,7 @@
         Route="RegisterPage" 
         ContentTemplate="{DataTemplate pages:RegisterPage}"/>
 
-    <!--<ShellContent 
+    <ShellContent 
         Title="Home"
         Route="DHomePage" 
         ContentTemplate="{DataTemplate pages:HomePage}"/>
@@ -57,9 +42,9 @@
     <ShellContent 
         Title="Search"
         Route="DSearchPage"  
-        ContentTemplate="{DataTemplate pages:SearchPage}"/>-->
+        ContentTemplate="{DataTemplate pages:SearchPage}"/>
 
-    <TabBar x:Name="PhoneTabs" Shell.TabBarBackgroundColor="{StaticResource BlackShade}" Shell.NavBarIsVisible="True">
+    <TabBar x:Name="PhoneTabs" Shell.NavBarIsVisible="True">
         <ShellContent 
             Icon="Home.svg"
             Route="HomePage" 

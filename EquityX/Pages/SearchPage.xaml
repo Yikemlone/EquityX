@@ -26,11 +26,50 @@
     </ContentPage.Resources>
     
     <ScrollView>
-        <VerticalStackLayout>
-            <Label 
-                Text="Search"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+        <VerticalStackLayout Padding="10">
+
+
+                <HorizontalStackLayout HorizontalOptions="Start" Spacing="10">
+                    <Entry 
+                        WidthRequest="300"
+                        Placeholder="Search" 
+                        BackgroundColor="{AppThemeBinding Dark={StaticResource BlackShade}, Light={StaticResource WhiteShade}}" 
+                        Text="{Binding SearchText}"/>
+
+                    <Button
+                        ImageSource="search.svg"
+                        HorizontalOptions="End"/>
+                </HorizontalStackLayout>
+
+
+            <Grid 
+                Padding="20"
+                ColumnDefinitions="*,*,*"
+                Margin="0,10,0,10">
+
+                <Label 
+                    Text="Name" 
+                    FontSize="20"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center" 
+                    FontAttributes="Bold" 
+                    Grid.Column="0"/>
+
+                <Label 
+                    Text="Buy Price" 
+                    FontSize="20"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center" 
+                    FontAttributes="Bold" 
+                    Grid.Column="1"/>
+                <Label 
+                    Text="Sell Price" 
+                    FontSize="20"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center" 
+                    FontAttributes="Bold" 
+                    Grid.Column="2"/>
+             </Grid>
 
             <Border
                 Padding="20"
@@ -40,71 +79,37 @@
                         ItemsSource="{Binding StockData}"
                         HorizontalOptions="Center"
                         SelectionMode="Single"
-                        SelectionChangedCommand="{Binding SelectionChangedCommand }"
+                        SelectionChangedCommand="{Binding SelectionChangedCommand}"
                         SelectionChangedCommandParameter="{Binding Path=SelectedItem, Source={RelativeSource Self}}">
                     
-                    <CollectionView.Header>
-                        <Grid 
-                            HorizontalOptions="Fill"
-                            ColumnDefinitions="*, *, *"
-                            Margin="0,0,0,20">   
-                        
-                            <Label 
-                                Text="Name" 
-                                FontSize="20"
-                                HorizontalOptions="Center" 
-                                VerticalOptions="Center" 
-                                FontAttributes="Bold" 
-                                Grid.Row="0" 
-                                Grid.Column="0"/>
-                            
-                            <Label 
-                                Text="Buy Price" 
-                                FontSize="20"
-                                HorizontalOptions="Center" 
-                                VerticalOptions="Center" 
-                                FontAttributes="Bold" 
-                                Grid.Row="0" 
-                                Grid.Column="1"/>
-                            <Label 
-                                Text="Sell Price" 
-                                FontSize="20"
-                                HorizontalOptions="Center" 
-                                VerticalOptions="Center" 
-                                FontAttributes="Bold" 
-                                Grid.Row="0" 
-                                Grid.Column="2"/>
-                        </Grid>
-                    </CollectionView.Header>
                     <CollectionView.ItemTemplate>
-
                         <DataTemplate x:DataType="model:StockData">
                             <Grid 
-                                    HorizontalOptions="Fill"
-                                    ColumnDefinitions="*, *, *"
-                                    RowDefinitions="*"
-                                    VerticalOptions="Center"
-                                    Padding="5,20">
+                                HorizontalOptions="Fill"
+                                ColumnDefinitions="*, *, *"
+                                RowDefinitions="*"
+                                VerticalOptions="Center"
+                                Padding="5,10">
                                 
-                                    <Label 
-                                        Text="{Binding Symbol}" 
-                                        HorizontalOptions="Center" 
-                                        VerticalOptions="Center" 
-                                        Grid.Column="0"
-                                        FontSize="20"/>
-                                    <Label 
-                                        Text="{Binding BuyPrice}" 
-                                        HorizontalOptions="Center" 
-                                        VerticalOptions="Center" 
-                                        Grid.Column="1" 
-                                        FontSize="20"/>
-                                    <Label 
-                                        Text="{Binding SellPrice}" 
-                                        HorizontalOptions="Center" 
-                                        VerticalOptions="Center" 
-                                        Grid.Column="2"
-                                        FontSize="20"/>
-                                </Grid>
+                                <Label 
+                                    Text="{Binding Symbol}" 
+                                    HorizontalOptions="Center" 
+                                    VerticalOptions="Center" 
+                                    Grid.Column="0"
+                                    FontSize="20"/>
+                                <Label 
+                                    Text="{Binding BuyPrice}" 
+                                    HorizontalOptions="Center" 
+                                    VerticalOptions="Center" 
+                                    Grid.Column="1" 
+                                    FontSize="20"/>
+                                <Label 
+                                    Text="{Binding SellPrice}" 
+                                    HorizontalOptions="Center" 
+                                    VerticalOptions="Center" 
+                                    Grid.Column="2"
+                                    FontSize="20"/>
+                            </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>

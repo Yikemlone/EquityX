@@ -2,6 +2,7 @@
 using EquityX.Pages;
 using EquityX.Services;
 using EquityX.ViewModels;
+using Microcharts.Maui;
 using Microsoft.Extensions.Logging;
 
 namespace EquityX
@@ -13,6 +14,7 @@ namespace EquityX
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMicrocharts()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

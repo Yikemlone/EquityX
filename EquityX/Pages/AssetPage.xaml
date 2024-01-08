@@ -3,7 +3,9 @@
              x:Class="EquityX.Pages.AssetPage"
              xmlns:vm="clr-namespace:EquityX.ViewModels"
              xmlns:model="clr-namespace:EquityX.Models"
+             xmlns:micro="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
              x:DataType="vm:AssetViewModel"
+             
              Shell.NavBarIsVisible="True">
 
     <!--Nav bar buttons-->
@@ -31,18 +33,16 @@
         <VerticalStackLayout Spacing="5" Padding="10">
 
             <!--Name of stock-->
-            <HorizontalStackLayout HorizontalOptions="Start" Spacing="20">
-                <Label 
-                    Text="{Binding StockData.Name}"
-                    FontSize="30"/>
-
-                <Label 
-                    Text="{Binding StockData.Symbol}"
-                    TextColor="Grey"
-                    FontSize="30"
-                    HorizontalOptions="End"/>
-            </HorizontalStackLayout>
-
+            <Label 
+                Text="{Binding StockData.Name}"
+                FontSize="30"/>
+            
+            <Label 
+                Text="{Binding StockData.Symbol}"
+                TextColor="Grey"
+                FontSize="30"
+                HorizontalOptions="Start"/>
+            
             <!--USD Price-->
             <HorizontalStackLayout Spacing="5" Margin="0,0,0,20">
                 <Label 
@@ -62,9 +62,9 @@
                 HorizontalOptions="Center"
                 Padding="15"
                 Margin="0,0,0,20">
-                <Label 
-                    Text="Chart Data goes here"
-                    FontSize="100"/>
+
+                <micro:ChartView x:Name="ChartView" /> 
+                
             </Border>
 
             <!--User's current holdings of this stock-->

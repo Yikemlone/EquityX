@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using EquityX.Models;
 using EquityX.Services;
+using Microcharts;
 using System.Windows.Input;
 
 namespace EquityX.ViewModels
@@ -11,6 +12,9 @@ namespace EquityX.ViewModels
         // Properties
         [ObservableProperty]
         private StockData _stockData;
+
+        [ObservableProperty]
+        private ChartEntry[] _chartEntries;
 
         // Commands
         public ICommand BuyStockCommand { get; set; }
@@ -26,6 +30,7 @@ namespace EquityX.ViewModels
             // Commands setup
             BuyStockCommand = new Command(() => BuyStock());
             SellStockCommand = new Command(() => SellStock());
+            ChartEntry[] chartEntries = new ChartEntry[5];
         }
         
         private async void BuyStock()

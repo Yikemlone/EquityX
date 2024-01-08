@@ -14,6 +14,10 @@ namespace EquityX.ViewModels
     {
         // Properties
         private IDispatcherTimer _timer; // Timer to update stock data
+
+        [ObservableProperty]
+        private string _searchText;
+
         public ObservableCollection<StockData> StockData { get; set; }
 
         // Commands

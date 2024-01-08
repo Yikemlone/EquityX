@@ -8,12 +8,16 @@
     
     <!--Nav bar buttons--> 
     <Shell.TitleView>
-        <StackLayout  Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="FillAndExpand">
+        <StackLayout 
+            Orientation="Horizontal" 
+            HorizontalOptions="End" 
+            VerticalOptions="FillAndExpand">
+            
             <Button 
                 BackgroundColor="Transparent"
                 WidthRequest="45"
-                ImageSource="search.svg"
-                HorizontalOptions="Start"/>
+                HorizontalOptions="Start"
+                ImageSource="{AppThemeBinding Dark=logout_dark.svg, Light=logout_light.svg}"/>
 
             <Button 
                 BackgroundColor="Transparent"
@@ -23,7 +27,7 @@
             <Button 
                 BackgroundColor="Transparent"
                 WidthRequest="45"
-                ImageSource="bell.svg"/>
+                ImageSource="{AppThemeBinding Dark=bell.svg, Light=bell_light.svg}"/>
         </StackLayout>
     </Shell.TitleView>
 
@@ -82,20 +86,17 @@
                                 Text="Available funds: " 
                                 Margin="0"
                                 FontAttributes="Bold"
-                                TextColor="{StaticResource White}"
                                 FontSize="15"/>
                             <Label
                                 Text="$" 
                                 Margin="0"
                                 FontAttributes="Bold"
-                                TextColor="{StaticResource White}"
                                 FontSize="15"/>
 
                             <Label
                                 Text="{Binding AvailableFunds}" 
                                 Margin="0"
                                 FontAttributes="Bold"
-                                TextColor="{StaticResource White}"
                                 FontSize="15"/>
                         </HorizontalStackLayout>
                     </StackLayout>

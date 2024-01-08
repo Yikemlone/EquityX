@@ -52,11 +52,15 @@
 	  <None Remove="Resources\Images\arrow_down.svg" />
 	  <None Remove="Resources\Images\arrow_up.svg" />
 	  <None Remove="Resources\Images\Bell.svg" />
+	  <None Remove="Resources\Images\bell_light.svg" />
 	  <None Remove="Resources\Images\Chart.svg" />
 	  <None Remove="Resources\Images\Home.svg" />
+	  <None Remove="Resources\Images\logout_dark.svg" />
+	  <None Remove="Resources\Images\logout_light.svg" />
 	  <None Remove="Resources\Images\moon.svg" />
 	  <None Remove="Resources\Images\Plus.svg" />
 	  <None Remove="Resources\Images\Portfolio.svg" />
+	  <None Remove="Resources\Images\profile.svg" />
 	  <None Remove="Resources\Images\Search.svg" />
 	  <None Remove="Resources\Images\Sun.svg" />
 	  <None Remove="Resources\Images\Watchlist.svg" />
@@ -65,6 +69,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="Microcharts.Maui" Version="1.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
