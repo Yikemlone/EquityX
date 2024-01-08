@@ -49,7 +49,7 @@
 
             <!-- Displaying user funds and functionality -->
             <Border
-                HeightRequest="220"
+                HeightRequest="260"
                 Margin="0,20,0,0"
                 Style="{StaticResource Material}">
    
@@ -71,16 +71,41 @@
                                 FontSize="30"/>
 
                             <Label
-                                Text="{Binding AvailableFunds}" 
+                                Text="{Binding PortfolioValue}" 
                                 Margin="0"
                                 FontAttributes="Bold"
                                 TextColor="{StaticResource Primary}"
                                 FontSize="30"/>
                         </HorizontalStackLayout>
+                        <HorizontalStackLayout Margin="0,10,0,0">
+                            <Label
+                                Text="Available funds: " 
+                                Margin="0"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource White}"
+                                FontSize="15"/>
+                            <Label
+                                Text="$" 
+                                Margin="0"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource White}"
+                                FontSize="15"/>
+
+                            <Label
+                                Text="{Binding AvailableFunds}" 
+                                Margin="0"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource White}"
+                                FontSize="15"/>
+                        </HorizontalStackLayout>
                     </StackLayout>
 
                     <!--Add funds, invest and withdraw buttons-->
-                    <HorizontalStackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Spacing="50">
+                    <HorizontalStackLayout 
+                        HorizontalOptions="CenterAndExpand" 
+                        VerticalOptions="CenterAndExpand" 
+                        Spacing="50" 
+                        Margin="0,0,0,20">
 
                         <!--  Add funds button -->
                         <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">

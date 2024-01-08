@@ -1,9 +1,14 @@
-﻿namespace EquityX.APIResponse.QuoteResponse
+﻿using Newtonsoft.Json;
+
+namespace EquityX.APIResponse.QuoteResponse
 {
     public class QuoteResponse
     {
-        public List<Result> result { get; set; }
-        public object error { get; set; }
+        [JsonProperty("result")]
+        public List<Result> Result { get; set; }
+
+        [JsonProperty("error")]
+        public object Error { get; set; }
     }
 
     public class Result
@@ -82,8 +87,9 @@
         public string symbol { get; set; }
     }
 
-    public class Root
+    public class QuoteRoot
     {
-        public QuoteResponse quoteResponse { get; set; }
+        [JsonProperty("quoteResponse")]
+        public QuoteResponse QuoteResponse { get; set; }
     }
 }

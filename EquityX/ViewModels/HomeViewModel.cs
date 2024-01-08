@@ -4,6 +4,7 @@ using EquityX.Models;
 using EquityX.Pages;
 using EquityX.Services;
 using Microsoft.EntityFrameworkCore;
+using RestSharp;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -81,6 +82,7 @@ namespace EquityX.ViewModels
                 && await _fundsService.AddFunds(amount, Id))
             {
                 AvailableFunds += amount;
+                CalulatePortfolioValue();
             }
             else if(String.IsNullOrEmpty(result))
             {
@@ -104,6 +106,7 @@ namespace EquityX.ViewModels
                 && await _fundsService.WithdrawFunds(amountToWithdraw, Id))
             {
                 AvailableFunds -= amountToWithdraw;
+                CalulatePortfolioValue();
             }
             else if (String.IsNullOrEmpty(result))
             {
@@ -214,6 +217,12 @@ namespace EquityX.ViewModels
         private async void UpdateStockData()
         {
             //await Application.Current.MainPage.DisplayAlert("Timer", "Timer", "OK");
+        }
+
+        // Calculate the portfolio value
+        private async void CalulatePortfolioValue()
+        {
+           PortfolioValue = await _stockService.CalulatePortfolioValue(Id);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using EquityX.Context;
+﻿using EquityX.APIResponse.QuoteResponse;
+using EquityX.Context;
 using EquityX.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -54,14 +55,19 @@ namespace EquityX.Services
             return true;
         }
 
+        public Task<decimal> CalulatePortfolioValue(int userID)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<StockData>> GetStockData()
         {
             List<StockData> stockDataList = new List<StockData>();
             string responsebody = await GetMockStockData();
 
-            APIResponse.QuoteResponse.Root myDeserializedClass = JsonConvert.DeserializeObject<APIResponse.QuoteResponse.Root>(responsebody);
+            QuoteRoot myDeserializedClass = JsonConvert.DeserializeObject<QuoteRoot>(responsebody);
 
-            foreach (var res in myDeserializedClass.quoteResponse.result)
+            foreach (var res in myDeserializedClass.QuoteResponse.Result)
             {
                 stockDataList.Add(new StockData()
                 {
@@ -84,16 +90,26 @@ namespace EquityX.Services
             StockData stockData = new StockData();
             string responsebody = await GetMockStockData();
 
-            APIResponse.QuoteResponse.Root myDeserializedClass = JsonConvert.DeserializeObject<APIResponse.QuoteResponse.Root>(responsebody);
+            QuoteRoot myDeserializedClass = JsonConvert.DeserializeObject<QuoteRoot>(responsebody);
 
-            stockData.Name = myDeserializedClass.quoteResponse.result[0].longName;
-            stockData.BuyPrice = myDeserializedClass.quoteResponse.result[0].bid;
-            stockData.SellPrice = myDeserializedClass.quoteResponse.result[0].ask;
-            stockData.Currency = myDeserializedClass.quoteResponse.result[0].currency;
-            stockData.QuoteType = myDeserializedClass.quoteResponse.result[0].quoteType;
-            stockData.Symbol = myDeserializedClass.quoteResponse.result[0].symbol;
+            stockData.Name = myDeserializedClass.QuoteResponse.Result[0].longName;
+            stockData.BuyPrice = myDeserializedClass.QuoteResponse.Result[0].bid;
+            stockData.SellPrice = myDeserializedClass.QuoteResponse.Result[0].ask;
+            stockData.Currency = myDeserializedClass.QuoteResponse.Result[0].currency;
+            stockData.QuoteType = myDeserializedClass.QuoteResponse.Result[0].quoteType;
+            stockData.Symbol = myDeserializedClass.QuoteResponse.Result[0].symbol;
 
             return stockData;
+        }
+
+        public Task<StockData> GetStockDataBySymbol(string symbol)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetTrendingStockData()
+        {
+            throw new NotImplementedException();
         }
 
         public Task<List<StockData>> GetUserStockData(int userID)
@@ -123,6 +139,11 @@ namespace EquityX.Services
             using var stream = await FileSystem.OpenAppPackageFileAsync("Quote.txt");
             using var reader = new StreamReader(stream);
             return reader.ReadToEnd();
+        }
+
+        Task<List<StockData>> IStockService.GetStockData(string symbols)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using EquityX.Context;
+﻿using EquityX.APIResponse;
+using EquityX.APIResponse.QuoteResponse;
+using EquityX.Context;
 using EquityX.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -34,8 +36,9 @@ namespace EquityX.Services
                 return false;
             }
 
-            // Update the user's available funds
+            // Update the user's available funds and portfolio value
             user.AvailableFunds -= stock.BuyPrice;
+            user.PortfolioValue += stock.SellPrice;
 
             // Add the stock to the user's portfolio
             await _context.UserStockData.AddAsync(new UserStockData()
@@ -57,7 +60,6 @@ namespace EquityX.Services
             return true;
         }
 
-        // TODO: Returns the value the stock sold for after calculating loss and gain
         public async Task<decimal> SellStock(UserStockData userStock, int userID)
         {
             User user = await _context.Users
@@ -66,76 +68,38 @@ namespace EquityX.Services
                 .FirstOrDefaultAsync();
 
             // Get the stock data
-            StockData currecntStockData = await GetStockData(userStock.StockSymbol);
+            StockData currecntStockData = await GetStockDataBySymbol(userStock.StockSymbol);
 
             // Selling quantity could be a problem later
             userStock.SellPrice = currecntStockData.SellPrice;
             userStock.DateSold = DateTime.Now; 
+
+            // Update the user's available funds and portfolio value
             user.AvailableFunds += currecntStockData.SellPrice;
+            user.PortfolioValue -= currecntStockData.SellPrice;
 
             int rowsEffected = await _context.SaveChangesAsync();
+
+            if (rowsEffected == 0)
+            {
+                return 0;
+            }
 
             return currecntStockData.SellPrice;
         }
 
-        // TODO: This should return a list of the popular stocks on the market, however there is an issue 
-        // with setting up classes to deserialize the JSON response due to the way the response is structured
-        public Task<List<StockData>> GetStockData()
+        public async Task<List<StockData>> GetStockData()
         {
             List<StockData> stockDataList = new List<StockData>();
-            Uri trendingStocksUri = new Uri(string.Format(URL + "/v1/finance/trending/US", string.Empty));
 
             try
             {
-                // TODO: Grab populare stocks from the API
+                string symbols = await GetTrendingStockData();
 
                 // Create the request with the API key header
-                var trendingRequest = new HttpRequestMessage(HttpMethod.Get, trendingStocksUri);
-                trendingRequest.Headers.Add("X-API-KEY", API_KEY);
-
-                // Send the request to the server
-                var trendingTask = _client.SendAsync(trendingRequest);
-                var trendingResponse = trendingTask.Result;
-
-                // Check that the response is successful or throw an exception
-                string trendingResponsebody = "";
-                var trendingMessage = trendingResponse.EnsureSuccessStatusCode();
-
-                if (trendingMessage.IsSuccessStatusCode)
-                {
-                    trendingResponsebody = trendingResponse.Content.ReadAsStringAsync().Result;
-                }
-                else
-                {
-                    throw new Exception("Error getting stock data.");
-                }
-
-                APIResponse.FinanceResponse.Root trendingStocks = 
-                    JsonConvert.DeserializeObject<APIResponse.FinanceResponse.Root>(trendingResponsebody);
-
-                // TODO: Symbols from the first request to then make the second request
-                // grabbing all the data for the trending stocks
-
-
-                // Making a string of the symbols to pass to the API
-                StringBuilder stringBuilder = new StringBuilder();
-
-                var quotes = trendingStocks.finance.result[0].quotes;
-
-                for (int i = 0; i < 10; i++) 
-                {
-                    stringBuilder.Append(quotes[i].symbol + ",");
-                }
-
-                // Remove the last comma
-                stringBuilder.Remove(stringBuilder.Length - 1, 1);
-                
-                string symbols = stringBuilder.ToString();
-                
                 Uri stockDetailsUri = 
                     new Uri(string.Format(URL + $"/v6/finance/quote?region=US&lang=en&symbols={symbols}", string.Empty));
-
-                // Create the request with the API key header
+                
                 var request = new HttpRequestMessage(HttpMethod.Get, stockDetailsUri);
                 request.Headers.Add("X-API-KEY", API_KEY);
 
@@ -147,19 +111,61 @@ namespace EquityX.Services
                 string responsebody = "";
                 var message = response.EnsureSuccessStatusCode();
 
-                if (message.IsSuccessStatusCode)
-                {
-                    responsebody = response.Content.ReadAsStringAsync().Result;
-                }
-                else
-                {
+                if (!message.IsSuccessStatusCode)
                     throw new Exception("Error getting stock data.");
-                }
 
-                // Deserialize the JSON response
-                APIResponse.QuoteResponse.Root myDeserializedClass = JsonConvert.DeserializeObject<APIResponse.QuoteResponse.Root>(responsebody);
+                responsebody = response.Content.ReadAsStringAsync().Result;
+                QuoteRoot stockDataResponse = JsonConvert.DeserializeObject<QuoteRoot>(responsebody);
                 
-                foreach (var res in myDeserializedClass.quoteResponse.result)
+                foreach (var res in stockDataResponse.QuoteResponse.Result)
+                {
+                    stockDataList.Add(new StockData()
+                    {
+                        Name = res.longName,
+                        BuyPrice = res.bid,
+                        SellPrice = res.ask,
+                        Currency = res.currency,
+                        QuoteType = res.quoteType,
+                        Symbol = res.symbol
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+
+            return stockDataList;
+        }
+
+        public Task<List<StockData>> GetStockData(string symbols)
+        {
+            List<StockData> stockDataList = new List<StockData>();
+
+            try
+            {
+                // Create the request with the API key header
+                Uri stockDetailsUri =
+                    new Uri(string.Format(URL + $"/v6/finance/quote?region=US&lang=en&symbols={symbols}", string.Empty));
+
+                var request = new HttpRequestMessage(HttpMethod.Get, stockDetailsUri);
+                request.Headers.Add("X-API-KEY", API_KEY);
+
+                // Send the request to the server
+                var task = _client.SendAsync(request);
+                var response = task.Result;
+
+                // Check that the response is successful or throw an exception
+                string responsebody = "";
+                var message = response.EnsureSuccessStatusCode();
+
+                if (!message.IsSuccessStatusCode)
+                    throw new Exception("Error getting stock data.");
+
+                responsebody = response.Content.ReadAsStringAsync().Result;
+                QuoteRoot stockDataResponse = JsonConvert.DeserializeObject<QuoteRoot>(responsebody);
+
+                foreach (var res in stockDataResponse.QuoteResponse.Result)
                 {
                     stockDataList.Add(new StockData()
                     {
@@ -180,11 +186,112 @@ namespace EquityX.Services
             return Task.FromResult(stockDataList);
         }
 
-        public Task<StockData> GetStockData(string symbol)
+        public async Task<List<StockData>> GetUserStockData(int userID)
+        {
+            // Grab the user's stock data
+            List<UserStockData> userStockData = await _context.UserStockData
+                .Where(u => u.UserID == userID)
+                .Select(e => e)
+                .ToListAsync();
+            
+            if (userStockData.Count == 0)
+            {
+                return new List<StockData>();
+            }
+
+            // Making a string of the symbols to pass to the API
+            StringBuilder stringBuilder = new StringBuilder();
+
+            foreach (var stock in userStockData)
+            {
+                stringBuilder.Append(stock.StockSymbol + ",");
+            }
+
+            // Remove the last comma
+            stringBuilder.Remove(stringBuilder.Length - 1, 1);
+
+            // Get the stock data from the API
+            List<StockData> stockData = await GetStockData(stringBuilder.ToString());
+
+            return stockData;
+        }
+
+        public async Task<List<StockData>> GetUserWatchlistData(int userID)
+        {
+            // Grab the user's stock data
+            List<UserWatchlist> userWatchlist = await _context.UserWatchlist
+                .Where(u => u.UserID == userID)
+                .Select(e => e)
+                .ToListAsync();
+
+            if (userWatchlist.Count == 0)
+            {
+                return new List<StockData>();
+            }
+
+            // Making a string of the symbols to pass to the API
+            StringBuilder stringBuilder = new StringBuilder();
+
+            foreach (var stock in userWatchlist)
+            {
+                stringBuilder.Append(stock.StockSymbol + ",");
+            }
+
+            // Remove the last comma
+            stringBuilder.Remove(stringBuilder.Length - 1, 1);
+
+            // Get the stock data from the API
+            List<StockData> stockData = await GetStockData(stringBuilder.ToString());
+
+            return stockData;
+        }
+     
+        public Task<string> GetTrendingStockData()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            try
+            {
+                // Create the request with the API key header
+                Uri trendingStocksUri = new Uri(string.Format(URL + "/v1/finance/trending/US", string.Empty));
+                var trendingRequest = new HttpRequestMessage(HttpMethod.Get, trendingStocksUri);
+                trendingRequest.Headers.Add("X-API-KEY", API_KEY);
+
+                // Send the request to the server
+                var trendingTask = _client.SendAsync(trendingRequest);
+                var trendingResponse = trendingTask.Result;
+
+                // Check that the response is successful or throw an exception
+                string trendingResponsebody = "";
+                var trendingMessage = trendingResponse.EnsureSuccessStatusCode();
+
+                if (!trendingMessage.IsSuccessStatusCode) 
+                    throw new Exception("Error getting stock data.");
+
+                trendingResponsebody = trendingResponse.Content.ReadAsStringAsync().Result;
+                FinanceRoot trendingStocks = JsonConvert.DeserializeObject<FinanceRoot>(trendingResponsebody);
+                List<Quote> quotes = trendingStocks.Finance.Result[0].Quotes;
+
+                foreach (var quote in quotes)
+                {
+                    stringBuilder.Append(quote.Symbol + ",");
+                }
+
+                stringBuilder.Remove(stringBuilder.Length - 1, 1);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+
+            return Task.FromResult(stringBuilder.ToString());
+        }
+
+        public Task<StockData> GetStockDataBySymbol(string symbol)
         {
             StockData stockData = new StockData();
             Uri uri = new Uri(string.Format(URL + $"/v6/finance/quote?region=US&lang=en&symbols={symbol}", string.Empty));
-            
+
             try
             {
                 // Create the request with the API key header
@@ -209,15 +316,15 @@ namespace EquityX.Services
                 }
 
                 // Deserialize the JSON response
-                APIResponse.QuoteResponse.Root myDeserializedClass = JsonConvert.DeserializeObject<APIResponse.QuoteResponse.Root>(responsebody);
+                QuoteRoot myDeserializedClass = JsonConvert.DeserializeObject<QuoteRoot>(responsebody);
 
-                stockData.Name = myDeserializedClass.quoteResponse.result[0].longName;
-                stockData.BuyPrice = myDeserializedClass.quoteResponse.result[0].bid;
-                stockData.SellPrice = myDeserializedClass.quoteResponse.result[0].ask;
-                stockData.Currency = myDeserializedClass.quoteResponse.result[0].currency;
-                stockData.QuoteType = myDeserializedClass.quoteResponse.result[0].quoteType;
-                stockData.Symbol = myDeserializedClass.quoteResponse.result[0].symbol;
-                
+                stockData.Name = myDeserializedClass.QuoteResponse.Result[0].longName;
+                stockData.BuyPrice = myDeserializedClass.QuoteResponse.Result[0].bid;
+                stockData.SellPrice = myDeserializedClass.QuoteResponse.Result[0].ask;
+                stockData.Currency = myDeserializedClass.QuoteResponse.Result[0].currency;
+                stockData.QuoteType = myDeserializedClass.QuoteResponse.Result[0].quoteType;
+                stockData.Symbol = myDeserializedClass.QuoteResponse.Result[0].symbol;
+
             }
             catch (Exception e)
             {
@@ -227,38 +334,25 @@ namespace EquityX.Services
             return Task.FromResult(stockData);
         }
 
-        // TODO: This would be connected to the database and would return the stock
-        // data for the stocks the user owns/is tracking via the watchlist
-        public async Task<List<StockData>> GetUserStockData(int userID)
+        public async Task<decimal> CalulatePortfolioValue(int userID)
         {
-            // Grab the user's stock data
-            List<UserStockData> userStockData = await _context.UserStockData
-                .Where(u => u.UserID == userID)
+            decimal portfolioValue = 0;
+            
+            User user = await _context.Users
+                .Where(u => u.ID == userID)
                 .Select(e => e)
-                .ToListAsync();
+                .FirstOrDefaultAsync();
 
-            // Making a string of the symbols to pass to the API
-            StringBuilder stringBuilder = new StringBuilder();
+            List<StockData> stockData = await GetUserStockData(userID);
 
-            foreach (var stock in userStockData)
+            foreach (var stock in stockData)
             {
-                stringBuilder.Append(stock.StockSymbol + ",");
+                portfolioValue += stock.SellPrice;
             }
 
-            // Remove the last comma
-            stringBuilder.Remove(stringBuilder.Length - 1, 1);
+            portfolioValue += user.AvailableFunds;
 
-            // Get the stock data from the API
-
-
-
-
-            throw new NotImplementedException();
-        }
-
-        public Task<List<StockData>> GetUserWatchlistData(int userID)
-        {
-            throw new NotImplementedException();
+            return portfolioValue;
         }
     }
 }
