@@ -50,6 +50,7 @@ namespace EquityX.ViewModels
             IStockService stockService,
             EquityXDbContext context)
         {
+            TopMoversData = new ObservableCollection<StockData>();
 
             // Commands setup
             AddFundsCommand = new Command(() => AddFunds());
@@ -66,7 +67,6 @@ namespace EquityX.ViewModels
             // Get the data from the API
             GetTopMoversData(); 
             GetUserData();
-            StockDataRefreshTimer();
         }
 
         /// <summary>
@@ -125,7 +125,11 @@ namespace EquityX.ViewModels
             try
             {
                 List<StockData> stockDatas = await _stockService.GetStockData();
-                TopMoversData = new ObservableCollection<StockData>(stockDatas);
+
+                foreach (var stock in stockDatas)
+                {
+                    TopMoversData.Add(stock);
+                }
             }
             catch (Exception e)
             {
@@ -209,7 +213,7 @@ namespace EquityX.ViewModels
         public void StockDataRefreshTimer()
         {
             _timer = Application.Current.Dispatcher.CreateTimer();
-            _timer.Interval = TimeSpan.FromSeconds(5); // Update this later to 5 minutes/ maybe 30 seconds for demo
+            _timer.Interval = TimeSpan.FromSeconds(10); // Update this later to 5 minutes/ maybe 30 seconds for demo
             _timer.Tick += (s, e) => UpdateStockData();
             _timer.Start();
         }

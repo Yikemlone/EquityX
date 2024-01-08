@@ -21,7 +21,9 @@
                     ItemsSource="{Binding StockData}"
                     HorizontalOptions="Center"
                     Margin="0,20,0,0"
-                    SelectionMode="Single">
+                    SelectionMode="Single"
+                    SelectionChangedCommand="{Binding SelectionChangedCommand }"
+                    SelectionChangedCommandParameter="{Binding Path=SelectedItem, Source={RelativeSource Self}}">
                 <CollectionView.Header>
                     <Grid 
                         HorizontalOptions="Fill"
@@ -42,9 +44,10 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:StockData">
                         <Grid 
-                                HorizontalOptions="Fill"
-                                ColumnDefinitions="*, *, *"
-                                RowDefinitions="20">
+                            HorizontalOptions="Fill"
+                            ColumnDefinitions="*, *, *"
+                            RowDefinitions="20">
+                            
                             <Label Text="{Binding Symbol}" 
                                 HorizontalOptions="Center" VerticalOptions="Center" 
                                 Grid.Row="0" Grid.Column="0"/>

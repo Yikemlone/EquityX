@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using EquityX.Models;
+using EquityX.Pages;
 using EquityX.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -12,9 +13,10 @@ namespace EquityX.ViewModels
     public partial class StockViewModel : ObservableObject
     {
         public ObservableCollection<StockData> StockData { get; set; }
-
-        public ICommand BuyStockCommand; // Command to buy a stock
-        public ICommand SellStockCommand; // Command to sell a stock
+         
+        public ICommand BuyStockCommand { get; set; }
+        public ICommand SellStockCommand { get; set; } 
+        public Command<StockData> SelectionChangedCommand { get; set; }
 
         private IStockService _stockService; // Stock service to get stock data
 
@@ -26,9 +28,15 @@ namespace EquityX.ViewModels
             StockData = new ObservableCollection<StockData>();
 
             // Commands setup
+            SelectionChangedCommand = new Command<StockData>(SelectionChanged);
 
             // Get stock data
             UpdateStockData();
+        }
+
+        private async void SelectionChanged(StockData stockData)
+        {
+            await Shell.Current.GoToAsync($"{nameof(AssetPage)}");
         }
 
         // TODO: Add methods to buy and sell stocks
@@ -48,7 +56,7 @@ namespace EquityX.ViewModels
         public void StockDataRefreshTimer()
         {
             _timer = Application.Current.Dispatcher.CreateTimer();
-            _timer.Interval = TimeSpan.FromSeconds(5); // TODO: Update this later to 5 minutes/ maybe 30 seconds for demo
+            _timer.Interval = TimeSpan.FromSeconds(10); // TODO: Update this later to 5 minutes/ maybe 30 seconds for demo
             _timer.Tick += (s, e) => UpdateStockData();
             _timer.Start();
         }
