@@ -4,7 +4,6 @@ using EquityX.Models;
 using EquityX.Pages;
 using EquityX.Services;
 using Microsoft.EntityFrameworkCore;
-using RestSharp;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -30,11 +29,9 @@ namespace EquityX.ViewModels
         [ObservableProperty]
         private List<UserWatchlist> _userWatchlist;
 
-        [ObservableProperty]
-        private List<StockData> _topMoversData;
+        public ObservableCollection<StockData> TopMoversData { get; set; }
 
-        // Testing this 
-        private ObservableCollection<StockData> _stockDatas;
+        private IDispatcherTimer _timer;
 
         // Commands 
         public ICommand AddFundsCommand { get; private set; }
@@ -52,6 +49,7 @@ namespace EquityX.ViewModels
             IStockService stockService,
             EquityXDbContext context)
         {
+
             // Commands setup
             AddFundsCommand = new Command(() => AddFunds());
             WithdrawCommand = new Command(() => Withdraw());
@@ -125,7 +123,8 @@ namespace EquityX.ViewModels
         {
             try
             {
-                TopMoversData = _stockService.GetStockData().Result;
+                List<StockData> stockDatas = await _stockService.GetStockData();
+                TopMoversData = new ObservableCollection<StockData>(stockDatas);
             }
             catch (Exception e)
             {
@@ -201,25 +200,44 @@ namespace EquityX.ViewModels
             {
                 await Shell.Current.GoToAsync($"//D{nameof(PortfolioPage)}");
             }   
-        }   
-
-        // May move this to StockService
-        private void StockDataRefreshTimer()
-        {
-            // This run no matter where you are in the app
-            // this could be a problem for performance or too many API calls
-            var timer = Application.Current.Dispatcher.CreateTimer();
-            timer.Interval = TimeSpan.FromSeconds(5); // Update this later to 5 minutes/ maybe 30 seconds for demo
-            timer.Tick += (s, e) => UpdateStockData();
-            timer.Start();
         }
 
+        /// <summary>
+        /// Creates a timer to call the UpdateStockData method to update the stock data
+        /// </summary>
+        public void StockDataRefreshTimer()
+        {
+            _timer = Application.Current.Dispatcher.CreateTimer();
+            _timer.Interval = TimeSpan.FromSeconds(5); // Update this later to 5 minutes/ maybe 30 seconds for demo
+            _timer.Tick += (s, e) => UpdateStockData();
+            _timer.Start();
+        }
+
+        /// <summary>
+        /// Stops the timer
+        /// </summary>
+        public void StopTimer()
+        {
+            _timer?.Stop();
+        }
+
+        /// <summary>
+        /// Get new stock data via the API call and updates the TopMoversData
+        /// </summary>
         private async void UpdateStockData()
         {
-            //await Application.Current.MainPage.DisplayAlert("Timer", "Timer", "OK");
+            var updatedStockData = await _stockService.GetStockData();
+            TopMoversData.Clear();
+
+            foreach (var stock in updatedStockData)
+            {
+                TopMoversData.Add(stock);
+            }
         }
 
-        // Calculate the portfolio value
+        /// <summary>
+        /// Calaculates the user's portfolio value 
+        /// </summary>
         private async void CalulatePortfolioValue()
         {
            PortfolioValue = await _stockService.CalulatePortfolioValue(Id);

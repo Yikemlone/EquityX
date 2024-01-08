@@ -57,9 +57,25 @@ namespace EquityX.Services
             return true;
         }
 
-        public Task<decimal> CalulatePortfolioValue(int userID)
+        public async Task<decimal> CalulatePortfolioValue(int userID)
         {
-            throw new NotImplementedException();
+            decimal portfolioValue = 0;
+
+            User user = await _context.Users
+                .Where(u => u.ID == userID)
+                .Select(e => e)
+                .FirstOrDefaultAsync();
+
+            List<StockData> stockData = await GetUserStockData(userID);
+
+            foreach (var stock in stockData)
+            {
+                portfolioValue += stock.SellPrice;
+            }
+
+            portfolioValue += user.AvailableFunds;
+
+            return portfolioValue;
         }
 
         public async Task<List<StockData>> GetStockData()

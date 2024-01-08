@@ -9,17 +9,25 @@ public partial class HomePage : ContentPage
 	{
 		InitializeComponent();
 		BindingContext = homeViewModel;
-		//_homeViewModel = homeViewModel;
+		_homeViewModel = homeViewModel;
     }
 
-	// Leaving this here for now, but this is just a test method
+    /// <summary>
+    /// Starts the timer for refreshing the stock data when the page appears
+    /// </summary>
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _homeViewModel.StockDataRefreshTimer();
+    }
 
-	//public async void OnClicked_TestMethod(object sender, EventArgs e)
-	//{
-	//	if(decimal.TryParse(Money.Text, out decimal money)) 
-	//	{
-	//		_homeViewModel.AddFundsCommand.Execute(money);
-	//	}
-	//}
+    /// <summary>
+    /// Stops the timer for refreshing the stock data when the page disappears
+    /// </summary>
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        _homeViewModel.StopTimer();
+    }
 
 }
