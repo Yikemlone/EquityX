@@ -1,17 +1,17 @@
 ﻿using Newtonsoft.Json;
 
-namespace EquityX.APIResponse.QuoteResponse
+namespace EquityX.DTO
 {
     public class QuoteResponse
     {
         [JsonProperty("result")]
-        public List<Result> Result { get; set; }
+        public List<QuoteResult> Result { get; set; }
 
         [JsonProperty("error")]
         public object Error { get; set; }
     }
 
-    public class Result
+    public class QuoteResult
     {
         public string language { get; set; }
         public string region { get; set; }
@@ -87,7 +87,7 @@ namespace EquityX.APIResponse.QuoteResponse
         public string symbol { get; set; }
     }
 
-    public class QuoteRoot
+    public class QuoteDTO
     {
         [JsonProperty("quoteResponse")]
         public QuoteResponse QuoteResponse { get; set; }

@@ -1,5 +1,5 @@
-﻿using EquityX.APIResponse.QuoteResponse;
-using EquityX.Context;
+﻿using EquityX.Context;
+using EquityX.DTO;
 using EquityX.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -83,7 +83,7 @@ namespace EquityX.Services
             List<StockData> stockDataList = new List<StockData>();
             string responsebody = await GetMockStockData();
 
-            QuoteRoot myDeserializedClass = JsonConvert.DeserializeObject<QuoteRoot>(responsebody);
+            QuoteDTO myDeserializedClass = JsonConvert.DeserializeObject<QuoteDTO>(responsebody);
 
             foreach (var res in myDeserializedClass.QuoteResponse.Result)
             {
@@ -108,7 +108,7 @@ namespace EquityX.Services
         {
             List<StockData> stockDataList = new List<StockData>();
             string responsebody = await GetMockStockData();
-            QuoteRoot stockDataResponse = JsonConvert.DeserializeObject<QuoteRoot>(responsebody);
+            QuoteDTO stockDataResponse = JsonConvert.DeserializeObject<QuoteDTO>(responsebody);
 
             foreach (var res in stockDataResponse.QuoteResponse.Result)
             {
@@ -136,7 +136,7 @@ namespace EquityX.Services
             StockData stockData = new StockData();
             string responsebody = await GetMockStockData();
 
-            QuoteRoot myDeserializedClass = JsonConvert.DeserializeObject<QuoteRoot>(responsebody);
+            QuoteDTO myDeserializedClass = JsonConvert.DeserializeObject<QuoteDTO>(responsebody);
 
             stockData.Name = myDeserializedClass.QuoteResponse.Result[0].longName;
             stockData.BuyPrice = myDeserializedClass.QuoteResponse.Result[0].bid;

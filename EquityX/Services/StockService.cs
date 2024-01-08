@@ -1,6 +1,5 @@
-﻿using EquityX.APIResponse;
-using EquityX.APIResponse.QuoteResponse;
-using EquityX.Context;
+﻿using EquityX.Context;
+using EquityX.DTO;
 using EquityX.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -115,7 +114,7 @@ namespace EquityX.Services
                     throw new Exception("Error getting stock data.");
 
                 responsebody = response.Content.ReadAsStringAsync().Result;
-                QuoteRoot stockDataResponse = JsonConvert.DeserializeObject<QuoteRoot>(responsebody);
+                QuoteDTO stockDataResponse = JsonConvert.DeserializeObject<QuoteDTO>(responsebody);
                 
                 foreach (var res in stockDataResponse.QuoteResponse.Result)
                 {
@@ -163,7 +162,7 @@ namespace EquityX.Services
                     throw new Exception("Error getting stock data.");
 
                 responsebody = response.Content.ReadAsStringAsync().Result;
-                QuoteRoot stockDataResponse = JsonConvert.DeserializeObject<QuoteRoot>(responsebody);
+                QuoteDTO stockDataResponse = JsonConvert.DeserializeObject<QuoteDTO>(responsebody);
 
                 foreach (var res in stockDataResponse.QuoteResponse.Result)
                 {
@@ -269,8 +268,8 @@ namespace EquityX.Services
                     throw new Exception("Error getting stock data.");
 
                 trendingResponsebody = trendingResponse.Content.ReadAsStringAsync().Result;
-                FinanceRoot trendingStocks = JsonConvert.DeserializeObject<FinanceRoot>(trendingResponsebody);
-                List<Quote> quotes = trendingStocks.Finance.Result[0].Quotes;
+                TrendingDTO trendingStocks = JsonConvert.DeserializeObject<TrendingDTO>(trendingResponsebody);
+                List<TrendingQuote> quotes = trendingStocks.Finance.Result[0].Quotes;
 
                 foreach (var quote in quotes)
                 {
@@ -316,14 +315,14 @@ namespace EquityX.Services
                 }
 
                 // Deserialize the JSON response
-                QuoteRoot myDeserializedClass = JsonConvert.DeserializeObject<QuoteRoot>(responsebody);
+                QuoteDTO quoteDTO = JsonConvert.DeserializeObject<QuoteDTO>(responsebody);
 
-                stockData.Name = myDeserializedClass.QuoteResponse.Result[0].longName;
-                stockData.BuyPrice = myDeserializedClass.QuoteResponse.Result[0].bid;
-                stockData.SellPrice = myDeserializedClass.QuoteResponse.Result[0].ask;
-                stockData.Currency = myDeserializedClass.QuoteResponse.Result[0].currency;
-                stockData.QuoteType = myDeserializedClass.QuoteResponse.Result[0].quoteType;
-                stockData.Symbol = myDeserializedClass.QuoteResponse.Result[0].symbol;
+                stockData.Name = quoteDTO.QuoteResponse.Result[0].longName;
+                stockData.BuyPrice = quoteDTO.QuoteResponse.Result[0].bid;
+                stockData.SellPrice = quoteDTO.QuoteResponse.Result[0].ask;
+                stockData.Currency = quoteDTO.QuoteResponse.Result[0].currency;
+                stockData.QuoteType = quoteDTO.QuoteResponse.Result[0].quoteType;
+                stockData.Symbol = quoteDTO.QuoteResponse.Result[0].symbol;
 
             }
             catch (Exception e)

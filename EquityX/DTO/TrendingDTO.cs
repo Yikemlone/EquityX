@@ -1,17 +1,6 @@
-﻿
-/* Unmerged change from project 'EquityX (net7.0-android)'
-Before:
-using Newtonsoft.Json;
-After:
-using EquityX;
-using EquityX.APIResponse;
-using EquityX.APIResponse;
-using EquityX.APIResponse.FinanceResponse;
-using Newtonsoft.Json;
-*/
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace EquityX.APIResponse
+namespace EquityX.DTO
 {
     // These clasess were generated using https://json2csharp.com/json-to-csharp
     public class Finance
@@ -23,7 +12,7 @@ namespace EquityX.APIResponse
         public List<FinanceResult> Result { get; set; }
     }
 
-    public class Quote
+    public class TrendingQuote
     {
         [JsonProperty("symbol")]
         public string Symbol { get; set; }
@@ -38,13 +27,13 @@ namespace EquityX.APIResponse
         public long JobTimestamp { get; set; }
 
         [JsonProperty("quotes")]
-        public List<Quote> Quotes { get; set; }
+        public List<TrendingQuote> Quotes { get; set; }
 
         [JsonProperty("startInterval")]
         public long StartInterval { get; set; }
     }
 
-    public class FinanceRoot
+    public class TrendingDTO
     {
         [JsonProperty("finance")]
         public Finance Finance { get; set; }
