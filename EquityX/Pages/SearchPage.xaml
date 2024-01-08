@@ -2,11 +2,63 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EquityX.Pages.SearchPage"
+             xmlns:vm="clr-namespace:EquityX.ViewModels"
+             xmlns:model="clr-namespace:EquityX.Models"
+             x:DataType="vm:StockViewModel"
              Shell.NavBarIsVisible="True">
+    
     <VerticalStackLayout>
         <Label 
             Text="Search"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+
+        <Border
+             HeightRequest="200"
+             Style="{StaticResource Material}">
+
+            <CollectionView 
+                    ItemsSource="{Binding StockData}"
+                    HorizontalOptions="Center"
+                    Margin="0,20,0,0"
+                    SelectionMode="Single">
+                <CollectionView.Header>
+                    <Grid 
+                        HorizontalOptions="Fill"
+                        ColumnDefinitions="50, *, *"
+                        RowDefinitions="20">   
+                        
+                        <Label Text="Name" 
+                            HorizontalOptions="Center" VerticalOptions="Center" 
+                            FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
+                        <Label Text="Buy Price" 
+                            HorizontalOptions="Center" VerticalOptions="Center" 
+                            FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
+                        <Label Text="Sell Price" 
+                            HorizontalOptions="Center" VerticalOptions="Center" 
+                            FontAttributes="Bold" Grid.Row="0" Grid.Column="2"/>
+                    </Grid>
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:StockData">
+                        <Grid 
+                                HorizontalOptions="Fill"
+                                ColumnDefinitions="*, *, *"
+                                RowDefinitions="20">
+                            <Label Text="{Binding Symbol}" 
+                                HorizontalOptions="Center" VerticalOptions="Center" 
+                                Grid.Row="0" Grid.Column="0"/>
+                            <Label Text="{Binding BuyPrice}" 
+                                HorizontalOptions="Center" VerticalOptions="Center" 
+                                Grid.Row="0" Grid.Column="1"/>
+                            <Label Text="{Binding SellPrice}" 
+                                HorizontalOptions="Center" VerticalOptions="Center" 
+                                Grid.Row="0" Grid.Column="2"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Border>
+        
     </VerticalStackLayout>
 </ContentPage>

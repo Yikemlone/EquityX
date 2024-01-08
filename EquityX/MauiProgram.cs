@@ -31,11 +31,13 @@ namespace EquityX
             builder.Services.AddSingleton<HomeViewModel>();
             builder.Services.AddSingleton<LoginViewModel>();  
             builder.Services.AddSingleton<RegisterViewModel>();
+            builder.Services.AddSingleton<StockViewModel>();
             
             // Adding Pages
             builder.Services.AddSingleton<HomePage>(); 
             builder.Services.AddSingleton<LoginPage>();
             builder.Services.AddSingleton<LoadingPage>();
+            builder.Services.AddSingleton<SearchPage>();
             builder.Services.AddSingleton<RegisterPage>();
 
             // Adding HttpClient
@@ -43,7 +45,7 @@ namespace EquityX
 
 #if DEBUG
             // Adding Test Services for debug mode
-           // builder.Services.AddTransient<IStockService, TestStockService>();
+            builder.Services.AddTransient<IStockService, TestStockService>();
             builder.Logging.AddDebug();
 #endif
 

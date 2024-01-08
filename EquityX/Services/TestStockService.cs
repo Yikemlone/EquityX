@@ -3,6 +3,7 @@ using EquityX.Context;
 using EquityX.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace EquityX.Services
 {
@@ -32,8 +33,9 @@ namespace EquityX.Services
                 return false;
             }
 
-            // Update the user's available funds
+            // Update the user's available funds and portfolio value
             user.AvailableFunds -= stock.BuyPrice;
+            user.PortfolioValue += stock.SellPrice;
 
             // Add the stock to the user's portfolio
             await _context.UserStockData.AddAsync(new UserStockData()
@@ -47,7 +49,7 @@ namespace EquityX.Services
 
             var rowsEffected = await _context.SaveChangesAsync();
 
-            if(rowsEffected == 0)
+            if (rowsEffected == 0)
             {
                 return false;
             }
@@ -69,11 +71,14 @@ namespace EquityX.Services
 
             foreach (var res in myDeserializedClass.QuoteResponse.Result)
             {
+                Random random = new Random();
+                int randomNumber = random.Next(-100, 101); // Simulate a random change in the stock price
+
                 stockDataList.Add(new StockData()
                 {
                     Name = res.longName,
-                    BuyPrice = res.bid,
-                    SellPrice = res.ask,
+                    BuyPrice = res.bid + randomNumber,
+                    SellPrice = res.ask + randomNumber,
                     Currency = res.currency,
                     QuoteType = res.quoteType,
                     Symbol = res.symbol
@@ -83,7 +88,32 @@ namespace EquityX.Services
             return stockDataList;
         }
 
-        public async Task<StockData> GetStockData(string symbol)
+        public async Task<List<StockData>> GetStockData(string symbols)
+        {
+            List<StockData> stockDataList = new List<StockData>();
+            string responsebody = await GetMockStockData();
+            QuoteRoot stockDataResponse = JsonConvert.DeserializeObject<QuoteRoot>(responsebody);
+
+            foreach (var res in stockDataResponse.QuoteResponse.Result)
+            {
+                Random random = new Random();
+                int randomNumber = random.Next(-100, 101); // Simulate a random change in the stock price
+
+                stockDataList.Add(new StockData()
+                {
+                    Name = res.longName,
+                    BuyPrice = res.bid + randomNumber,
+                    SellPrice = res.ask + randomNumber,
+                    Currency = res.currency,
+                    QuoteType = res.quoteType,
+                    Symbol = res.symbol
+                });
+            }
+
+            return stockDataList;
+        }
+
+        public async Task<StockData> GetStockDataBySymbol(string symbol)
         {
             // This would be used in a search function, but since the data is static,
             // it will return the same stock data every time
@@ -102,29 +132,97 @@ namespace EquityX.Services
             return stockData;
         }
 
-        public Task<StockData> GetStockDataBySymbol(string symbol)
+        public async Task<string> GetTrendingStockData()
         {
-            throw new NotImplementedException();
+            return await GetMockStockData();
         }
 
-        public Task<string> GetTrendingStockData()
+        public async Task<List<StockData>> GetUserStockData(int userID)
         {
-            throw new NotImplementedException();
+            // Grab the user's stock data
+            List<UserStockData> userStockData = await _context.UserStockData
+                .Where(u => u.UserID == userID)
+                .Select(e => e)
+                .ToListAsync();
+
+            if (userStockData.Count == 0)
+            {
+                return new List<StockData>();
+            }
+
+            // Making a string of the symbols to pass to the API
+            StringBuilder stringBuilder = new StringBuilder();
+
+            foreach (var stock in userStockData)
+            {
+                stringBuilder.Append(stock.StockSymbol + ",");
+            }
+
+            // Remove the last comma
+            stringBuilder.Remove(stringBuilder.Length - 1, 1);
+
+            // Get the stock data from the API
+            List<StockData> stockData = await GetStockData(stringBuilder.ToString());
+
+            return stockData;
         }
 
-        public Task<List<StockData>> GetUserStockData(int userID)
+        public async Task<List<StockData>> GetUserWatchlistData(int userID)
         {
-            throw new NotImplementedException();
+            // Grab the user's stock data
+            List<UserWatchlist> userWatchlist = await _context.UserWatchlist
+                .Where(u => u.UserID == userID)
+                .Select(e => e)
+                .ToListAsync();
+
+            if (userWatchlist.Count == 0)
+            {
+                return new List<StockData>();
+            }
+
+            // Making a string of the symbols to pass to the API
+            StringBuilder stringBuilder = new StringBuilder();
+
+            foreach (var stock in userWatchlist)
+            {
+                stringBuilder.Append(stock.StockSymbol + ",");
+            }
+
+            // Remove the last comma
+            stringBuilder.Remove(stringBuilder.Length - 1, 1);
+
+            // Get the stock data from the API
+            List<StockData> stockData = await GetStockData(stringBuilder.ToString());
+
+            return stockData;
         }
 
-        public Task<List<StockData>> GetUserWatchlistData(int userID)
+        public async Task<decimal> SellStock(UserStockData userStock, int userID)
         {
-            throw new NotImplementedException();
-        }
+            User user = await _context.Users
+                .Where(u => u.ID == userID)
+                .Select(e => e)
+                .FirstOrDefaultAsync();
 
-        public Task<decimal> SellStock(UserStockData userStock, int userID)
-        {
-            throw new NotImplementedException();
+            // Get the stock data
+            StockData currecntStockData = await GetStockDataBySymbol(userStock.StockSymbol);
+
+            // Selling quantity could be a problem later
+            userStock.SellPrice = currecntStockData.SellPrice;
+            userStock.DateSold = DateTime.Now; 
+
+            // Update the user's available funds and portfolio value
+            user.AvailableFunds += currecntStockData.SellPrice;
+            user.PortfolioValue -= currecntStockData.SellPrice;
+
+            int rowsEffected = await _context.SaveChangesAsync();
+
+            if (rowsEffected == 0)
+            {
+                return 0;
+            }
+
+            return currecntStockData.SellPrice;
         }
 
         /// <summary>
@@ -141,9 +239,5 @@ namespace EquityX.Services
             return reader.ReadToEnd();
         }
 
-        Task<List<StockData>> IStockService.GetStockData(string symbols)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

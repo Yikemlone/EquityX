@@ -21,6 +21,7 @@ namespace EquityX.Services
                 .FirstOrDefaultAsync();
 
             user.AvailableFunds += amount;
+            user.PortfolioValue += amount;
 
             int rowsAffected = await _context.SaveChangesAsync();
 
@@ -45,6 +46,7 @@ namespace EquityX.Services
             }
 
             user.AvailableFunds -= amountToWithDraw;
+            user.PortfolioValue -= amountToWithDraw;
 
             int rowsAffected = await _context.SaveChangesAsync();
 
