@@ -91,19 +91,19 @@
                                         HorizontalOptions="Center" 
                                         VerticalOptions="Center" 
                                         Grid.Column="0"
-                                        FontSize="18"/>
+                                        FontSize="20"/>
                                     <Label 
                                         Text="{Binding BuyPrice}" 
                                         HorizontalOptions="Center" 
                                         VerticalOptions="Center" 
                                         Grid.Column="1" 
-                                        FontSize="18"/>
+                                        FontSize="20"/>
                                     <Label 
                                         Text="{Binding SellPrice}" 
                                         HorizontalOptions="Center" 
                                         VerticalOptions="Center" 
                                         Grid.Column="2"
-                                        FontSize="18"/>
+                                        FontSize="20"/>
                                 </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

@@ -28,40 +28,77 @@
     </Shell.TitleView>
 
     <ScrollView>
-        <AbsoluteLayout>
+        <VerticalStackLayout Spacing="5" Padding="10">
 
-            <HorizontalStackLayout>
-
-                <!--Name of stock-->
+            <!--Name of stock-->
+            <HorizontalStackLayout HorizontalOptions="Start" Spacing="20">
                 <Label 
-                Text="{Binding StockData.Symbol}"
-                />
+                    Text="{Binding StockData.Name}"
+                    FontSize="30"/>
 
-                <!--USD Price-->
                 <Label 
-                Text="{Binding StockData.BuyPrice}"
-                />
-
-                <!--Graph of stock price over time-->
-
-                <!--Buy/Sell button-->
-
-                <!--User's current holdings of this stock-->
-                <Label Text="Stock Holdings"/>
-
-                <Button Text="Buy"
-                        AbsoluteLayout.LayoutBounds="0.5, 0.5, 100, 50"
-                        AbsoluteLayout.LayoutFlags="YProportional"
-                        Command="{Binding BuyStockCommand}"/>
-
-                <Button Text="Sell"
-                        AbsoluteLayout.LayoutBounds="0.5, 0.5, 100, 20"
-                        AbsoluteLayout.LayoutFlags="HeightProportional"
-                        Command="{Binding SellStockCommand}"/>    
-
+                    Text="{Binding StockData.Symbol}"
+                    TextColor="Grey"
+                    FontSize="30"
+                    HorizontalOptions="End"/>
             </HorizontalStackLayout>
 
-        </AbsoluteLayout>
+            <!--USD Price-->
+            <HorizontalStackLayout Spacing="5" Margin="0,0,0,20">
+                <Label 
+                    Text="{Binding StockData.Currency}"
+                    TextColor="{StaticResource Primary}"
+                    FontSize="20"/>
+
+                <Label 
+                    Text="{Binding StockData.BuyPrice}"
+                    TextColor="{StaticResource Primary}"
+                    FontSize="20"/>
+            </HorizontalStackLayout>
+
+            <!--Graph of stock price over time-->
+            <Border 
+                Style="{StaticResource Material}" 
+                HorizontalOptions="Center"
+                Padding="15"
+                Margin="0,0,0,20">
+                <Label 
+                    Text="Chart Data goes here"
+                    FontSize="100"/>
+            </Border>
+
+            <!--User's current holdings of this stock-->
+            <Label Text="Stock Holdings"/>
+
+            <Border 
+                Style="{StaticResource Material}" 
+                HorizontalOptions="Center"
+                Padding="15"
+                Margin="0,0,0,20">
+                <Label 
+                    Text="ASSESTS HERE"
+                    FontSize="100"/>
+            </Border>
+
+
+            <!--Buy/Sell button-->
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Padding="20" Spacing="80">
+                <Button Text="Buy"
+                    FontAttributes="Bold"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding BuyStockCommand}"
+                    WidthRequest="120"
+                    Scale="1.2"/>
+
+                <Button Text="Sell"
+                    Style="{StaticResource PrimaryButton}"
+                    FontAttributes="Bold"
+                    Command="{Binding SellStockCommand}"
+                    WidthRequest="120"
+                    Scale="1.2"/>
+            </HorizontalStackLayout>
+            
+        </VerticalStackLayout>
     </ScrollView>
     
 </ContentPage>
