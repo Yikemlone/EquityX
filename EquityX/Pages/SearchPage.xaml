@@ -6,62 +6,109 @@
              xmlns:model="clr-namespace:EquityX.Models"
              x:DataType="vm:StockViewModel"
              Shell.NavBarIsVisible="True">
+
+    <ContentPage.Resources>
+        <Style TargetType="Grid">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="{StaticResource Primary}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
     
-    <VerticalStackLayout>
-        <Label 
-            Text="Search"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    <ScrollView>
+        <VerticalStackLayout>
+            <Label 
+                Text="Search"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
 
-        <Border
-             HeightRequest="200"
-             Style="{StaticResource Material}">
+            <Border
+                Padding="20"
+                Style="{StaticResource Material}">
 
-            <CollectionView 
-                    ItemsSource="{Binding StockData}"
-                    HorizontalOptions="Center"
-                    Margin="0,20,0,0"
-                    SelectionMode="Single"
-                    SelectionChangedCommand="{Binding SelectionChangedCommand }"
-                    SelectionChangedCommandParameter="{Binding Path=SelectedItem, Source={RelativeSource Self}}">
-                <CollectionView.Header>
-                    <Grid 
-                        HorizontalOptions="Fill"
-                        ColumnDefinitions="50, *, *"
-                        RowDefinitions="20">   
-                        
-                        <Label Text="Name" 
-                            HorizontalOptions="Center" VerticalOptions="Center" 
-                            FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
-                        <Label Text="Buy Price" 
-                            HorizontalOptions="Center" VerticalOptions="Center" 
-                            FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
-                        <Label Text="Sell Price" 
-                            HorizontalOptions="Center" VerticalOptions="Center" 
-                            FontAttributes="Bold" Grid.Row="0" Grid.Column="2"/>
-                    </Grid>
-                </CollectionView.Header>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="model:StockData">
+                    <CollectionView 
+                        ItemsSource="{Binding StockData}"
+                        HorizontalOptions="Center"
+                        SelectionMode="Single"
+                        SelectionChangedCommand="{Binding SelectionChangedCommand }"
+                        SelectionChangedCommandParameter="{Binding Path=SelectedItem, Source={RelativeSource Self}}">
+                    
+                    <CollectionView.Header>
                         <Grid 
                             HorizontalOptions="Fill"
                             ColumnDefinitions="*, *, *"
-                            RowDefinitions="20">
+                            Margin="0,0,0,20">   
+                        
+                            <Label 
+                                Text="Name" 
+                                FontSize="20"
+                                HorizontalOptions="Center" 
+                                VerticalOptions="Center" 
+                                FontAttributes="Bold" 
+                                Grid.Row="0" 
+                                Grid.Column="0"/>
                             
-                            <Label Text="{Binding Symbol}" 
-                                HorizontalOptions="Center" VerticalOptions="Center" 
-                                Grid.Row="0" Grid.Column="0"/>
-                            <Label Text="{Binding BuyPrice}" 
-                                HorizontalOptions="Center" VerticalOptions="Center" 
-                                Grid.Row="0" Grid.Column="1"/>
-                            <Label Text="{Binding SellPrice}" 
-                                HorizontalOptions="Center" VerticalOptions="Center" 
-                                Grid.Row="0" Grid.Column="2"/>
+                            <Label 
+                                Text="Buy Price" 
+                                FontSize="20"
+                                HorizontalOptions="Center" 
+                                VerticalOptions="Center" 
+                                FontAttributes="Bold" 
+                                Grid.Row="0" 
+                                Grid.Column="1"/>
+                            <Label 
+                                Text="Sell Price" 
+                                FontSize="20"
+                                HorizontalOptions="Center" 
+                                VerticalOptions="Center" 
+                                FontAttributes="Bold" 
+                                Grid.Row="0" 
+                                Grid.Column="2"/>
                         </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </Border>
-        
-    </VerticalStackLayout>
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+
+                        <DataTemplate x:DataType="model:StockData">
+                            <Grid 
+                                    HorizontalOptions="Fill"
+                                    ColumnDefinitions="*, *, *"
+                                    RowDefinitions="*"
+                                    VerticalOptions="Center"
+                                    Padding="5,20">
+                                
+                                    <Label 
+                                        Text="{Binding Symbol}" 
+                                        HorizontalOptions="Center" 
+                                        VerticalOptions="Center" 
+                                        Grid.Column="0"
+                                        FontSize="18"/>
+                                    <Label 
+                                        Text="{Binding BuyPrice}" 
+                                        HorizontalOptions="Center" 
+                                        VerticalOptions="Center" 
+                                        Grid.Column="1" 
+                                        FontSize="18"/>
+                                    <Label 
+                                        Text="{Binding SellPrice}" 
+                                        HorizontalOptions="Center" 
+                                        VerticalOptions="Center" 
+                                        Grid.Column="2"
+                                        FontSize="18"/>
+                                </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

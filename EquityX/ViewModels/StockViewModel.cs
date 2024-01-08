@@ -36,10 +36,14 @@ namespace EquityX.ViewModels
 
         private async void SelectionChanged(StockData stockData)
         {
-            await Shell.Current.GoToAsync($"{nameof(AssetPage)}");
+            await Shell.Current.GoToAsync($"{nameof(AssetPage)}", new Dictionary<string, object>
+            {
+                ["StockData"] = stockData
+            });
         }
 
         // TODO: Add methods to buy and sell stocks
+        // HMMMM Maybe not needed
         private async void BuyStock()
         {
             throw new NotImplementedException();

@@ -2,15 +2,31 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EquityX.Pages.AssetPage"
+             xmlns:vm="clr-namespace:EquityX.ViewModels"
+             xmlns:model="clr-namespace:EquityX.Models"
+             x:DataType="vm:AssetViewModel"
              Shell.NavBarIsVisible="True">
-    
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
-    
-    <!--  What is this for?  -->
+
+    <ScrollView>
+        <HorizontalStackLayout>
+
+            <!--Name of stock-->
+            <Label 
+            Text="{Binding StockData.Symbol}"
+            />
+
+            <!--USD Price-->
+            <Label 
+            Text="{Binding StockData.BuyPrice}"
+            />
+
+            <!--Graph of stock price over time-->
+
+            <!--Buy/Sell button-->
+
+            <!--User's current holdings of this stock-->
+
+        </HorizontalStackLayout>
+    </ScrollView>
     
 </ContentPage>  

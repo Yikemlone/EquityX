@@ -88,7 +88,7 @@ namespace EquityX.Services
             foreach (var res in myDeserializedClass.QuoteResponse.Result)
             {
                 Random random = new Random();
-                int randomNumber = random.Next(-100, 101); // Simulate a random change in the stock price
+                int randomNumber = random.Next(-10, 11); // Simulate a random change in the stock price
 
                 stockDataList.Add(new StockData()
                 {
@@ -113,7 +113,7 @@ namespace EquityX.Services
             foreach (var res in stockDataResponse.QuoteResponse.Result)
             {
                 Random random = new Random();
-                int randomNumber = random.Next(-100, 101); // Simulate a random change in the stock price
+                int randomNumber = random.Next(-10, 11); // Simulate a random change in the stock price
 
                 stockDataList.Add(new StockData()
                 {

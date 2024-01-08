@@ -18,11 +18,10 @@ namespace EquityX.Services
             _context = context;
         }   
 
-        public async Task<bool> IsAuthenticated()
+        public Task<bool> IsAuthenticated()
         {
-            await Task.Delay(1000);
             var authKey = Preferences.Default.Get(AUTH_STATE, false);
-            return authKey;
+            return Task.FromResult(authKey);
         }
 
         public async Task<bool> Login(string username, string password)

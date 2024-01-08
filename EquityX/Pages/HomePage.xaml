@@ -174,14 +174,15 @@
 
             <!-- Displaying top movers -->
             <Border
-                HeightRequest="200"
-                Style="{StaticResource Material}">
+                Style="{StaticResource Material}"
+                Padding="20">
 
                 <Grid>
                     <CollectionView 
                         ItemsSource="{Binding TopMoversData}"
                         HorizontalOptions="Center"
-                        Margin="0,20,0,0">
+                        Margin="0">
+                        
                         <CollectionView.Header>
                             <Grid 
                                 HorizontalOptions="Fill"
