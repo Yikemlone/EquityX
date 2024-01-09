@@ -11,7 +11,7 @@ namespace EquityX.Services
     public class StockService : IStockService
     {
         private HttpClient _client;
-        private string API_KEY = "7OuBqBEphu85XcIXzDamU1aClxRlGZUr9q1GYaYY"; // TODO: Move to config file or out of code
+        private string API_KEY = ""; // TODO: Move to config file or out of code
         private string URL = "https://yfapi.net";
         private readonly EquityXDbContext _context;
 
