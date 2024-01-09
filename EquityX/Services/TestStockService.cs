@@ -127,7 +127,7 @@ namespace EquityX.Services
                 {
                     Name = stockDataResponse.QuoteResponse.Result.Where(s => s.symbol == symbol).Select(e => e.longName).FirstOrDefault(),
                     BuyPrice = stockDataResponse.QuoteResponse.Result.Where(s => s.symbol == symbol).Select(e => e.bid).FirstOrDefault() + randomInt,
-                    SellPrice = stockDataResponse.QuoteResponse.Result.Where(s => s.symbol == symbol).Select(e => e.ask).FirstOrDefault() + randomInt,
+                    SellPrice = stockDataResponse.QuoteResponse.Result.Where(s => s.symbol == symbol).Select(e => e.ask).FirstOrDefault() + (randomInt - 3),
                     Currency = stockDataResponse.QuoteResponse.Result.Where(s => s.symbol == symbol).Select(e => e.currency).FirstOrDefault(),
                     QuoteType = stockDataResponse.QuoteResponse.Result.Where(s => s.symbol == symbol).Select(e => e.quoteType).FirstOrDefault(),
                     Symbol = stockDataResponse.QuoteResponse.Result.Where(s => s.symbol == symbol).Select(e => e.symbol).FirstOrDefault()
@@ -141,7 +141,7 @@ namespace EquityX.Services
         {
             // Grab the user's stock data
             List<UserStockData> userStockData = await _context.UserStockData
-                .Where(u => u.UserID == userID)
+                .Where(u => u.UserID == userID && u.DateSold == null)
                 .Select(e => e)
                 .ToListAsync();
 

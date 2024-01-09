@@ -188,7 +188,7 @@ namespace EquityX.Services
         {
             // Grab the user's stock data
             List<UserStockData> userStockData = await _context.UserStockData
-                .Where(u => u.UserID == userID)
+                .Where(u => u.UserID == userID && u.DateSold == null)
                 .Select(e => e)
                 .ToListAsync();
 

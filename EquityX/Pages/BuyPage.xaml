@@ -33,12 +33,54 @@
     </Shell.TitleView>
 
     <VerticalStackLayout>
-        
-        <Label 
-            Text="Buy"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        
+
+        <HorizontalStackLayout>
+            <Label 
+                Text="{Binding StockData.Symbol}"
+                VerticalOptions="Center" 
+                FontSize="30"
+                HorizontalOptions="Center"/>
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout>
+            <Label 
+                Text="Buy Price:"
+                FontSize="20"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+            <Label 
+                Text="{Binding StockData.BuyPrice}"
+                TextColor="{StaticResource Primary}"
+                FontSize="20"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout>
+            <Label 
+                Text="Sell Price: "
+                FontSize="20"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
+            <Label 
+                 Text="{Binding StockData.SellPrice}"
+                 TextColor="{StaticResource Primary}"
+                 FontSize="20"
+                 VerticalOptions="Center" 
+                 HorizontalOptions="Center" />
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout HorizontalOptions="Center">
+            <Button 
+                Text="Buy"
+                WidthRequest="300"
+                Command="{Binding BuyCommand}"
+                Style="{StaticResource PrimaryButton}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+        </HorizontalStackLayout>
+
     </VerticalStackLayout>
 
     <!--  Buying an asset -->
