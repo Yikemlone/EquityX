@@ -56,14 +56,17 @@
                     FontSize="20"/>
             </HorizontalStackLayout>
 
-            <!--Graph of stock price over time-->
+            <!--Graph-->
             <Border 
                 Style="{StaticResource Material}" 
                 HorizontalOptions="Center"
                 Padding="15"
                 Margin="0,0,0,20">
-
-                <micro:ChartView x:Name="ChartView" /> 
+ 
+                <micro:ChartView 
+                    x:Name="chartView" 
+                    HeightRequest="400" 
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource BlackShade},Light={StaticResource WhiteShade}}"/> 
                 
             </Border>
 
@@ -79,7 +82,6 @@
                     Text="ASSESTS HERE"
                     FontSize="100"/>
             </Border>
-
 
             <!--Buy/Sell button-->
             <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Padding="20" Spacing="80">

@@ -56,28 +56,33 @@ namespace EquityX.Services
             return true;
         }
 
-        public async Task<decimal> CalulatePortfolioValue(int userID)
+        public async Task<decimal> SellStock(UserStockData userStock, int userID)
         {
-            decimal portfolioValue = 0;
-
             User user = await _context.Users
                 .Where(u => u.ID == userID)
                 .Select(e => e)
                 .FirstOrDefaultAsync();
 
-            List<StockData> stockData = await GetUserStockData(userID);
+            // Get the stock data
+            StockData currecntStockData = await GetStockDataBySymbol(userStock.StockSymbol);
 
-            foreach (var stock in stockData)
+            // Selling quantity could be a problem later
+            userStock.SellPrice = currecntStockData.SellPrice;
+            userStock.DateSold = DateTime.Now;
+
+            // Update the user's available funds and portfolio value
+            user.AvailableFunds += currecntStockData.SellPrice;
+            user.PortfolioValue -= userStock.BuyInPrice;
+            user.PortfolioValue += currecntStockData.SellPrice;
+
+            int rowsEffected = await _context.SaveChangesAsync();
+
+            if (rowsEffected == 0)
             {
-                portfolioValue += stock.SellPrice;
+                return 0;
             }
 
-            portfolioValue += user.AvailableFunds;
-            user.PortfolioValue = portfolioValue;
-
-            await _context.SaveChangesAsync();
-
-            return portfolioValue;
+            return currecntStockData.SellPrice;
         }
 
         public async Task<List<StockData>> GetStockData()
@@ -132,35 +137,11 @@ namespace EquityX.Services
             return stockDataList;
         }
 
-        public async Task<StockData> GetStockDataBySymbol(string symbol)
-        {
-            // This would be used in a search function, but since the data is static,
-            // it will return the same stock data every time
-            StockData stockData = new StockData();
-            string responsebody = await GetMockStockData();
-
-            QuoteDTO myDeserializedClass = JsonConvert.DeserializeObject<QuoteDTO>(responsebody);
-
-            stockData.Name = myDeserializedClass.QuoteResponse.Result[0].longName;
-            stockData.BuyPrice = myDeserializedClass.QuoteResponse.Result[0].bid;
-            stockData.SellPrice = myDeserializedClass.QuoteResponse.Result[0].ask;
-            stockData.Currency = myDeserializedClass.QuoteResponse.Result[0].currency;
-            stockData.QuoteType = myDeserializedClass.QuoteResponse.Result[0].quoteType;
-            stockData.Symbol = myDeserializedClass.QuoteResponse.Result[0].symbol;
-
-            return stockData;
-        }
-
-        public async Task<string> GetTrendingStockData()
-        {
-            return await GetMockStockData();
-        }
-
-        public async Task<List<StockData>> GetUserStockData(int userID)
+        public async Task<List<StockData>> GetStockData(int userID)
         {
             // Grab the user's stock data
             List<UserStockData> userStockData = await _context.UserStockData
-                .Where(u => u.UserID == userID && u.DateSold == null)
+                .Where(u => u.UserID == userID)
                 .Select(e => e)
                 .ToListAsync();
 
@@ -186,6 +167,22 @@ namespace EquityX.Services
             return stockData;
         }
 
+        public async Task<List<UserStockData>> GetUserStockData(int userID)
+        {
+            // Grab the user's stock data
+            List<UserStockData> userStockData = await _context.UserStockData
+                .Where(u => u.UserID == userID && u.DateSold == null)
+                .Select(e => e)
+                .ToListAsync();
+
+            if (userStockData.Count == 0)
+            {
+                return new List<UserStockData>();
+            }
+            
+            return userStockData;
+        }
+
         public async Task<List<StockData>> GetUserWatchlistData(int userID)
         {
             // Grab the user's stock data
@@ -198,7 +195,7 @@ namespace EquityX.Services
             {
                 return new List<StockData>();
             }
-            
+
             // Making a string of the symbols to pass to the API
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -216,33 +213,52 @@ namespace EquityX.Services
             return stockData;
         }
 
-        public async Task<decimal> SellStock(UserStockData userStock, int userID)
+        public async Task<string> GetTrendingStockData()
         {
+            return await GetMockStockData();
+        }
+
+        public async Task<StockData> GetStockDataBySymbol(string symbol)
+        {
+            // This would be used in a search function, but since the data is static,
+            // it will return the same stock data every time
+            StockData stockData = new StockData();
+            string responsebody = await GetMockStockData();
+
+            QuoteDTO myDeserializedClass = JsonConvert.DeserializeObject<QuoteDTO>(responsebody);
+
+            stockData.Name = myDeserializedClass.QuoteResponse.Result[0].longName;
+            stockData.BuyPrice = myDeserializedClass.QuoteResponse.Result[0].bid;
+            stockData.SellPrice = myDeserializedClass.QuoteResponse.Result[0].ask;
+            stockData.Currency = myDeserializedClass.QuoteResponse.Result[0].currency;
+            stockData.QuoteType = myDeserializedClass.QuoteResponse.Result[0].quoteType;
+            stockData.Symbol = myDeserializedClass.QuoteResponse.Result[0].symbol;
+
+            return stockData;
+        }
+
+        public async Task<decimal> CalulatePortfolioValue(int userID)
+        {
+            decimal portfolioValue = 0;
+
             User user = await _context.Users
                 .Where(u => u.ID == userID)
                 .Select(e => e)
                 .FirstOrDefaultAsync();
 
-            // Get the stock data
-            StockData currecntStockData = await GetStockDataBySymbol(userStock.StockSymbol);
+            List<StockData> stockData = await GetStockData(userID);
 
-            // Selling quantity could be a problem later
-            userStock.SellPrice = currecntStockData.SellPrice;
-            userStock.DateSold = DateTime.Now; 
-
-            // Update the user's available funds and portfolio value
-            user.AvailableFunds += currecntStockData.SellPrice;
-            user.PortfolioValue -= userStock.BuyInPrice;
-            user.PortfolioValue += currecntStockData.SellPrice;
-
-            int rowsEffected = await _context.SaveChangesAsync();
-
-            if (rowsEffected == 0)
+            foreach (var stock in stockData)
             {
-                return 0;
+                portfolioValue += stock.SellPrice;
             }
 
-            return currecntStockData.SellPrice;
+            portfolioValue += user.AvailableFunds;
+            user.PortfolioValue = portfolioValue;
+
+            await _context.SaveChangesAsync();
+
+            return portfolioValue;
         }
 
         /// <summary>

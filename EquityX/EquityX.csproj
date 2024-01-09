@@ -84,6 +84,9 @@
 	  <Compile Update="Pages\LoadingPage.xaml.cs">
 	    <DependentUpon>LoadingPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\BuyPage.xaml.cs">
+	    <DependentUpon>BuyPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -111,7 +114,10 @@
 	  <MauiXaml Update="Pages\SearchPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\TransactionPage.xaml">
+	  <MauiXaml Update="Pages\BuyPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\SellPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\WatchlistPage.xaml">

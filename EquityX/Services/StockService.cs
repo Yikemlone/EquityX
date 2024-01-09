@@ -184,14 +184,14 @@ namespace EquityX.Services
             return Task.FromResult(stockDataList);
         }
 
-        public async Task<List<StockData>> GetUserStockData(int userID)
+        public async Task<List<StockData>> GetStockData(int userID)
         {
             // Grab the user's stock data
             List<UserStockData> userStockData = await _context.UserStockData
                 .Where(u => u.UserID == userID)
                 .Select(e => e)
                 .ToListAsync();
-            
+
             if (userStockData.Count == 0)
             {
                 return new List<StockData>();
@@ -212,6 +212,22 @@ namespace EquityX.Services
             List<StockData> stockData = await GetStockData(stringBuilder.ToString());
 
             return stockData;
+        }
+
+        public async Task<List<UserStockData>> GetUserStockData(int userID)
+        {
+            // Grab the user's stock data
+            List<UserStockData> userStockData = await _context.UserStockData
+                .Where(u => u.UserID == userID)
+                .Select(e => e)
+                .ToListAsync();
+            
+            if (userStockData.Count == 0)
+            {
+                return new List<UserStockData>();
+            }
+
+            return userStockData;
         }
 
         public async Task<List<StockData>> GetUserWatchlistData(int userID)
@@ -341,7 +357,7 @@ namespace EquityX.Services
                 .Select(e => e)
                 .FirstOrDefaultAsync();
 
-            List<StockData> stockData = await GetUserStockData(userID);
+            List<StockData> stockData = await GetStockData(userID);
 
             foreach (var stock in stockData)
             {
@@ -355,5 +371,6 @@ namespace EquityX.Services
 
             return portfolioValue;
         }
+
     }
 }

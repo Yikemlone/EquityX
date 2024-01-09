@@ -22,6 +22,13 @@ namespace EquityX.Services
         public Task<List<StockData>> GetStockData(string symbols);
 
         /// <summary>
+        /// Will call an API to retrieve new stock data for all the stocks the user owns
+        /// </summary>
+        /// <param name="symbols"></param>
+        /// <returns>List of StockData</returns>
+        public Task<List<StockData>> GetStockData(int userID);
+
+        /// <summary>
         /// Returns the trending stock's symbols in a comma separated string format
         /// </summary>
         /// <returns>string</returns>
@@ -35,10 +42,10 @@ namespace EquityX.Services
         public Task<StockData> GetStockDataBySymbol(string symbol);
 
         /// <summary>   
-        /// Get the stock data for the stocks the user owns
+        /// Get the user stock data for the stocks the user owns
         /// </summary>
         /// <returns>List of StockData</returns>
-        public Task<List<StockData>> GetUserStockData(int userID);
+        public Task<List<UserStockData>> GetUserStockData(int userID);
 
         /// <summary>   
         /// Get the stock data for the stocks the user is tracking via the watchlist

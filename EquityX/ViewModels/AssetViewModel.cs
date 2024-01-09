@@ -35,6 +35,11 @@ namespace EquityX.ViewModels
         
         private async void BuyStock()
         {
+            await Shell.Current.GoToAsync("BuyPage", new Dictionary<string, object> 
+            {
+                ["StockData"] = StockData
+            });
+
             int userID = Preferences.Default.Get("USER_ID", 0);
 
             if (userID == 0)
@@ -47,7 +52,10 @@ namespace EquityX.ViewModels
 
         private async void SellStock()
         {
-            throw new NotImplementedException();
+            await Shell.Current.GoToAsync("SellPage", new Dictionary<string, object>
+            {
+                ["StockData"] = StockData
+            });
         }
 
 
