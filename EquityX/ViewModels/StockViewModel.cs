@@ -55,7 +55,7 @@ namespace EquityX.ViewModels
             _timer = Application.Current.Dispatcher.CreateTimer();
 
 #if DEBUG
-            _timer.Interval = TimeSpan.FromSeconds(30);
+            _timer.Interval = TimeSpan.FromSeconds(1);
 
 #else
             _timer.Interval = TimeSpan.FromSeconds(30);
