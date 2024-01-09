@@ -349,6 +349,9 @@ namespace EquityX.Services
             }
 
             portfolioValue += user.AvailableFunds;
+            user.PortfolioValue = portfolioValue;
+
+            await _context.SaveChangesAsync();
 
             return portfolioValue;
         }
