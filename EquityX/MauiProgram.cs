@@ -37,6 +37,7 @@ namespace EquityX
             builder.Services.AddSingleton<AssetViewModel>();
             builder.Services.AddSingleton<BuyViewModel>();
             builder.Services.AddSingleton<SellViewModel>();
+            builder.Services.AddSingleton<PortfolioViewModel>();
             
             // Adding Pages
             builder.Services.AddSingleton<HomePage>(); 
@@ -47,6 +48,7 @@ namespace EquityX
             builder.Services.AddSingleton<AssetPage>();
             builder.Services.AddSingleton<BuyPage>();
             builder.Services.AddSingleton<SellPage>();
+            builder.Services.AddSingleton<PortfolioPage>();
 
             // Adding HttpClient
             builder.Services.AddSingleton<HttpClient>();
@@ -57,7 +59,7 @@ namespace EquityX
 
 #if DEBUG
             // Adding Test Services for debug mode
-            builder.Services.AddTransient<IStockService, TestStockService>();
+            //builder.Services.AddTransient<IStockService, TestStockService>();
             builder.Logging.AddDebug();
 #endif
 

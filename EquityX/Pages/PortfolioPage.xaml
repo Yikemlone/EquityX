@@ -2,6 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EquityX.Pages.PortfolioPage"
+             xmlns:vm="clr-namespace:EquityX.ViewModels"
+             xmlns:model="clr-namespace:EquityX.Models"
+             x:DataType="vm:PortfolioViewModel"
              Shell.NavBarIsVisible="True">
 
     <!--Nav bar buttons-->
@@ -31,12 +34,37 @@
     
     
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+        <CollectionView 
+            ItemsSource="{Binding UserStockData}"
+            SelectionMode="Single"
+            SelectionChangedCommand="{Binding SelectionChangedCommand}"
+            SelectionChangedCommandParameter="{Binding Path=SelectedItem, Source={RelativeSource Self}}">  
 
-    <!--  Diplay all the users assets -->
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:UserStockData">
+                    <Grid 
+                        HorizontalOptions="Fill"
+                        ColumnDefinitions="*, *"
+                        RowDefinitions="*"
+                        VerticalOptions="Center"
+                        Padding="5,10"
+                        ColumnSpacing="50">
+
+                    <Label 
+                        Text="{Binding StockSymbol}" 
+                        HorizontalOptions="Center" 
+                        VerticalOptions="Center" 
+                        Grid.Column="0"/>
+                    <Label 
+                        Text="{Binding BuyInPrice}" 
+                        HorizontalOptions="Center" 
+                        VerticalOptions="Center" 
+                        Grid.Column="1" />
+
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
 
 </ContentPage>
