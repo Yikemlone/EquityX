@@ -8,6 +8,9 @@ namespace EquityX.Pages;
 public partial class AssetPage : ContentPage
 {
 
+    // Properties
+    private AssetViewModel _assetViewModel;
+
     ChartEntry[] entries = new[]
     {
         new ChartEntry(200)
@@ -28,6 +31,7 @@ public partial class AssetPage : ContentPage
 	{
 		InitializeComponent();
 		BindingContext = assestViewModel;
+        _assetViewModel = assestViewModel;
 
         // May need to do the timer here 
         chartView.Chart = new LineChart()
@@ -45,5 +49,11 @@ public partial class AssetPage : ContentPage
         {
             chartView.Chart.BackgroundColor = SKColor.Parse("#F6F6F6");
         }
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _assetViewModel.GetUserStockData();
     }
 }

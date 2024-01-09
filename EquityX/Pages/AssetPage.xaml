@@ -71,16 +71,47 @@
             </Border>
 
             <!--User's current holdings of this stock-->
-            <Label Text="Stock Holdings"/>
+            <Label IsVisible="{Binding HasStocks}" Text="Stock Holdings"/>
 
             <Border 
                 Style="{StaticResource Material}" 
                 HorizontalOptions="Center"
                 Padding="15"
-                Margin="0,0,0,20">
-                <Label 
-                    Text="ASSESTS HERE"
-                    FontSize="100"/>
+                Margin="0,0,0,20"
+                IsVisible="{Binding HasStocks}">
+                <!--SelectionChangedCommand="{Binding SelectionChangedCommand}"-->
+
+                <CollectionView 
+                    ItemsSource="{Binding UserStocks}"
+                    HorizontalOptions="Center"
+                    SelectionMode="Single"
+                    SelectionChangedCommandParameter="{Binding Path=SelectedItem, Source={RelativeSource Self}}">           
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:UserStockData">
+                            <Grid 
+                                HorizontalOptions="Fill"
+                                ColumnDefinitions="*, *"
+                                RowDefinitions="*"
+                                VerticalOptions="Center"
+                                Padding="5,10">
+
+                                <Label 
+                                    Text="{Binding StockSymbol}" 
+                                    HorizontalOptions="Center" 
+                                    VerticalOptions="Center" 
+                                    Grid.Column="0"/>
+                                <Label 
+                                    Text="{Binding BuyInPrice}" 
+                                    HorizontalOptions="Center" 
+                                    VerticalOptions="Center" 
+                                    Grid.Column="1" />
+
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
             </Border>
 
             <!--Buy/Sell button-->
@@ -92,12 +123,12 @@
                     WidthRequest="120"
                     Scale="1.2"/>
 
-                <Button Text="Sell"
+                <!--<Button Text="Sell"
                     Style="{StaticResource PrimaryButton}"
                     FontAttributes="Bold"
                     Command="{Binding SellStockCommand}"
                     WidthRequest="120"
-                    Scale="1.2"/>
+                    Scale="1.2"/>-->
             </HorizontalStackLayout>
             
         </VerticalStackLayout>

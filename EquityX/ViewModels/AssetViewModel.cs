@@ -2,6 +2,7 @@
 using EquityX.Models;
 using EquityX.Services;
 using Microcharts;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace EquityX.ViewModels
@@ -14,7 +15,9 @@ namespace EquityX.ViewModels
         private StockData _stockData;
 
         [ObservableProperty]
-        private ChartEntry[] _chartEntries;
+        private bool _hasStocks;
+
+        public ObservableCollection<UserStockData> UserStocks { get; set; }
 
         // Commands
         public ICommand BuyStockCommand { get; set; }
@@ -30,7 +33,9 @@ namespace EquityX.ViewModels
             // Commands setup
             BuyStockCommand = new Command(() => BuyStock());
             SellStockCommand = new Command(() => SellStock());
-            ChartEntry[] chartEntries = new ChartEntry[5];
+
+            // Get user stocks
+            UserStocks = new ObservableCollection<UserStockData>();
         }
         
         private async void BuyStock()
@@ -39,15 +44,6 @@ namespace EquityX.ViewModels
             {
                 ["StockData"] = StockData
             });
-
-            int userID = Preferences.Default.Get("USER_ID", 0);
-
-            if (userID == 0)
-            {
-                return;
-            }
-
-            bool buySucessful = await _stockService.BuyStock(StockData, userID);
         }
 
         private async void SellStock()
@@ -58,6 +54,35 @@ namespace EquityX.ViewModels
             });
         }
 
+        public async void GetUserStockData()
+        {
+            int userID = Preferences.Default.Get("USER_ID", 0);
+
+            if (userID == 0)
+            {
+                   return;
+            }
+
+            List<UserStockData> userStocks = await _stockService.GetUserStockData(userID);
+
+            if (userStocks.Count < 0)
+            {
+                HasStocks = false;
+                return;
+            }
+
+            foreach (UserStockData userStock in userStocks)
+            {
+                if (userStock.StockSymbol != StockData.Symbol)
+                {
+                    continue;
+                }
+
+                UserStocks.Add(userStock);
+            }
+
+            HasStocks = UserStocks.Count > 0;
+        }
 
     }
 }
