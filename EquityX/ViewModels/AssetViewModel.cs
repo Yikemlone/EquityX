@@ -101,11 +101,5 @@ namespace EquityX.ViewModels
 
             HasStocks = UserStocks.Count > 0;
         }
-
-        // TODO: The last things I need to implement
-        // 1. The wacthlist
-        // 2. The portfolio
-        // 3. The search
-        // 4. The sell 
     }
 }

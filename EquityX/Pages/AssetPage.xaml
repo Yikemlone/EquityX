@@ -212,7 +212,7 @@
                     FontAttributes="Bold"
                     Style="{StaticResource PrimaryButton}"
                     Command="{Binding BuyStockCommand}"
-                    WidthRequest="120"
+                    WidthRequest="310"
                     Scale="1.2"/>
             </HorizontalStackLayout>
             

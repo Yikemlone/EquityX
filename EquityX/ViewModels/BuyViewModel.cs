@@ -15,6 +15,7 @@ namespace EquityX.ViewModels
         [ObservableProperty]
         private int _quantity; // Leaveing this here for now, may not implement
 
+
         [ObservableProperty]
         private string _errorMessage;
         

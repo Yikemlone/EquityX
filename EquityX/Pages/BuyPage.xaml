@@ -32,54 +32,56 @@
         </StackLayout>
     </Shell.TitleView>
 
-    <VerticalStackLayout>
+    <VerticalStackLayout HorizontalOptions="Center" Spacing="20">
 
-        <HorizontalStackLayout>
-            <Label 
-                Text="{Binding StockData.Symbol}"
-                VerticalOptions="Center" 
-                FontSize="30"
-                HorizontalOptions="Center"/>
-        </HorizontalStackLayout>
+        <Label 
+            
+            Text="{Binding StockData.Symbol}"
+            TextColor="{StaticResource Primary}"
+            VerticalOptions="Center" 
+            FontSize="30"
+            HorizontalOptions="Start"/>
 
-        <HorizontalStackLayout>
-            <Label 
-                Text="Buy Price:"
-                FontSize="20"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
-            <Label 
-                Text="{Binding StockData.BuyPrice}"
-                TextColor="{StaticResource Primary}"
-                FontSize="20"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
-        </HorizontalStackLayout>
+        <Border Style="{StaticResource Material}" Padding="20">
+            <StackLayout Spacing="20"> 
+                <HorizontalStackLayout>
+                    <Label 
+                        Text="Buy Price: "
+                        FontSize="20"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" />
+                    <Label 
+                        Text="{Binding StockData.BuyPrice}"
+                        TextColor="{StaticResource Primary}"
+                        FontSize="20"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+                </HorizontalStackLayout>
 
-        <HorizontalStackLayout>
-            <Label 
-                Text="Sell Price: "
-                FontSize="20"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+                <HorizontalStackLayout>
+                    <Label 
+                        Text="Sell Price: "
+                        FontSize="20"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
 
-            <Label 
-                 Text="{Binding StockData.SellPrice}"
-                 TextColor="{StaticResource Primary}"
-                 FontSize="20"
-                 VerticalOptions="Center" 
-                 HorizontalOptions="Center" />
-        </HorizontalStackLayout>
+                    <Label 
+                         Text="{Binding StockData.SellPrice}"
+                         TextColor="{StaticResource Primary}"
+                         FontSize="20"
+                         VerticalOptions="Center" 
+                         HorizontalOptions="Center" />
+                </HorizontalStackLayout>
+            </StackLayout>
+        </Border>
 
-        <HorizontalStackLayout HorizontalOptions="Center">
-            <Button 
-                Text="Buy"
-                WidthRequest="300"
-                Command="{Binding BuyCommand}"
-                Style="{StaticResource PrimaryButton}"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
-        </HorizontalStackLayout>
+        <Button 
+            Text="Buy"
+            WidthRequest="300"
+            Command="{Binding BuyCommand}"
+            Style="{StaticResource PrimaryButton}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
 
     </VerticalStackLayout>
 

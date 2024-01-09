@@ -13,11 +13,16 @@ namespace EquityX.ViewModels
         private UserStockData _userStockData;
 
         [ObservableProperty]
+        private StockData _currentData;
+
+        [ObservableProperty]
+        private decimal _profit;
+
+        [ObservableProperty]
         private string _errorMessage;
 
         // Commands
         public ICommand SellCommand { get; set; }
-
 
         // Services
         private IStockService _stockService;
@@ -25,6 +30,8 @@ namespace EquityX.ViewModels
         public SellViewModel(IStockService stockService)
         {
             _stockService = stockService;
+            CurrentData = new StockData();
+            Profit = 0;
 
             // Commands setup
             SellCommand = new Command(() => SellStock());
@@ -49,6 +56,12 @@ namespace EquityX.ViewModels
             {
                 ErrorMessage = "Unable to sell stock";
             }
+        }
+
+        public async void GetCurrentStockData()
+        {
+            CurrentData = await _stockService.GetStockDataBySymbol(UserStockData.StockSymbol);
+            Profit = CurrentData.SellPrice - UserStockData.BuyInPrice;
         }
     }
 
