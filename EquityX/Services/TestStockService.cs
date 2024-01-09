@@ -43,7 +43,6 @@ namespace EquityX.Services
                 UserID = userID,
                 StockSymbol = stock.Symbol,
                 BuyInPrice = stock.BuyPrice,
-                SellPrice = stock.SellPrice,
                 DateBought = DateTime.Now,
             });
 
@@ -75,6 +74,10 @@ namespace EquityX.Services
 
             portfolioValue += user.AvailableFunds;
 
+            user.PortfolioValue = portfolioValue;
+
+            await _context.SaveChangesAsync();
+
             return portfolioValue;
         }
 
@@ -82,12 +85,12 @@ namespace EquityX.Services
         {
             List<StockData> stockDataList = new List<StockData>();
             string responsebody = await GetMockStockData();
-
             QuoteDTO myDeserializedClass = JsonConvert.DeserializeObject<QuoteDTO>(responsebody);
+            Random random = new Random();
+
 
             foreach (var res in myDeserializedClass.QuoteResponse.Result)
             {
-                Random random = new Random();
                 int randomNumber = random.Next(-10, 11); // Simulate a random change in the stock price
 
                 stockDataList.Add(new StockData()
@@ -109,21 +112,22 @@ namespace EquityX.Services
             List<StockData> stockDataList = new List<StockData>();
             string responsebody = await GetMockStockData();
             QuoteDTO stockDataResponse = JsonConvert.DeserializeObject<QuoteDTO>(responsebody);
+            Random random = new Random();
 
-            foreach (var res in stockDataResponse.QuoteResponse.Result)
+            List<string> symbolsList = symbols.Split(',').ToList();
+
+            foreach (var symbol in symbolsList)
             {
-                Random random = new Random();
-                int randomNumber = random.Next(-10, 11); // Simulate a random change in the stock price
-
+                int randomInt = random.Next(-10, 11); // Simulate a random change in the stock price
                 stockDataList.Add(new StockData()
                 {
-                    Name = res.longName,
-                    BuyPrice = res.bid + randomNumber,
-                    SellPrice = res.ask + randomNumber,
-                    Currency = res.currency,
-                    QuoteType = res.quoteType,
-                    Symbol = res.symbol
-                });
+                    Name = stockDataResponse.QuoteResponse.Result.Where(s => s.symbol == symbol).Select(e => e.longName).FirstOrDefault(),
+                    BuyPrice = stockDataResponse.QuoteResponse.Result.Where(s => s.symbol == symbol).Select(e => e.bid).FirstOrDefault() + randomInt,
+                    SellPrice = stockDataResponse.QuoteResponse.Result.Where(s => s.symbol == symbol).Select(e => e.ask).FirstOrDefault() + randomInt,
+                    Currency = stockDataResponse.QuoteResponse.Result.Where(s => s.symbol == symbol).Select(e => e.currency).FirstOrDefault(),
+                    QuoteType = stockDataResponse.QuoteResponse.Result.Where(s => s.symbol == symbol).Select(e => e.quoteType).FirstOrDefault(),
+                    Symbol = stockDataResponse.QuoteResponse.Result.Where(s => s.symbol == symbol).Select(e => e.symbol).FirstOrDefault()
+                }); 
             }
 
             return stockDataList;
@@ -157,7 +161,7 @@ namespace EquityX.Services
         {
             // Grab the user's stock data
             List<UserStockData> userStockData = await _context.UserStockData
-                .Where(u => u.UserID == userID)
+                .Where(u => u.UserID == userID && u.DateSold == null)
                 .Select(e => e)
                 .ToListAsync();
 
@@ -195,7 +199,7 @@ namespace EquityX.Services
             {
                 return new List<StockData>();
             }
-
+            
             // Making a string of the symbols to pass to the API
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -231,8 +235,6 @@ namespace EquityX.Services
             user.AvailableFunds += currecntStockData.SellPrice;
             user.PortfolioValue -= userStock.BuyInPrice;
             user.PortfolioValue += currecntStockData.SellPrice;
-
-
 
             int rowsEffected = await _context.SaveChangesAsync();
 

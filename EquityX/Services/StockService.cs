@@ -45,7 +45,6 @@ namespace EquityX.Services
                 UserID = userID,
                 StockSymbol = stock.Symbol,
                 BuyInPrice = stock.BuyPrice,
-                SellPrice = stock.SellPrice,
                 DateBought = DateTime.Now,
             });
 
