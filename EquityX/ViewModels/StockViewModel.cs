@@ -53,7 +53,13 @@ namespace EquityX.ViewModels
         public void StockDataRefreshTimer()
         {
             _timer = Application.Current.Dispatcher.CreateTimer();
-            _timer.Interval = TimeSpan.FromSeconds(10); // TODO: Update this later to 5 minutes/ maybe 30 seconds for demo
+
+#if DEBUG
+            _timer.Interval = TimeSpan.FromSeconds(30);
+
+#else
+            _timer.Interval = TimeSpan.FromSeconds(30);
+#endif
             _timer.Tick += (s, e) => UpdateStockData();
             _timer.Start();
         }

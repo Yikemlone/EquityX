@@ -84,7 +84,5 @@
             HorizontalOptions="Center" />
 
     </VerticalStackLayout>
-
-    <!--  Buying an asset -->
-
+    
 </ContentPage>

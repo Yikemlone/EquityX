@@ -83,7 +83,7 @@ namespace EquityX.ViewModels
 
             foreach (UserStockData userStock in userStocks)
             {
-                if (userStock.StockSymbol != StockData.Symbol)
+                if (userStock.StockSymbol != StockData.Symbol || userStock.DateSold != null)
                 {
                     continue;
                 }
