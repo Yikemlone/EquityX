@@ -59,7 +59,7 @@ namespace EquityX
 
 #if DEBUG
             // Adding Test Services for debug mode
-            //builder.Services.AddTransient<IStockService, TestStockService>();
+            builder.Services.AddTransient<IStockService, TestStockService>();
             builder.Logging.AddDebug();
 #endif
 

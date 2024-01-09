@@ -31,40 +31,102 @@
                 ImageSource="{AppThemeBinding Dark=bell.svg, Light=bell_light.svg}"/>
         </StackLayout>
     </Shell.TitleView>
-    
-    
-    <VerticalStackLayout>
-        <CollectionView 
-            ItemsSource="{Binding UserStockData}"
-            SelectionMode="Single"
-            SelectionChangedCommand="{Binding SelectionChangedCommand}"
-            SelectionChangedCommandParameter="{Binding Path=SelectedItem, Source={RelativeSource Self}}">  
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:UserStockData">
+    <!--Resources-->
+    <ContentPage.Resources>
+        <Style TargetType="Grid">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="{StaticResource Primary}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout Padding="10">
+        <Border 
+            Style="{StaticResource Material}">
+            
+            <CollectionView 
+                ItemsSource="{Binding UserStockData}"
+                SelectionMode="Single"
+                SelectionChangedCommand="{Binding SelectionChangedCommand}"
+                SelectionChangedCommandParameter="{Binding Path=SelectedItem, Source={RelativeSource Self}}">
+
+                <CollectionView.Header>
                     <Grid 
                         HorizontalOptions="Fill"
-                        ColumnDefinitions="*, *"
+                        ColumnDefinitions="*, *, *"
                         RowDefinitions="*"
                         VerticalOptions="Center"
                         Padding="5,10"
                         ColumnSpacing="50">
 
-                    <Label 
-                        Text="{Binding StockSymbol}" 
-                        HorizontalOptions="Center" 
-                        VerticalOptions="Center" 
-                        Grid.Column="0"/>
-                    <Label 
-                        Text="{Binding BuyInPrice}" 
-                        HorizontalOptions="Center" 
-                        VerticalOptions="Center" 
-                        Grid.Column="1" />
-
+                        <Label 
+                            Text="Symbol" 
+                            FontSize="15"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Center" 
+                            Grid.Column="0"/>
+                        <Label 
+                            Text="Price" 
+                            FontSize="15"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Center" 
+                            Grid.Column="1" />
+                        <Label 
+                            Text="Date Bought"
+                            FontSize="15"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Center" 
+                            Grid.Column="2" />
                     </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                </CollectionView.Header>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:UserStockData">
+                        <Grid 
+                            HorizontalOptions="Fill"
+                            ColumnDefinitions="*, *, *"
+                            RowDefinitions="*"
+                            VerticalOptions="Center"
+                            Padding="5,10"
+                            ColumnSpacing="50">
+
+                        <Label 
+                            Text="{Binding StockSymbol}" 
+                            HorizontalOptions="Center" 
+                            FontSize="15"
+                            VerticalOptions="Center" 
+                            Grid.Column="0"/>
+                        <Label 
+                            Text="{Binding BuyInPrice}" 
+                            HorizontalOptions="Center" 
+                            FontSize="15"
+                            VerticalOptions="Center" 
+                            Grid.Column="1" />
+                        <Label 
+                            Text="{Binding DateBought}" 
+                            HorizontalOptions="Center" 
+                            FontSize="15"
+                            VerticalOptions="Center" 
+                            Grid.Column="2" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Border>
     </VerticalStackLayout>
 
 </ContentPage>
