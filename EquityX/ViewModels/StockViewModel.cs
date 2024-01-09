@@ -13,7 +13,7 @@ namespace EquityX.ViewModels
     public partial class StockViewModel : ObservableObject
     {
         // Properties
-        private IDispatcherTimer _timer; // Timer to update stock data
+        private IDispatcherTimer _timer; 
 
         [ObservableProperty]
         private string _searchText;

@@ -51,7 +51,7 @@ namespace EquityX.Services
         /// Get the stock data for the stocks the user is tracking via the watchlist
         /// </summary>
         /// <returns>List of StockData</returns>
-        public Task<List<StockData>> GetUserWatchlistData(int userID);
+        public Task<List<UserWatchlist>> GetUserWatchlistData(int userID);
 
         /// <summary>
         /// Will pass in the current stock data. Using that data object, it will compare available funds with

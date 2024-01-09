@@ -230,7 +230,7 @@ namespace EquityX.Services
             return userStockData;
         }
 
-        public async Task<List<StockData>> GetUserWatchlistData(int userID)
+        public async Task<List<UserWatchlist>> GetUserWatchlistData(int userID)
         {
             // Grab the user's stock data
             List<UserWatchlist> userWatchlist = await _context.UserWatchlist
@@ -240,24 +240,10 @@ namespace EquityX.Services
 
             if (userWatchlist.Count == 0)
             {
-                return new List<StockData>();
+                return new List<UserWatchlist>();
             }
 
-            // Making a string of the symbols to pass to the API
-            StringBuilder stringBuilder = new StringBuilder();
-
-            foreach (var stock in userWatchlist)
-            {
-                stringBuilder.Append(stock.StockSymbol + ",");
-            }
-
-            // Remove the last comma
-            stringBuilder.Remove(stringBuilder.Length - 1, 1);
-
-            // Get the stock data from the API
-            List<StockData> stockData = await GetStockData(stringBuilder.ToString());
-
-            return stockData;
+            return userWatchlist;
         }
      
         public Task<string> GetTrendingStockData()
