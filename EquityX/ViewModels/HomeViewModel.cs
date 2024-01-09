@@ -144,7 +144,7 @@ namespace EquityX.ViewModels
         /// <summary>
         /// Gets the user's data from the database
         /// </summary>
-        private async void GetUserData()
+        public async void GetUserData()
         {
             int id = Preferences.Default.Get("USER_ID", 0);
 
