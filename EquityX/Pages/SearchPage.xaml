@@ -7,6 +7,31 @@
              x:DataType="vm:StockViewModel"
              Shell.NavBarIsVisible="True">
 
+    <!--Nav bar buttons-->
+    <Shell.TitleView>
+        <StackLayout 
+            Orientation="Horizontal" 
+            HorizontalOptions="End" 
+            VerticalOptions="FillAndExpand">
+
+            <Button 
+                BackgroundColor="Transparent"
+                WidthRequest="45"
+                HorizontalOptions="Start"
+                ImageSource="{AppThemeBinding Dark=logout_dark.svg, Light=logout_light.svg}"/>
+
+            <Button 
+                BackgroundColor="Transparent"
+                WidthRequest="45"
+                ImageSource="{AppThemeBinding Dark=sun.svg, Light=moon.svg}"/>
+
+            <Button 
+                BackgroundColor="Transparent"
+                WidthRequest="45"
+                ImageSource="{AppThemeBinding Dark=bell.svg, Light=bell_light.svg}"/>
+        </StackLayout>
+    </Shell.TitleView>
+    
     <ContentPage.Resources>
         <Style TargetType="Grid">
             <Setter Property="VisualStateManager.VisualStateGroups">
@@ -16,7 +41,7 @@
                         <VisualState x:Name="Selected">
                             <VisualState.Setters>
                                 <Setter Property="BackgroundColor"
-                                        Value="{StaticResource Primary}" />
+                                        Value="Transparent" />
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>

@@ -3,6 +3,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EquityX.Pages.WatchlistPage"
              Shell.NavBarIsVisible="True">
+
+
+    <Shell.TitleView>
+        <StackLayout 
+            Orientation="Horizontal" 
+            HorizontalOptions="End" 
+            VerticalOptions="FillAndExpand">
+
+            <Button 
+                BackgroundColor="Transparent"
+                WidthRequest="45"
+                HorizontalOptions="Start"
+                ImageSource="{AppThemeBinding Dark=logout_dark.svg, Light=logout_light.svg}"/>
+
+            <Button 
+                BackgroundColor="Transparent"
+                WidthRequest="45"
+                ImageSource="{AppThemeBinding Dark=sun.svg, Light=moon.svg}"/>
+
+            <Button 
+                BackgroundColor="Transparent"
+                WidthRequest="45"
+                ImageSource="{AppThemeBinding Dark=bell.svg, Light=bell_light.svg}"/>
+        </StackLayout>
+    </Shell.TitleView>
+    
+    
     <VerticalStackLayout>
         <Label 
             Text="Welcome to .NET MAUI!"

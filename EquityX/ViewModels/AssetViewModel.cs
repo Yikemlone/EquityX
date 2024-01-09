@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace EquityX.ViewModels
 {
-    [QueryProperty(nameof(StockData),nameof(StockData))]
+    [QueryProperty(nameof(StockData), nameof(StockData))]
     public partial class AssetViewModel : ObservableObject
     {
         // Properties
@@ -18,6 +18,9 @@ namespace EquityX.ViewModels
         private bool _hasStocks;
 
         public ObservableCollection<UserStockData> UserStocks { get; set; }
+
+        public ObservableCollection<string> PercentageDifferences { get; set; }
+
 
         // Commands
         public ICommand BuyStockCommand { get; set; }
@@ -34,13 +37,13 @@ namespace EquityX.ViewModels
             BuyStockCommand = new Command(() => BuyStock());
             SellStockCommand = new Command(() => SellStock());
 
-            // Get user stocks
             UserStocks = new ObservableCollection<UserStockData>();
+            PercentageDifferences = new ObservableCollection<string>();
         }
-        
+
         private async void BuyStock()
         {
-            await Shell.Current.GoToAsync("BuyPage", new Dictionary<string, object> 
+            await Shell.Current.GoToAsync("BuyPage", new Dictionary<string, object>
             {
                 ["StockData"] = StockData
             });
@@ -60,7 +63,7 @@ namespace EquityX.ViewModels
 
             if (userID == 0)
             {
-                   return;
+                return;
             }
 
             List<UserStockData> userStocks = await _stockService.GetUserStockData(userID);
@@ -70,6 +73,8 @@ namespace EquityX.ViewModels
                 HasStocks = false;
                 return;
             }
+
+            UserStocks.Clear();
 
             foreach (UserStockData userStock in userStocks)
             {
@@ -81,8 +86,25 @@ namespace EquityX.ViewModels
                 UserStocks.Add(userStock);
             }
 
+            PercentageDifferences.Clear();
+
+            foreach (UserStockData userStock in UserStocks)
+            {
+                string percentageDifference = Math.Round((StockData.SellPrice - userStock.BuyInPrice) / userStock.BuyInPrice, 2).ToString();
+                PercentageDifferences.Add(percentageDifference);
+            }
+
             HasStocks = UserStocks.Count > 0;
         }
+
+        // TODO: The last things I need to implement
+        // 1. The wacthlist
+        // 2. The portfolio
+        // 3. The search
+        // 4. The sell 
+        // 5. detailed asset evaluation
+
+
 
     }
 }
