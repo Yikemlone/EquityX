@@ -32,7 +32,7 @@ namespace EquityX.ViewModels
             StockData = new ObservableCollection<StockData>();
 
             // Commands setup
-            SelectionChangedCommand = new Command<StockData>(SelectionChanged);
+            SelectionChangedCommand = new Command<StockData>(async (stockData) => await SelectionChanged(stockData));
 
             UpdateStockData();
         }
@@ -41,13 +41,11 @@ namespace EquityX.ViewModels
         /// When a stock is selected, it will navigate to the AssetPage with the selected stock's data
         /// </summary>
         /// <param name="stockData"></param>
-        private async void SelectionChanged(StockData stockData)
-        {
-            await Shell.Current.GoToAsync($"{nameof(AssetPage)}", new Dictionary<string, object>
+        Task SelectionChanged(StockData stockData) => 
+            Shell.Current.GoToAsync($"{nameof(AssetPage)}", new Dictionary<string, object>
             {
                 ["StockData"] = stockData
             });
-        }
 
         /// <summary>
         /// Creates a timer to update the stock data on a set interval

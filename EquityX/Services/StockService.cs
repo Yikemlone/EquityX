@@ -372,5 +372,48 @@ namespace EquityX.Services
             return portfolioValue;
         }
 
+        public async Task<bool> AddToWatchlist(StockData stockData, int userID)
+        {
+            User user = await _context.Users
+                .Where(u => u.ID == userID)
+                .Select(e => e)
+                .FirstOrDefaultAsync();
+
+            await _context.UserWatchlist.AddAsync(new UserWatchlist()
+            {
+                DateAdded = DateTime.Now,
+                StockSymbol = stockData.Symbol,
+                UserID = userID,
+            });
+
+
+            int rowsEffected = await _context.SaveChangesAsync();
+
+            if(rowsEffected == 0)
+            {
+                return false;
+            }   
+
+            return true;
+        }
+
+        public async Task<bool> RemoveFromWatchlist(UserWatchlist userWatchlist, int userID)
+        {
+            User user = await _context.Users
+                .Where(u => u.ID == userID)
+                .Select(e => e)
+                .FirstOrDefaultAsync();
+
+            _context.UserWatchlist.Remove(userWatchlist);
+
+            int rowsEffected = await _context.SaveChangesAsync();
+
+            if(rowsEffected == 0)
+            {
+                return false;
+            }   
+
+            return true;
+        }
     }
 }

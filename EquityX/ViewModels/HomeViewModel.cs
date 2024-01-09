@@ -39,16 +39,18 @@ namespace EquityX.ViewModels
         public ICommand WithdrawCommand { get; private set; }
         public ICommand MoveToInvestPageCommand { get; private set; }
         public ICommand MoveToWatchlistPageCommand { get; private set; }
-        public ICommand MoveToPortfolioPageCommand { get; private set; } // May not need
+        public ICommand LogoutCommand { get; private set; } 
 
         // Services
         private IFundsService _fundsService;
         private IStockService _stockService;
+        private IAuthService _authService;
         private readonly EquityXDbContext _context;
 
         public HomeViewModel(
             IFundsService fundsService, 
             IStockService stockService,
+            IAuthService authService,
             EquityXDbContext context)
         {
             TopMoversData = new ObservableCollection<StockData>();
@@ -58,12 +60,13 @@ namespace EquityX.ViewModels
             WithdrawCommand = new Command(() => Withdraw());
             MoveToInvestPageCommand = new Command(() => GoToInvestingPage());
             MoveToWatchlistPageCommand = new Command(() => GoToWatchlistPage());
-            MoveToPortfolioPageCommand = new Command(() => GoToPortfolioPage());
+            LogoutCommand = new Command(() => Logout());
 
             // Services setup
             _fundsService = fundsService;
             _stockService = stockService;
             _context = context;
+            _authService = authService;
 
             // Get the data from the API
             GetTopMoversData(); 
@@ -196,16 +199,10 @@ namespace EquityX.ViewModels
         /// <summary>
         /// Moves the user to the PortfolioPage so they can view their portfolio
         /// </summary>
-        private async void GoToPortfolioPage()
+        private async void Logout()
         {
-            if(DeviceInfo.Idiom == DeviceIdiom.Phone)
-            {
-                await Shell.Current.GoToAsync($"//{nameof(PortfolioPage)}");
-            }
-            else
-            {
-                await Shell.Current.GoToAsync($"//D{nameof(PortfolioPage)}");
-            }   
+            _authService.Logout();
+            await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
         }
 
         /// <summary>

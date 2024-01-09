@@ -1,13 +1,117 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:EquityX.ViewModels"
+             xmlns:model="clr-namespace:EquityX.Models"
+             x:DataType="vm:SellViewModel"
              x:Class="EquityX.Pages.SellPage">
-    
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    <!--Nav bar buttons-->
+    <Shell.TitleView>
+        <StackLayout 
+            Orientation="Horizontal" 
+            HorizontalOptions="End" 
+            VerticalOptions="FillAndExpand">
+
+            <Button 
+                BackgroundColor="Transparent"
+                WidthRequest="45"
+                HorizontalOptions="Start"
+                ImageSource="{AppThemeBinding Dark=logout_dark.svg, Light=logout_light.svg}"/>
+
+            <Button 
+                BackgroundColor="Transparent"
+                WidthRequest="45"
+                ImageSource="{AppThemeBinding Dark=sun.svg, Light=moon.svg}"/>
+
+            <Button 
+                BackgroundColor="Transparent"
+                WidthRequest="45"
+                ImageSource="{AppThemeBinding Dark=bell.svg, Light=bell_light.svg}"/>
+        </StackLayout>
+    </Shell.TitleView>
+
+    <VerticalStackLayout Padding="10" Spacing="20">
+
+        <HorizontalStackLayout>
+            <Label 
+                Text="{Binding UserStockData.StockSymbol}"
+                VerticalOptions="Center" 
+                FontSize="30"
+                HorizontalOptions="Center"/>
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout>
+            <Label 
+                Text="Date bought: "
+                FontSize="20"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+            <Label 
+                Text="{Binding UserStockData.DateBought}"
+                TextColor="{StaticResource Primary}"
+                FontSize="20"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout>
+            <Label 
+                Text="Price bought at: "
+                FontSize="20"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+            
+            <Label 
+                 Text="{Binding UserStockData.BuyInPrice}"
+                 TextColor="{StaticResource Primary}"
+                 FontSize="20"
+                 VerticalOptions="Center" 
+                 HorizontalOptions="Center" />
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout>
+            <Label 
+                Text="Current price: "
+                FontSize="20"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
+            <Label 
+                 Text="{Binding UserStockData.BuyInPrice}"
+                 TextColor="{StaticResource Primary}"
+                 FontSize="20"
+                 VerticalOptions="Center" 
+                 HorizontalOptions="Center" />
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout>
+            <Label 
+                Text="Profit: "
+                FontSize="20"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
+            <Label 
+                 Text="{Binding UserStockData.BuyInPrice}"
+                 TextColor="{StaticResource Primary}"
+                 FontSize="20"
+                 VerticalOptions="Center" 
+                 HorizontalOptions="Center" />
+
+        </HorizontalStackLayout>
+
+
+        <HorizontalStackLayout HorizontalOptions="Center">
+            <Button 
+                Text="Sell"
+                WidthRequest="300"
+                Command="{Binding SellCommand}"
+                Style="{StaticResource PrimaryButton}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />   
+        </HorizontalStackLayout>
+
+
     </VerticalStackLayout>
     
 </ContentPage>

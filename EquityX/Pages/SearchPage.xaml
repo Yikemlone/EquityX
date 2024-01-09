@@ -41,7 +41,7 @@
                         <VisualState x:Name="Selected">
                             <VisualState.Setters>
                                 <Setter Property="BackgroundColor"
-                                        Value="Transparent" />
+                                        Value="{StaticResource Primary}" />
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
@@ -62,6 +62,7 @@
                         Text="{Binding SearchText}"/>
 
                     <Button
+                        Style="{StaticResource PrimaryButton}"
                         ImageSource="search.svg"
                         HorizontalOptions="End"/>
                 </HorizontalStackLayout>

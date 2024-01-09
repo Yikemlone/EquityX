@@ -11,6 +11,7 @@ public partial class AssetPage : ContentPage
     // Properties
     private AssetViewModel _assetViewModel;
 
+    // Hardcoded data for the chart, did not have time to implement the chart
     ChartEntry[] entries = new[]
     {
         new ChartEntry(200)
@@ -51,6 +52,9 @@ public partial class AssetPage : ContentPage
         }
     }
 
+    /// <summary>
+    /// Gets the stock data from the AssetViewModel
+    /// </summary>
     protected override void OnAppearing()
     {
         base.OnAppearing();

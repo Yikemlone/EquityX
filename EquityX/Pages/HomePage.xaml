@@ -15,6 +15,7 @@
             
             <Button 
                 BackgroundColor="Transparent"
+                Command="{Binding LogoutCommand}"
                 WidthRequest="45"
                 HorizontalOptions="Start"
                 ImageSource="{AppThemeBinding Dark=logout_dark.svg, Light=logout_light.svg}"/>

@@ -6,49 +6,52 @@
              x:DataType="vm:LoginViewModel"
              Shell.TabBarIsVisible="False"
              Shell.NavBarIsVisible="False">
-    
-    <VerticalStackLayout>
 
-        <StackLayout>
-            <Label 
-                Text="Login"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <Border Style="{StaticResource Material}">
+            <StackLayout Padding="50" Spacing="10">
+                <Entry 
+                    Text="{Binding Username}"
+                    WidthRequest="200"
+                    Placeholder="Username"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
 
-            <Entry 
-                Text="{Binding Username}"
-                Placeholder="Username"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+                <Entry 
+                    Text="{Binding Password}"
+                    WidthRequest="200"
+                    IsPassword="True"
+                    Placeholder="Password"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
 
-            <Entry 
-                Text="{Binding Password}"
-                IsPassword="True"
-                Placeholder="Password"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
-            
-            <Button 
-                Text="Login"
-                Command="{Binding LoginCommand}">
-            </Button>
-            
-            <Label 
-                Text="{Binding ErrorMessage}"
-                TextColor="Red"/>
+                <Button 
+                    Text="Login"
+                    FontAttributes="Bold"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding LoginCommand}">
+                </Button>
 
-            <Label
-                Text="Don't have an account?"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+                <Label 
+                    Text="{Binding ErrorMessage}"
+                    WidthRequest="170"
+                    TextColor="Red"/>
 
-            <Button
-                Text="Sign Up"
-                Command="{Binding GoToRegisterCommand}">
-            </Button>
+                <Label
+                    Text="Don't have an account?"
+                    FontSize="15"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
 
-        </StackLayout>
-
+                <Button
+                    Text="Sign Up"
+                    FontAttributes="Bold"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding GoToRegisterCommand}">
+                </Button>
+            </StackLayout>
+        </Border>
     </VerticalStackLayout>
+    
     
 </ContentPage>

@@ -7,60 +7,65 @@
              Shell.TabBarIsVisible="False"
              Shell.NavBarIsVisible="False">
     
-    <VerticalStackLayout>
+    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <Border Style="{StaticResource Material}">
+            <StackLayout Spacing="10" Padding="50">
+                <Entry 
+                    Text="{Binding Name}"
+                    WidthRequest="200"
+                    Placeholder="Name"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
 
-        <StackLayout>
-            <Label 
-                Text="Register"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+                <Entry 
+                    Text="{Binding Username}"
+                    WidthRequest="200"
+                    Placeholder="Username"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
 
-            <Entry 
-                Text="{Binding Name}"
-                Placeholder="Name"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+                <Entry 
+                    Text="{Binding Password}"
+                    WidthRequest="200"
+                    IsPassword="True"
+                    Placeholder="Password"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
 
-            <Entry 
-                Text="{Binding Username}"
-                Placeholder="Username"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+                <Entry 
+                    Text="{Binding ConfirmPassword}"
+                    WidthRequest="200"
+                    IsPassword="True"
+                    Placeholder="Confirm Password"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
 
-            <Entry 
-                Text="{Binding Password}"
-                IsPassword="True"
-                Placeholder="Password"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+                <Button 
+                    Text="Register"
+                    FontAttributes="Bold"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding RegisterCommand}">
+                </Button>
 
-            <Entry 
-                Text="{Binding ConfirmPassword}"
-                IsPassword="True"
-                Placeholder="Confirm Password"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+                <Label 
+                    Text="{Binding ErrorMessage}"
+                    TextColor="Red"/>
 
-            <Button 
-                Text="Register"
-                Command="{Binding RegisterCommand}">
-            </Button>
+                <Label
+                    Text="Have an account?"
+                    FontAttributes="Bold"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
 
-            <Label 
-                Text="{Binding ErrorMessage}"
-                TextColor="Red"/>
+                <Button
+                    Text="Login"
+                    FontAttributes="Bold"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding MoveToLoginPageCommand}">
+                </Button>
 
-            <Label
-                Text="Have an account?"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
-
-            <Button
-                Text="Login"
-                Command="{Binding MoveToLoginPageCommand}">
-            </Button>
-
-        </StackLayout>
+            </StackLayout>
+        </Border>
 
     </VerticalStackLayout>
 </ContentPage>

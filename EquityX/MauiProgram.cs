@@ -35,6 +35,8 @@ namespace EquityX
             builder.Services.AddSingleton<RegisterViewModel>();
             builder.Services.AddSingleton<StockViewModel>();
             builder.Services.AddSingleton<AssetViewModel>();
+            builder.Services.AddSingleton<BuyViewModel>();
+            builder.Services.AddSingleton<SellViewModel>();
             
             // Adding Pages
             builder.Services.AddSingleton<HomePage>(); 
@@ -43,6 +45,8 @@ namespace EquityX
             builder.Services.AddSingleton<SearchPage>();
             builder.Services.AddSingleton<RegisterPage>();
             builder.Services.AddSingleton<AssetPage>();
+            builder.Services.AddSingleton<BuyPage>();
+            builder.Services.AddSingleton<SellPage>();
 
             // Adding HttpClient
             builder.Services.AddSingleton<HttpClient>();

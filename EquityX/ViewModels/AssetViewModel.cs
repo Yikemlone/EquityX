@@ -18,13 +18,12 @@ namespace EquityX.ViewModels
         private bool _hasStocks;
 
         public ObservableCollection<UserStockData> UserStocks { get; set; }
-
         public ObservableCollection<string> PercentageDifferences { get; set; }
 
 
         // Commands
         public ICommand BuyStockCommand { get; set; }
-        public ICommand SellStockCommand { get; set; }
+        public Command<UserStockData> SelectionChangedCommand { get; set; }
 
         // Services
         private IStockService _stockService;
@@ -35,28 +34,34 @@ namespace EquityX.ViewModels
 
             // Commands setup
             BuyStockCommand = new Command(() => BuyStock());
-            SellStockCommand = new Command(() => SellStock());
+            SelectionChangedCommand = new Command<UserStockData>(async (userStockData) => await SellStock(userStockData));
 
             UserStocks = new ObservableCollection<UserStockData>();
             PercentageDifferences = new ObservableCollection<string>();
         }
 
-        private async void BuyStock()
-        {
-            await Shell.Current.GoToAsync("BuyPage", new Dictionary<string, object>
+        /// <summary>
+        /// Redirects the user to the buy page with the stock data
+        /// </summary>
+        Task BuyStock() => 
+            Shell.Current.GoToAsync("BuyPage", new Dictionary<string, object>
             {
                 ["StockData"] = StockData
             });
-        }
 
-        private async void SellStock()
-        {
-            await Shell.Current.GoToAsync("SellPage", new Dictionary<string, object>
+        /// <summary>
+        /// Redirects the user to the sell page with the stock data
+        /// </summary>
+        Task SellStock(UserStockData userStockData) => 
+            Shell.Current.GoToAsync("SellPage", new Dictionary<string, object>
             {
-                ["StockData"] = StockData
+                ["UserStockData"] = userStockData
             });
-        }
 
+        /// <summary>
+        /// Gets the user's stock data for the current stock and calculates the percentage difference
+        /// then, updates the UI if the user has stocks or not
+        /// </summary>
         public async void GetUserStockData()
         {
             int userID = Preferences.Default.Get("USER_ID", 0);
@@ -102,9 +107,5 @@ namespace EquityX.ViewModels
         // 2. The portfolio
         // 3. The search
         // 4. The sell 
-        // 5. detailed asset evaluation
-
-
-
     }
 }

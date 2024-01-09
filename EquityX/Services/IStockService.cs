@@ -77,5 +77,21 @@ namespace EquityX.Services
         /// <param name="userID"></param>
         /// <returns>decimal</returns>
         public Task<decimal> CalulatePortfolioValue(int userID);
+
+        /// <summary>
+        /// Will create a user watchlist item for the user
+        /// </summary>
+        /// <param name="stockData"></param>
+        /// <param name="userID"></param>
+        /// <returns>bool</returns>
+        public Task<bool> AddToWatchlist(StockData stockData, int userID);
+
+        /// <summary>
+        /// Removes the stock from the user's watchlist
+        /// </summary>
+        /// <param name="userWatchlist"></param>
+        /// <param name="userID"></param>
+        /// <returns>bool</returns>
+        public Task<bool> RemoveFromWatchlist(UserWatchlist userWatchlist, int userID);
     }
 }
