@@ -1,14 +1,14 @@
 ﻿using System.Globalization;
 
-namespace EquityX
+namespace EquityX.Utilities
 {
     public class DecimalToString : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool valid = Decimal.TryParse((string)value, out decimal val);
+            bool valid = decimal.TryParse((string)value, out decimal val);
 
-            if(valid && val < 0)
+            if (valid && val < 0)
             {
                 return "Red";
             }

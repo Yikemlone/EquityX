@@ -204,15 +204,21 @@
 
             <!--Buy button-->
             <HorizontalStackLayout 
-                HorizontalOptions="CenterAndExpand" 
+                HorizontalOptions="Center" 
                 Padding="20" 
                 Spacing="80">
                 
                 <Button Text="Buy"
                     FontAttributes="Bold"
+                    WidthRequest="100"
                     Style="{StaticResource PrimaryButton}"
                     Command="{Binding BuyStockCommand}"
-                    WidthRequest="310"
+                    Scale="1.2"/>
+
+                <Button Text="+ Watchlist"
+                    FontAttributes="Bold"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding AddToWatchlistCommand}"
                     Scale="1.2"/>
             </HorizontalStackLayout>
             

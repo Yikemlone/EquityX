@@ -54,18 +54,18 @@
 
     <VerticalStackLayout Padding="10">
         <Border 
-        Style="{StaticResource Material}">
+            Style="{StaticResource Material}">
 
             <CollectionView 
-            ItemsSource="{Binding UserStockData}"
-            SelectionMode="Single"
-            SelectionChangedCommand="{Binding SelectionChangedCommand}"
-            SelectionChangedCommandParameter="{Binding Path=SelectedItem, Source={RelativeSource Self}}">
+                ItemsSource="{Binding UserStockData}"
+                SelectionMode="Single"
+                SelectionChangedCommand="{Binding SelectionChangedCommand}"
+                SelectionChangedCommandParameter="{Binding Path=SelectedItem, Source={RelativeSource Self}}">
 
                 <CollectionView.Header>
                     <Grid 
                         HorizontalOptions="Fill"
-                        ColumnDefinitions="*, *, *"
+                        ColumnDefinitions="*, *"
                         RowDefinitions="*"
                         VerticalOptions="Center"
                         Padding="5,10"
@@ -79,27 +79,20 @@
                             VerticalOptions="Center" 
                             Grid.Column="0"/>
                         <Label 
-                            Text="Price" 
+                            Text="Date Added"
                             FontSize="15"
                             FontAttributes="Bold"
                             HorizontalOptions="Center" 
                             VerticalOptions="Center" 
                             Grid.Column="1" />
-                        <Label 
-                            Text="Date Bought"
-                            FontSize="15"
-                            FontAttributes="Bold"
-                            HorizontalOptions="Center" 
-                            VerticalOptions="Center" 
-                            Grid.Column="2" />
                     </Grid>
                 </CollectionView.Header>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="model:UserStockData">
+                    <DataTemplate x:DataType="model:UserWatchlist">
                         <Grid 
                             HorizontalOptions="Fill"
-                            ColumnDefinitions="*, *, *"
+                            ColumnDefinitions="*, *"
                             RowDefinitions="*"
                             VerticalOptions="Center"
                             Padding="5,10"
@@ -112,17 +105,11 @@
                                 VerticalOptions="Center" 
                                 Grid.Column="0"/>
                             <Label 
-                                Text="{Binding BuyInPrice}" 
+                                Text="{Binding DateAdded}" 
                                 HorizontalOptions="Center" 
                                 FontSize="15"
                                 VerticalOptions="Center" 
                                 Grid.Column="1" />
-                            <Label 
-                                Text="{Binding DateBought}" 
-                                HorizontalOptions="Center" 
-                                FontSize="15"
-                                VerticalOptions="Center" 
-                                Grid.Column="2" />
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

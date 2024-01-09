@@ -16,13 +16,12 @@ namespace EquityX.ViewModels
 
         [ObservableProperty]
         private bool _hasStocks;
-
         public ObservableCollection<UserStockData> UserStocks { get; set; }
         public ObservableCollection<string> PercentageDifferences { get; set; }
 
-
         // Commands
         public ICommand BuyStockCommand { get; set; }
+        public ICommand AddToWatchlistCommand{ get; set; }
         public Command<UserStockData> SelectionChangedCommand { get; set; }
 
         // Services
@@ -35,9 +34,23 @@ namespace EquityX.ViewModels
             // Commands setup
             BuyStockCommand = new Command(() => BuyStock());
             SelectionChangedCommand = new Command<UserStockData>(async (userStockData) => await SellStock(userStockData));
+            AddToWatchlistCommand = new Command(() => AddToWatchlist());
 
             UserStocks = new ObservableCollection<UserStockData>();
             PercentageDifferences = new ObservableCollection<string>();
+        }
+
+        private async void AddToWatchlist()
+        {
+            int userID = Preferences.Default.Get("USER_ID", 0);
+
+            if (userID == 0)
+            {
+                return;
+            }
+
+            bool succesful = await _stockService.AddToWatchlist(StockData, userID);
+            // Would diplay error message if not succesful, but not enough time
         }
 
         /// <summary>
